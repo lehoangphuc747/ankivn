@@ -10,6 +10,8 @@ const SITE = process.env.SITE_URL || undefined;
 
 export default defineConfig({
   site: SITE,
+  output: 'static',
+  compressHTML: true,
   vite: {
     plugins: [tailwindcss()],
     resolve: {
@@ -17,6 +19,15 @@ export default defineConfig({
         '@/components': fileURLToPath(new URL('./src/components', import.meta.url)),
         '@/content': fileURLToPath(new URL('./src/content', import.meta.url)),
         '@/layouts': fileURLToPath(new URL('./src/layouts', import.meta.url)),
+      },
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'react': ['react', 'react-dom'],
+          },
+        },
       },
     },
   },

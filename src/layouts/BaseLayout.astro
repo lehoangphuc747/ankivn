@@ -15,6 +15,12 @@ const { title = 'Anki Việt Nam', description = 'Chia sẻ deck Anki, hướng 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml" />
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     
     <!-- Open Graph -->
