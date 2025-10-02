@@ -1,0 +1,15 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+const guides = await getCollection('guides');
+---
+<BaseLayout title="Hướng dẫn">
+  <h1 class="text-2xl font-semibold mb-4">Hướng dẫn</h1>
+  <ul class="space-y-2">
+    {guides.map((g) => (
+      <li>
+        <a class="text-blue-700 hover:underline" href={`/guides/${g.data.slug}`}>{g.data.title}</a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

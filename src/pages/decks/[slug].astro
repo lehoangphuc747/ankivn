@@ -1,0 +1,30 @@
+---
+import DeckLayout from '@/layouts/DeckLayout.astro';
+import CopyLinkButton from '@/components/common/CopyLinkButton.astro';
+import DownloadButton from '@/components/decks/DownloadButton.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const decks = await getCollection('decks');
+  return decks.map((d) => ({ params: { slug: d.slug } }));
+}
+
+const { slug } = Astro.params;
+const deck = (await getCollection('decks')).find((d) => d.slug === slug);
+if (!deck) throw new Error('Deck not found');
+const canonicalUrl = new URL(Astro.url.pathname, Astro.url.origin).toString();
+---
+<DeckLayout title={deck.data.title} date={deck.data.date} cover={deck.data.cover}>
+  <div class="mb-4 flex items-center gap-3">
+    <CopyLinkButton url={canonicalUrl} utm="?utm_source=copy&utm_medium=deck&utm_campaign=ankivn" label="Copy link" />
+  </div>
+  <div class="mb-4 grid grid-cols-2 gap-2 text-sm text-gray-700">
+    {deck.data.size && <div><strong>Notes:</strong> {deck.data.size}</div>}
+    {deck.data.category && <div><strong>Nhóm:</strong> {deck.data.category} {deck.data.subCategory ? ` / ${deck.data.subCategory}` : ''}</div>}
+    {deck.data.tags?.length && <div class="col-span-2"><strong>Tags:</strong> {deck.data.tags.join(', ')}</div>}
+  </div>
+  <slot />
+  <div class="mt-6">
+    <DownloadButton downloads={deck.data.downloads} />
+  </div>
+</DeckLayout>

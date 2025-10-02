@@ -1,43 +1,43 @@
-# Astro Starter Kit: Minimal
+# AnkiVN — Website chia sẻ deck Anki
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Astro + Tailwind + MDX. Nội dung qua `astro:content` (decks/guides/blog). Triển khai Cloudflare Pages (tạm thời dùng `*.pages.dev`).
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 🧞 Lệnh
 
-## 🚀 Project Structure
+| Lệnh | Tác dụng |
+| --- | --- |
+| `npm install` | Cài phụ thuộc |
+| `npm run dev` | Chạy dev tại http://localhost:4321 |
+| `npm run build` | Build ra `dist/` |
+| `npm run preview` | Xem thử bản build |
 
-Inside of your Astro project, you'll see the following folders and files:
+## 📦 Collections
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+- `src/content/decks/*.mdx`
+- `src/content/guides/*.mdx`
+- `src/content/blog/*.mdx`
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Xem schema tại `src/content/config.ts`.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## ☁️ Deploy Cloudflare Pages
 
-Any static assets, like images, can be placed in the `public/` directory.
+1) Tạo project mới, kết nối repo GitHub.
+2) Cấu hình:
+- Build command: `npm run build`
+- Output directory: `dist`
+- Node: 18+
+- Environment vars (optional): `SITE_URL` nếu muốn bật sitemap.
+3) Deploy. Dùng URL `*.pages.dev` để QA (chưa gắn domain).
 
-## 🧞 Commands
+Headers/redirects đã cấu hình ở `_headers` và `_redirects`.
 
-All commands are run from the root of the project, from a terminal:
+## 🔎 QA checklist
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+- [ ] Lighthouse mobile ≥ 90 (Performance/SEO/Best Practices)
+- [ ] A11y: focus ring, alt cho ảnh, keyboard nav
+- [ ] `/decks` lọc + query sync hoạt động
+- [ ] Trang deck hiển thị đủ ảnh body + modal ImageViewer
+- [ ] Copy link hoạt động, đúng UTM
+- [ ] OG fallback hiển thị khi thiếu cover
+- [ ] `_headers` và `_redirects` có hiệu lực
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

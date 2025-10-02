@@ -1,0 +1,13 @@
+---
+const { url, utm = '', label = 'Copy link' } = Astro.props as { url: string; utm?: string; label?: string };
+const full = url + (utm || '');
+---
+<button
+  class="inline-flex items-center gap-2 rounded bg-blue-600 px-3 py-1.5 text-white text-sm hover:bg-blue-700"
+  aria-label="Copy canonical URL"
+  onclick={`(async () => {
+    try { await navigator.clipboard.writeText(${JSON.stringify(full)}); alert('Đã copy liên kết'); } catch {}
+  })()`}
+>
+  {label}
+</button>

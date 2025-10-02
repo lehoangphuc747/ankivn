@@ -1,0 +1,17 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ImageViewer from '@/components/decks/ImageViewer.jsx';
+
+const { title, date, cover } = Astro.props as { title: string; date?: string; cover?: string };
+---
+<BaseLayout title={title}>
+  <article class="prose prose-slate max-w-none">
+    <header class="mb-6">
+      <h1 class="mb-2">{title}</h1>
+      {date && <p class="text-sm text-gray-500">{new Date(date).toLocaleDateString('vi-VN')}</p>}
+      {cover && <img src={cover} alt={title} class="mt-4 rounded" loading="lazy" />}
+    </header>
+    <div id="deck-body" set:html={await Astro.slots.render('default')} />
+  </article>
+  <ImageViewer client:load images={[]} selector="#deck-body img" />
+</BaseLayout>

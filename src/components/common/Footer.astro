@@ -1,0 +1,68 @@
+---
+const currentYear = new Date().getFullYear();
+---
+<footer class="bg-gray-50 border-t border-gray-200 mt-auto">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- Brand -->
+      <div class="md:col-span-1">
+        <div class="flex items-center space-x-2 mb-4">
+          <svg class="w-6 h-6 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+            <path d="M2 17L12 22L22 17"/>
+            <path d="M2 12L12 17L22 12"/>
+          </svg>
+          <span class="font-bold text-lg text-gray-900">AnkiVN</span>
+        </div>
+        <p class="text-sm text-gray-600 mb-4">
+          Bộ sưu tập deck Anki, hướng dẫn và bài viết học tập cho cộng đồng Việt Nam.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="md:col-span-1">
+        <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">Nội dung</h3>
+        <ul class="space-y-2">
+          <li><a href="/decks" class="text-sm text-gray-600 hover:text-blue-600 transition-colors">Bộ thẻ</a></li>
+          <li><a href="/guides" class="text-sm text-gray-600 hover:text-blue-600 transition-colors">Hướng dẫn</a></li>
+          <li><a href="/blog" class="text-sm text-gray-600 hover:text-blue-600 transition-colors">Blog</a></li>
+          <li><a href="/submit" class="text-sm text-gray-600 hover:text-blue-600 transition-colors">Gửi deck</a></li>
+        </ul>
+      </div>
+
+      <!-- Resources -->
+      <div class="md:col-span-1">
+        <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">Tài nguyên</h3>
+        <ul class="space-y-2">
+          <li><a href="/sitemap-index.xml" class="text-sm text-gray-600 hover:text-blue-600 transition-colors">Sitemap</a></li>
+          <li><a href="/rss.xml" class="text-sm text-gray-600 hover:text-blue-600 transition-colors">RSS Feed</a></li>
+          <li><a href="https://apps.ankiweb.net/" target="_blank" rel="noopener" class="text-sm text-gray-600 hover:text-blue-600 transition-colors">Tải Anki</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="md:col-span-1">
+        <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">Liên hệ</h3>
+        <ul class="space-y-2">
+          <li><a href="/about" class="text-sm text-gray-600 hover:text-blue-600 transition-colors">Giới thiệu</a></li>
+          <li><a href="mailto:hello@ankivn.com" class="text-sm text-gray-600 hover:text-blue-600 transition-colors">Email</a></li>
+          <li><a href="https://github.com/ankivn" target="_blank" rel="noopener" class="text-sm text-gray-600 hover:text-blue-600 transition-colors">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom -->
+    <div class="mt-8 pt-8 border-t border-gray-200">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <p class="text-sm text-gray-500">
+          © {currentYear} AnkiVN. Nội dung được chia sẻ theo giấy phép 
+          <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener" class="underline hover:text-blue-600">CC BY-SA 4.0</a>.
+        </p>
+        <div class="flex space-x-6 mt-4 md:mt-0">
+          <a href="/privacy" class="text-sm text-gray-500 hover:text-blue-600 transition-colors">Quyền riêng tư</a>
+          <a href="/terms" class="text-sm text-gray-500 hover:text-blue-600 transition-colors">Điều khoản</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

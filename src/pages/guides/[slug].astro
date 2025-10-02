@@ -1,0 +1,25 @@
+---
+import PostLayout from '@/layouts/PostLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  return guides.map((g) => ({ params: { slug: g.slug } }));
+}
+
+const { slug } = Astro.params;
+const guide = (await getCollection('guides')).find((g) => g.slug === slug);
+if (!guide) throw new Error('Guide not found');
+
+const { Content } = await guide.render();
+---
+<PostLayout 
+  title={guide.data.title}
+  date={guide.data.date}
+  author={guide.data.author}
+  tags={guide.data.tags}
+  category="Hướng dẫn"
+  readingTime={guide.data.readingTime}
+>
+  <Content />
+</PostLayout>

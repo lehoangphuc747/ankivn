@@ -1,0 +1,36 @@
+---
+interface Downloads {
+  author?: string;
+  ankivn?: string;
+  r2?: string;
+  gdrive?: string;
+  firebase?: string;
+  onedrive?: string;
+}
+const { downloads } = Astro.props as { downloads?: Downloads };
+const entries = Object.entries(downloads ?? {}).filter(([, v]) => !!v) as [string, string][];
+const labels: Record<string, string> = {
+  author: 'Tác giả',
+  ankivn: 'AnkiVN',
+  r2: 'R2',
+  gdrive: 'Google Drive',
+  firebase: 'Firebase',
+  onedrive: 'OneDrive',
+};
+---
+{entries.length ? (
+  <div class="flex flex-wrap gap-3">
+    {entries.map(([k, href]) => (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 rounded bg-emerald-600 px-3 py-1.5 text-white text-sm hover:bg-emerald-700"
+      >
+        Tải ({labels[k] || k})
+      </a>
+    ))}
+  </div>
+) : (
+  <p class="text-gray-600">Chưa có liên kết tải.</p>
+)}

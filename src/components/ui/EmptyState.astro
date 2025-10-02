@@ -1,0 +1,93 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+  icon?: 'search' | 'deck' | 'guide' | 'blog' | 'empty' | 'error';
+  actionText?: string;
+  actionHref?: string;
+  className?: string;
+}
+
+const {
+  title = 'Không có dữ liệu',
+  description = 'Hiện tại chưa có nội dung nào để hiển thị.',
+  icon = 'empty',
+  actionText,
+  actionHref,
+  className = ''
+} = Astro.props;
+
+const iconSvgs = {
+  search: (
+    <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+  ),
+  deck: (
+    <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+    </svg>
+  ),
+  guide: (
+    <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+    </svg>
+  ),
+  blog: (
+    <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+    </svg>
+  ),
+  empty: (
+    <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    </svg>
+  ),
+  error: (
+    <svg class="w-16 h-16 text-red-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  )
+};
+---
+
+<div class={`text-center py-12 px-4 ${className}`}>
+  <div class="max-w-md mx-auto fade-in-scroll">
+    <!-- Icon -->
+    <div class="mb-6">
+      {iconSvgs[icon]}
+    </div>
+
+    <!-- Title -->
+    <h3 class="text-lg font-semibold text-gray-900 mb-2">
+      {title}
+    </h3>
+
+    <!-- Description -->
+    <p class="text-gray-600 mb-6 leading-relaxed">
+      {description}
+    </p>
+
+    <!-- Action Button -->
+    {actionText && actionHref && (
+      <a 
+        href={actionHref} 
+        class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-all duration-200 hover-lift btn-ripple"
+      >
+        {actionText}
+        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      </a>
+    )}
+
+    <!-- Decorative elements -->
+    <div class="mt-8 opacity-50">
+      <div class="flex justify-center space-x-2">
+        <div class="w-2 h-2 bg-gray-300 rounded-full animate-pulse"></div>
+        <div class="w-2 h-2 bg-gray-300 rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+        <div class="w-2 h-2 bg-gray-300 rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+      </div>
+    </div>
+  </div>
+</div>

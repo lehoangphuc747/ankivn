@@ -1,0 +1,311 @@
+---
+import '../styles/global.css';
+import Nav from '@/components/common/Nav.astro';
+import Footer from '@/components/common/Footer.astro';
+
+const { title = 'Anki Việt Nam', description = 'Chia sẻ deck Anki, hướng dẫn và blog học tập', ogImage } = Astro.props as {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+};
+---
+<html lang="vi" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url.href} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+    
+    <link rel="canonical" href={Astro.url.href} />
+    <title>{title}</title>
+
+    <!-- Enhanced animations and transitions -->
+    <style>
+      /* Page transitions */
+      .page-transition {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.6s ease-out forwards;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Loading states */
+      .loading-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+        transform: translateX(-100%);
+        z-index: 9999;
+        transition: transform 0.3s ease;
+      }
+
+      .loading-bar.loading {
+        animation: loading-slide 2s ease-in-out infinite;
+      }
+
+      @keyframes loading-slide {
+        0% { transform: translateX(-100%); }
+        50% { transform: translateX(0%); }
+        100% { transform: translateX(100%); }
+      }
+
+      /* Scroll-triggered animations */
+      .fade-in-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      }
+
+      .fade-in-scroll.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Hover micro-animations */
+      .hover-lift {
+        transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+      }
+
+      .hover-lift:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+
+      .hover-scale {
+        transition: transform 0.2s ease-out;
+      }
+
+      .hover-scale:hover {
+        transform: scale(1.02);
+      }
+
+      .hover-glow {
+        transition: box-shadow 0.3s ease-out;
+      }
+
+      .hover-glow:hover {
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+      }
+
+      /* Button animations */
+      .btn-ripple {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-ripple::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+      }
+
+      .btn-ripple:active::before {
+        width: 300px;
+        height: 300px;
+      }
+
+      /* Enhanced focus states */
+      *:focus-visible {
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+        border-radius: 4px;
+      }
+
+      /* Reduced motion support */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-gray-50 text-gray-900 flex flex-col antialiased">
+    <!-- Loading bar -->
+    <div class="loading-bar" id="loading-bar"></div>
+    
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded-md z-50 transition-all">Bỏ qua đến nội dung</a>
+    
+    <Nav />
+    
+    <main id="main" class="flex-1 page-transition">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 py-8">
+        <slot />
+      </div>
+    </main>
+    
+    <Footer />
+
+    <!-- Enhanced page interaction script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const loadingBar = document.getElementById('loading-bar');
+        
+        // Handle navigation loading states
+        function showLoading() {
+          if (loadingBar) {
+            loadingBar.classList.add('loading');
+          }
+        }
+
+        function hideLoading() {
+          if (loadingBar) {
+            loadingBar.classList.remove('loading');
+          }
+        }
+
+        // Add loading to navigation links
+        document.querySelectorAll('a[href^="/"], a[href^="./"], a[href^="../"]').forEach(link => {
+          link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            
+            // Skip if same page or external
+            if (!href || href === window.location.pathname || href.startsWith('http') || href.startsWith('#')) {
+              return;
+            }
+
+            showLoading();
+            
+            // Hide loading after a short delay if still on same page
+            setTimeout(() => {
+              if (window.location.pathname === window.location.pathname) {
+                hideLoading();
+              }
+            }, 2000);
+          });
+        });
+
+        // Hide loading on page show
+        window.addEventListener('pageshow', hideLoading);
+        
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        };
+
+        const scrollObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        }, observerOptions);
+
+        // Observe elements with fade-in-scroll class
+        document.querySelectorAll('.fade-in-scroll').forEach(el => {
+          scrollObserver.observe(el);
+        });
+
+        // Enhanced smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            
+            if (target) {
+              target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+              
+              // Update URL hash
+              history.pushState(null, null, this.getAttribute('href'));
+            }
+          });
+        });
+
+        // Add ripple effect to buttons
+        document.querySelectorAll('.btn-ripple').forEach(button => {
+          button.addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const ripple = document.createElement('span');
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple');
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+              ripple.remove();
+            }, 600);
+          });
+        });
+
+        // Preload critical resources
+        const preloadLinks = document.querySelectorAll('a[href^="/"]');
+        const preloadedUrls = new Set();
+        
+        preloadLinks.forEach(link => {
+          link.addEventListener('mouseenter', function() {
+            const href = this.getAttribute('href');
+            if (href && !preloadedUrls.has(href)) {
+              const linkElement = document.createElement('link');
+              linkElement.rel = 'prefetch';
+              linkElement.href = href;
+              document.head.appendChild(linkElement);
+              preloadedUrls.add(href);
+            }
+          });
+        });
+      });
+    </script>
+
+    <!-- Ripple effect styles -->
+    <style>
+      .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.6);
+        transform: scale(0);
+        animation: ripple-animation 0.6s linear;
+        pointer-events: none;
+      }
+
+      @keyframes ripple-animation {
+        to {
+          transform: scale(4);
+          opacity: 0;
+        }
+      }
+    </style>
+  </body>
+</html>

@@ -1,0 +1,124 @@
+---
+export interface Props {
+  type?: 'button' | 'submit' | 'reset';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  disabled?: boolean;
+  loading?: boolean;
+  fullWidth?: boolean;
+  icon?: string;
+  iconPosition?: 'left' | 'right';
+  href?: string;
+  target?: string;
+  class?: string;
+}
+
+const {
+  type = 'button',
+  variant = 'primary',
+  size = 'md',
+  disabled = false,
+  loading = false,
+  fullWidth = false,
+  icon,
+  iconPosition = 'left',
+  href,
+  target,
+  class: className = '',
+  ...props
+} = Astro.props;
+
+const sizeClasses = {
+  sm: 'px-3 py-1.5 text-sm',
+  md: 'px-4 py-2',
+  lg: 'px-6 py-3 text-lg',
+  xl: 'px-8 py-4 text-xl'
+};
+
+const variantClasses = {
+  primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 border border-transparent',
+  secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500 border border-transparent',
+  outline: 'bg-transparent text-blue-600 hover:bg-blue-50 focus:ring-blue-500 border border-blue-600 hover:border-blue-700',
+  ghost: 'bg-transparent text-gray-700 hover:bg-gray-100 focus:ring-gray-500 border border-transparent',
+  danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 border border-transparent'
+};
+
+const baseClasses = `
+  inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200
+  focus:outline-none focus:ring-2 focus:ring-offset-2
+  disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-current
+`;
+
+const widthClasses = fullWidth ? 'w-full' : '';
+
+const buttonClasses = `
+  ${baseClasses}
+  ${sizeClasses[size]}
+  ${variantClasses[variant]}
+  ${widthClasses}
+  ${className}
+`.trim();
+
+const Component = href ? 'a' : 'button';
+const componentProps = href ? { href, target } : { type, disabled: disabled || loading };
+
+const iconSvgs = {
+  'arrow-right': (
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+    </svg>
+  ),
+  'arrow-left': (
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+    </svg>
+  ),
+  'download': (
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+    </svg>
+  ),
+  'external': (
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+    </svg>
+  ),
+  'plus': (
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+    </svg>
+  ),
+  'search': (
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+  )
+};
+
+const LoadingSpinner = () => (
+  <svg class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+  </svg>
+);
+---
+
+<Component class={buttonClasses} {...componentProps} {...props}>
+  {loading && (
+    <LoadingSpinner />
+  )}
+  
+  {!loading && icon && iconPosition === 'left' && (
+    <span class="mr-2">
+      {iconSvgs[icon] || <span>{icon}</span>}
+    </span>
+  )}
+  
+  <slot />
+  
+  {!loading && icon && iconPosition === 'right' && (
+    <span class="ml-2">
+      {iconSvgs[icon] || <span>{icon}</span>}
+    </span>
+  )}
+</Component>

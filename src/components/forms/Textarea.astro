@@ -1,0 +1,134 @@
+---
+export interface Props {
+  name: string;
+  label?: string;
+  placeholder?: string;
+  value?: string;
+  rows?: number;
+  required?: boolean;
+  disabled?: boolean;
+  readonly?: boolean;
+  error?: string;
+  helperText?: string;
+  maxLength?: number;
+  resize?: 'none' | 'vertical' | 'horizontal' | 'both';
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'bordered' | 'filled';
+  class?: string;
+}
+
+const {
+  name,
+  label,
+  placeholder,
+  value,
+  rows = 4,
+  required = false,
+  disabled = false,
+  readonly = false,
+  error,
+  helperText,
+  maxLength,
+  resize = 'vertical',
+  size = 'md',
+  variant = 'default',
+  class: className = '',
+  ...props
+} = Astro.props;
+
+const sizeClasses = {
+  sm: 'px-3 py-2 text-sm',
+  md: 'px-3 py-2.5',
+  lg: 'px-4 py-3 text-lg'
+};
+
+const variantClasses = {
+  default: 'border border-gray-300 bg-white',
+  bordered: 'border-2 border-gray-300 bg-white',
+  filled: 'border border-gray-200 bg-gray-50'
+};
+
+const resizeClasses = {
+  none: 'resize-none',
+  vertical: 'resize-y',
+  horizontal: 'resize-x',
+  both: 'resize'
+};
+
+const baseClasses = `
+  block w-full rounded-lg transition-colors duration-200
+  focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+  disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed
+  readonly:bg-gray-50 readonly:text-gray-700
+`;
+
+const errorClasses = error 
+  ? 'border-red-300 focus:border-red-500 focus:ring-red-500' 
+  : '';
+
+const textareaClasses = `
+  ${baseClasses}
+  ${sizeClasses[size]}
+  ${variantClasses[variant]}
+  ${resizeClasses[resize]}
+  ${errorClasses}
+  ${className}
+`.trim();
+
+const textareaId = `textarea-${name}`;
+const showCharCount = maxLength && maxLength > 0;
+const currentLength = value ? value.length : 0;
+---
+
+<div class="space-y-1">
+  {label && (
+    <div class="flex items-center justify-between">
+      <label for={textareaId} class="block text-sm font-medium text-gray-700">
+        {label}
+        {required && <span class="text-red-500 ml-1">*</span>}
+      </label>
+      {showCharCount && (
+        <span class={`text-xs ${currentLength > maxLength ? 'text-red-500' : 'text-gray-500'}`}>
+          {currentLength}{maxLength && `/${maxLength}`}
+        </span>
+      )}
+    </div>
+  )}
+
+  <div class="relative">
+    <textarea
+      id={textareaId}
+      name={name}
+      rows={rows}
+      value={value}
+      placeholder={placeholder}
+      required={required}
+      disabled={disabled}
+      readonly={readonly}
+      maxlength={maxLength}
+      class={textareaClasses}
+      {...props}
+    ></textarea>
+
+    {error && (
+      <div class="absolute top-3 right-3 flex items-center pointer-events-none">
+        <svg class="h-5 w-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+    )}
+  </div>
+
+  {error && (
+    <p class="text-sm text-red-600 flex items-center gap-1">
+      <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      {error}
+    </p>
+  )}
+
+  {helperText && !error && (
+    <p class="text-sm text-gray-500">{helperText}</p>
+  )}
+</div>
