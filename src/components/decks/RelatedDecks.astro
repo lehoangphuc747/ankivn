@@ -1,0 +1,85 @@
+---
+import DeckCard from '@/components/decks/DeckCard.astro';
+import { getCollection } from 'astro:content';
+
+const { currentSlug, category, subCategory, tags = [] } = Astro.props as {
+  currentSlug: string;
+  category?: string;
+  subCategory?: string;
+  tags?: string[];
+};
+
+// Get all decks
+const allDecks = await getCollection('decks');
+
+// Filter related decks (exclude current)
+const relatedDecks = allDecks
+  .filter(deck => deck.slug !== currentSlug)
+  .map(deck => {
+    let score = 0;
+    
+    // Same category = +3 points
+    if (category && deck.data.category === category) score += 3;
+    
+    // Same subcategory = +2 points  
+    if (subCategory && deck.data.subCategory === subCategory) score += 2;
+    
+    // Shared tags = +1 point per tag
+    if (tags.length > 0 && deck.data.tags) {
+      const sharedTags = deck.data.tags.filter(tag => tags.includes(tag));
+      score += sharedTags.length;
+    }
+    
+    return { ...deck, score };
+  })
+  .filter(deck => deck.score > 0)
+  .sort((a, b) => b.score - a.score)
+  .slice(0, 3); // Top 3 related decks
+---
+
+{relatedDecks.length > 0 && (
+  <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="max-w-4xl mx-auto">
+      <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-6 lg:p-8 border border-white/20 shadow-xl">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-emerald-500 rounded-2xl flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-2xl font-black text-gray-900">Deck liên quan</h2>
+            <p class="text-gray-600">Có thể bạn cũng quan tâm</p>
+          </div>
+        </div>
+        
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {relatedDecks.map((deck) => (
+            <DeckCard
+              title={deck.data.title}
+              cover={deck.data.cover}
+              date={deck.data.date}
+              size={deck.data.size}
+              category={deck.data.category}
+              subCategory={deck.data.subCategory}
+              href={`/decks/${deck.slug}`}
+              tags={deck.data.tags}
+            />
+          ))}
+        </div>
+        
+        <div class="mt-6 text-center">
+          <a 
+            href="/decks" 
+            class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors"
+          >
+            <span>Xem tất cả deck</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+)}

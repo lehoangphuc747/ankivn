@@ -6,20 +6,139 @@ import { getCollection } from 'astro:content';
 const decks = await getCollection('decks');
 ---
 <BaseLayout title="Bộ thẻ">
-  <h1 class="text-2xl font-semibold mb-4">Bộ thẻ</h1>
-  <p class="text-gray-600 mb-6">Tìm và lọc deck theo chủ đề/ngôn ngữ/cấp độ.</p>
-  <DeckFilters client:only="react" items={decks} />
-  <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-  {decks.map((d) => (
-      <DeckCard
-        title={d.data.title}
-        cover={d.data.cover}
-        date={d.data.date}
-        size={d.data.size}
-        category={d.data.category}
-        subCategory={d.data.subCategory}
-    href={`/decks/${d.slug}`}
-      />
-    ))}
-  </div>
+  <!-- Hero Header -->
+  <section class="hero-section-full">
+    <!-- Background decorations -->
+    <div class="hero-bg-decorations">
+      <div class="hero-radial-overlay"></div>
+      <div class="hero-side-blur-right"></div>
+      <div class="hero-side-blur-left"></div>
+    </div>
+    
+    <div class="relative w-full">
+      <div class="text-center py-16 lg:py-20 px-4 sm:px-6 fade-in-scroll">
+        <!-- Icon badge -->
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-emerald-500 rounded-3xl mb-6 shadow-2xl transform hover:scale-110 transition-transform duration-500">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+        </div>
+
+        <!-- Title & Description -->
+        <div class="mb-8 space-y-4">
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight">
+            <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-emerald-600 bg-clip-text text-transparent animate-gradient bg-300% font-display">
+              Bộ thẻ Anki
+            </span>
+          </h1>
+          <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-emerald-500 mx-auto rounded-full"></div>
+        </div>
+
+        <div class="max-w-3xl mx-auto mb-8 fade-in-scroll" style="animation-delay: 300ms;">
+          <p class="text-lg lg:text-xl text-gray-700 leading-relaxed mb-4 font-medium">
+            Khám phá thư viện deck Anki đa dạng với hàng nghìn bộ thẻ chất lượng cao
+          </p>
+          <p class="text-base lg:text-lg text-gray-600 leading-relaxed">
+            Tìm kiếm và lọc theo chủ đề, ngôn ngữ, cấp độ để tìm deck phù hợp với nhu cầu học tập của bạn
+          </p>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-2xl mx-auto mb-8 fade-in-scroll" style="animation-delay: 600ms;">
+          <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-lg">
+            <div class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent">
+              {decks.length}
+            </div>
+            <div class="text-sm text-gray-600 font-medium">Deck có sẵn</div>
+          </div>
+          <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-lg">
+            <div class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent">
+              {Array.from(new Set(decks.map(d => d.data.category).filter(Boolean))).length}
+            </div>
+            <div class="text-sm text-gray-600 font-medium">Chủ đề</div>
+          </div>
+          <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-lg">
+            <div class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent">
+              100%
+            </div>
+            <div class="text-sm text-gray-600 font-medium">Miễn phí</div>
+          </div>
+          <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-lg">
+            <div class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent">
+              ⚡
+            </div>
+            <div class="text-sm text-gray-600 font-medium">Tải nhanh</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Decks Content -->
+  <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Filters -->
+    <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-6 border border-white/20 shadow-xl mb-8 fade-in-scroll">
+      <DeckFilters client:only="react" items={decks} />
+    </div>
+
+    <!-- Decks Grid -->
+    <div id="deck-grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 fade-in-scroll" style="animation-delay: 300ms;">
+      {decks.map((d) => (
+        <div data-deck-item 
+             data-title={d.data.title.toLowerCase()} 
+             data-category={d.data.category || ''} 
+             data-subcategory={d.data.subCategory || ''} 
+             data-tags={(d.data.tags || []).map(t => t.toLowerCase()).join(',')}
+             data-date={d.data.date || ''}
+             data-size={d.data.size || 0}>
+          <DeckCard
+            title={d.data.title}
+            cover={d.data.cover}
+            date={d.data.date}
+            size={d.data.size}
+            category={d.data.category}
+            subCategory={d.data.subCategory}
+            href={`/decks/${d.slug}`}
+          />
+        </div>
+      ))}
+    </div>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="hidden text-center py-12">
+      <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+      <h3 class="text-lg font-medium text-gray-900 mb-2">Không tìm thấy deck nào</h3>
+      <p class="text-gray-500 mb-4">Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm.</p>
+    </div>
+  </section>
+
+  <script>
+    // Listen for filter events from DeckFilters component
+    window.addEventListener('deckFiltersChanged', (event) => {
+      const { filtered } = event.detail;
+      const deckGrid = document.getElementById('deck-grid');
+      const emptyState = document.getElementById('empty-state');
+      const deckItems = deckGrid.querySelectorAll('[data-deck-item]');
+      
+      // Hide all items first
+      deckItems.forEach(item => {
+        item.style.display = 'none';
+      });
+      
+      // Show filtered items
+      if (filtered.length > 0) {
+        filtered.forEach(deck => {
+          const item = deckGrid.querySelector(`[data-title="${deck.data.title.toLowerCase()}"]`);
+          if (item) {
+            item.style.display = 'block';
+          }
+        });
+        emptyState.classList.add('hidden');
+      } else {
+        emptyState.classList.remove('hidden');
+      }
+    });
+  </script>
 </BaseLayout>

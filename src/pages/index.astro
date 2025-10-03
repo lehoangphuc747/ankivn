@@ -3,199 +3,209 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Anki Việt Nam">
-  <!-- Hero Section -->
-  <section class="text-center py-16 lg:py-24 fade-in-scroll">
-    <div class="mb-8">
-      <h1 class="text-4xl lg:text-6xl font-bold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent mb-6 fade-in-scroll">
-        Anki Việt Nam
-      </h1>
-      <p class="text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed fade-in-scroll">
-        Bộ sưu tập deck Anki, hướng dẫn sử dụng và bài viết học tập. 
-        <br class="hidden sm:block">
-        Tải nhanh, dễ tìm theo chủ đề, ngôn ngữ và cấp độ.
-      </p>
+  <!-- Hero & Features Combined Section -->
+  <section class="hero-section-full">
+    <!-- Animated background decorations -->
+    <div class="hero-bg-decorations">
+      <div class="hero-radial-overlay"></div>
+      <div class="hero-side-blur-right"></div>
+      <div class="hero-side-blur-left"></div>
     </div>
-
-    <!-- Quick Actions -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto mb-12 fade-in-scroll">
-      <a href="/decks" class="group bg-white rounded-xl p-6 border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all duration-200 hover-lift btn-ripple">
-        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-200 transition-colors">
-          <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-          </svg>
-        </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Bộ thẻ</h3>
-        <p class="text-sm text-gray-600">Khám phá thư viện deck Anki đa dạng</p>
-      </a>
-
-      <a href="/guides" class="group bg-white rounded-xl p-6 border border-gray-200 hover:border-emerald-300 hover:shadow-lg transition-all duration-200 hover-lift btn-ripple">
-        <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-emerald-200 transition-colors">
-          <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-          </svg>
-        </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Hướng dẫn</h3>
-        <p class="text-sm text-gray-600">Học cách sử dụng Anki hiệu quả</p>
-      </a>
-
-      <a href="/blog" class="group bg-white rounded-xl p-6 border border-gray-200 hover:border-purple-300 hover:shadow-lg transition-all duration-200 hover-lift btn-ripple">
-        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-purple-200 transition-colors">
-          <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-          </svg>
-        </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Blog</h3>
-        <p class="text-sm text-gray-600">Bài viết về học tập và ghi nhớ</p>
-      </a>
-
-      <a href="/submit" class="group bg-white rounded-xl p-6 border border-gray-200 hover:border-orange-300 hover:shadow-lg transition-all duration-200">
-        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-orange-200 transition-colors">
-          <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-          </svg>
-        </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Upload</h3>
-        <p class="text-sm text-gray-600">Chia sẻ deck của bạn</p>
-      </a>
-    </div>
-
-    <!-- CTA -->
-    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="/decks" class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
-        Khám phá deck ngay
-        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </a>
-      <a href="/guides" class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
-        Xem hướng dẫn
-      </a>
-    </div>
-  </section>
-
-  <!-- Features -->
-  <section class="py-20 relative overflow-hidden">
-    <!-- Background decorations -->
-    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-emerald-50"></div>
-    <div class="absolute top-0 left-1/4 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-    <div class="absolute bottom-0 right-1/4 w-72 h-72 bg-emerald-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" style="animation-delay: 2s;"></div>
     
-    <div class="relative">
-      <div class="text-center mb-16 fade-in-scroll">
-        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-emerald-500 rounded-2xl mb-6 shadow-lg">
-          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-          </svg>
-        </div>
-        <h2 class="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-emerald-800 bg-clip-text text-transparent mb-6">
-          Tại sao chọn AnkiVN?
-        </h2>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-          Chúng tôi tập trung vào chất lượng nội dung và trải nghiệm người dùng tốt nhất
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        <!-- Feature 1: Tải nhanh -->
-        <div class="group relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 fade-in-scroll">
-          <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          <div class="relative">
-            <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
-              <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <h3 class="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">
-              Tải nhanh
-            </h3>
-            <p class="text-gray-600 leading-relaxed text-lg">
-              Multiple mirror links đảm bảo tốc độ tải tối ưu từ mọi nơi
-            </p>
-            <div class="mt-6 flex items-center text-blue-600 font-medium group-hover:translate-x-2 transition-transform duration-300">
-              <span class="text-sm">Trải nghiệm ngay</span>
-              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </div>
+    <div class="relative w-full">
+      <!-- Hero Content -->
+      <div class="text-center py-12 lg:py-16 xl:py-20 px-4 sm:px-6 fade-in-scroll">
+        <!-- Main title with enhanced animations -->
+        <div class="mb-6 space-y-3">
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight">
+            <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-emerald-600 bg-clip-text text-transparent animate-gradient bg-300% font-display">
+              Anki Việt Nam
+            </span>
+          </h1>
+          <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-emerald-500 mx-auto rounded-full"></div>
         </div>
 
-        <!-- Feature 2: Dễ tìm kiếm -->
-        <div class="group relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 fade-in-scroll" style="animation-delay: 200ms;">
-          <div class="absolute inset-0 bg-gradient-to-br from-emerald-50/50 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          <div class="relative">
-            <div class="w-20 h-20 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
-              <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
-            <h3 class="text-2xl font-bold text-gray-900 mb-4 group-hover:text-emerald-600 transition-colors">
-              Dễ tìm kiếm
-            </h3>
-            <p class="text-gray-600 leading-relaxed text-lg">
-              Lọc theo chủ đề, ngôn ngữ, cấp độ với giao diện thân thiện
-            </p>
-            <div class="mt-6 flex items-center text-emerald-600 font-medium group-hover:translate-x-2 transition-transform duration-300">
-              <span class="text-sm">Khám phá ngay</span>
-              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </div>
+        <!-- Enhanced description -->
+        <div class="max-w-4xl mx-auto mb-8 fade-in-scroll" style="animation-delay: 300ms;">
+          <p class="text-lg lg:text-xl text-gray-700 leading-relaxed mb-4 font-medium">
+            Bộ sưu tập deck Anki, hướng dẫn sử dụng và bài viết học tập.
+          </p>
+          <p class="text-base lg:text-lg text-gray-600 leading-relaxed">
+            Tải nhanh, dễ tìm theo chủ đề, ngôn ngữ và cấp độ.
+          </p>
         </div>
 
-        <!-- Feature 3: Cộng đồng -->
-        <div class="group relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 fade-in-scroll" style="animation-delay: 400ms;">
-          <div class="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          <div class="relative">
-            <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
-              <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-              </svg>
+        <!-- Enhanced Quick Actions -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 max-w-6xl mx-auto mb-10 fade-in-scroll" style="animation-delay: 600ms;">
+          <a href="/decks" class="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/40 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-50/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative">
+              <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+              <h3 class="font-bold text-lg text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">Bộ thẻ</h3>
+              <p class="text-sm text-gray-600 leading-relaxed">Khám phá thư viện deck Anki đa dạng</p>
             </div>
-            <h3 class="text-2xl font-bold text-gray-900 mb-4 group-hover:text-purple-600 transition-colors">
-              Cộng đồng
-            </h3>
-            <p class="text-gray-600 leading-relaxed text-lg">
-              Được xây dựng bởi và cho cộng đồng người Việt yêu học tập
-            </p>
-            <div class="mt-6 flex items-center text-purple-600 font-medium group-hover:translate-x-2 transition-transform duration-300">
-              <span class="text-sm">Tham gia ngay</span>
-              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
+          </a>
+
+          <a href="/guides" class="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/40 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden" style="animation-delay: 100ms;">
+            <div class="absolute inset-0 bg-gradient-to-br from-emerald-50/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative">
+              <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <h3 class="font-bold text-lg text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors">Hướng dẫn</h3>
+              <p class="text-sm text-gray-600 leading-relaxed">Học cách sử dụng Anki hiệu quả</p>
             </div>
-          </div>
+          </a>
+
+          <a href="/blog" class="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/40 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden" style="animation-delay: 200ms;">
+            <div class="absolute inset-0 bg-gradient-to-br from-purple-50/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative">
+              <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+              </div>
+              <h3 class="font-bold text-lg text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">Blog</h3>
+              <p class="text-sm text-gray-600 leading-relaxed">Bài viết về học tập và ghi nhớ</p>
+            </div>
+          </a>
+
+          <a href="/submit" class="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/40 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden" style="animation-delay: 300ms;">
+            <div class="absolute inset-0 bg-gradient-to-br from-orange-50/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative">
+              <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+              </div>
+              <h3 class="font-bold text-lg text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">Upload</h3>
+              <p class="text-sm text-gray-600 leading-relaxed">Chia sẻ deck của bạn</p>
+            </div>
+          </a>
         </div>
       </div>
 
-      <!-- Stats section -->
-      <div class="mt-20 fade-in-scroll">
-        <div class="bg-white/60 backdrop-blur-sm rounded-3xl p-8 border border-white/20 shadow-xl">
-          <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-            <div class="group">
-              <div class="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
-                3+
+        <!-- Features Section (now integrated) -->
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative py-16">
+          <div class="text-center mb-16 fade-in-scroll">
+            <h2 class="text-3xl lg:text-4xl xl:text-5xl font-black text-gray-900 mb-4">
+              Tại sao chọn <span class="bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent">AnkiVN</span>?
+            </h2>
+            <p class="text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Nền tảng chia sẻ deck Anki hàng đầu Việt Nam với hàng nghìn deck chất lượng cao
+            </p>
+          </div>
+
+          <!-- Feature cards grid -->
+          <div class="grid md:grid-cols-3 gap-8 lg:gap-12 fade-in-scroll" style="animation-delay: 300ms;">
+            <!-- Feature 1: Thư viện phong phú -->
+            <div class="group relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 fade-in-scroll">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div class="relative">
+                <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">
+                  Thư viện phong phú
+                </h3>
+                <p class="text-gray-600 leading-relaxed text-lg">
+                  Hàng nghìn deck chất lượng cao được kiểm duyệt kỹ lưỡng
+                </p>
+                <div class="mt-6 flex items-center text-blue-600 font-medium group-hover:translate-x-2 transition-transform duration-300">
+                  <span class="text-sm">Khám phá ngay</span>
+                  <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
               </div>
-              <div class="text-gray-600 font-medium">Deck mẫu</div>
             </div>
-            <div class="group">
-              <div class="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
-                100%
+
+            <!-- Feature 2: Tải nhanh -->
+            <div class="group relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 fade-in-scroll" style="animation-delay: 200ms;">
+              <div class="absolute inset-0 bg-gradient-to-br from-emerald-50/50 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div class="relative">
+                <div class="w-20 h-20 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 group-hover:text-emerald-600 transition-colors">
+                  Tải nhanh
+                </h3>
+                <p class="text-gray-600 leading-relaxed text-lg">
+                  Multiple mirror links đảm bảo tốc độ tải tối ưu từ mọi nơi
+                </p>
+                <div class="mt-6 flex items-center text-emerald-600 font-medium group-hover:translate-x-2 transition-transform duration-300">
+                  <span class="text-sm">Trải nghiệm ngay</span>
+                  <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
               </div>
-              <div class="text-gray-600 font-medium">Miễn phí</div>
             </div>
-            <div class="group">
-              <div class="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
-                24/7
+
+            <!-- Feature 3: Cộng đồng -->
+            <div class="group relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 fade-in-scroll" style="animation-delay: 400ms;">
+              <div class="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div class="relative">
+                <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 group-hover:text-purple-600 transition-colors">
+                  Cộng đồng
+                </h3>
+                <p class="text-gray-600 leading-relaxed text-lg">
+                  Được xây dựng bởi và cho cộng đồng người Việt yêu học tập
+                </p>
+                <div class="mt-6 flex items-center text-purple-600 font-medium group-hover:translate-x-2 transition-transform duration-300">
+                  <span class="text-sm">Tham gia ngay</span>
+                  <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
               </div>
-              <div class="text-gray-600 font-medium">Truy cập</div>
             </div>
-            <div class="group">
-              <div class="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
-                🇻🇳
+          </div>
+
+          <!-- Stats section -->
+          <div class="mt-20 fade-in-scroll">
+            <div class="bg-white/60 backdrop-blur-sm rounded-3xl p-8 border border-white/20 shadow-xl">
+              <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                <div class="group">
+                  <div class="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
+                    3+
+                  </div>
+                  <div class="text-gray-600 font-medium">Deck mẫu</div>
+                </div>
+                <div class="group">
+                  <div class="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
+                    100%
+                  </div>
+                  <div class="text-gray-600 font-medium">Miễn phí</div>
+                </div>
+                <div class="group">
+                  <div class="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
+                    24/7
+                  </div>
+                  <div class="text-gray-600 font-medium">Truy cập</div>
+                </div>
+                <div class="group">
+                  <div class="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
+                    🇻🇳
+                  </div>
+                  <div class="text-gray-600 font-medium">Cho người Việt</div>
+                </div>
               </div>
-              <div class="text-gray-600 font-medium">Cho người Việt</div>
             </div>
           </div>
         </div>

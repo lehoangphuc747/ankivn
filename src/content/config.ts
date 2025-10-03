@@ -24,6 +24,7 @@ const decks = defineCollection({
     size: z.number(),
     date: z.string(),
     author: z.string().optional(),
+    authorLink: z.string().url().optional(),
     tags: z.array(z.string()).default([]),
     cover: z.string().optional(),
     previews: z.array(z.object({
@@ -33,6 +34,10 @@ const decks = defineCollection({
       credit: z.string().optional(),
       kind: previewKindEnum.optional(),
       priority: z.number().optional(),
+    })).optional(),
+    previewImages: z.array(z.object({
+      src: z.string(),
+      alt: z.string(),
     })).optional(),
     downloads: z.object({
       author: z.string().url().optional(),
@@ -50,7 +55,8 @@ const guides = defineCollection({
   schema: z.object({
     title: z.string(),
     tags: z.array(z.string()).default([]),
-    guideType: z.enum(['Cơ bản','Nâng cao','Tips'])
+    guideType: z.enum(['Cơ bản','Nâng cao','Tips']),
+    cover: z.string().optional()
   })
 });
 

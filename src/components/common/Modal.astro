@@ -1,0 +1,120 @@
+---
+const { 
+  id,
+  title,
+  size = 'md',
+  showCloseButton = true
+} = Astro.props as {
+  id: string;
+  title?: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  showCloseButton?: boolean;
+};
+
+const sizeClasses = {
+  sm: 'max-w-md',
+  md: 'max-w-lg', 
+  lg: 'max-w-2xl',
+  xl: 'max-w-4xl',
+  full: 'max-w-full mx-4'
+};
+---
+
+<!-- Modal Backdrop -->
+<div 
+  id={id}
+  class="modal fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby={title ? `${id}-title` : undefined}
+>
+  <!-- Modal Content -->
+  <div 
+    class={`relative w-full ${sizeClasses[size]} bg-white rounded-lg shadow-xl transform transition-all`}
+    onclick="event.stopPropagation()"
+  >
+    <!-- Header -->
+    {(title || showCloseButton) && (
+      <div class="flex items-center justify-between p-6 border-b border-gray-200">
+        {title && (
+          <h2 id={`${id}-title`} class="text-xl font-semibold text-gray-900">
+            {title}
+          </h2>
+        )}
+        {showCloseButton && (
+          <button 
+            type="button"
+            class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+            onclick={`closeModal('${id}')`}
+            aria-label="Close modal"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
+      </div>
+    )}
+    
+    <!-- Body -->
+    <div class="p-6">
+      <slot />
+    </div>
+    
+    <!-- Footer -->
+    <slot name="footer" />
+  </div>
+</div>
+
+<script define:vars={{ id }}>
+  // Modal functions
+  window.openModal = function(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      
+      // Focus trap
+      const focusableElements = modal.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusableElements.length > 0) {
+        focusableElements[0].focus();
+      }
+    }
+  };
+  
+  window.closeModal = function(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+  };
+  
+  // Close on backdrop click
+  document.getElementById(id)?.addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeModal(id);
+    }
+  });
+  
+  // Close on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      const visibleModals = document.querySelectorAll('.modal:not(.hidden)');
+      if (visibleModals.length > 0) {
+        const lastModal = visibleModals[visibleModals.length - 1];
+        closeModal(lastModal.id);
+      }
+    }
+  });
+</script>
+
+<style>
+  .modal {
+    backdrop-filter: blur(4px);
+  }
+</style>

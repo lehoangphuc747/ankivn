@@ -1,0 +1,40 @@
+---
+export interface BreadcrumbItem {
+  label: string;
+  href?: string;
+  current?: boolean;
+}
+
+const { items } = Astro.props as { items: BreadcrumbItem[] };
+---
+
+<nav class="flex items-center space-x-2 text-sm" aria-label="Breadcrumb">
+  <a href="/" class="flex items-center text-gray-500 hover:text-blue-600 transition-colors">
+    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2z" />
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5L12 2l3 3" />
+    </svg>
+    <span>Trang chủ</span>
+  </a>
+  
+  {items.map((item, index) => (
+    <span class="flex items-center">
+      <svg class="w-4 h-4 mx-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+      
+      {item.href && !item.current ? (
+        <a 
+          href={item.href} 
+          class="text-gray-500 hover:text-blue-600 transition-colors font-medium"
+        >
+          {item.label}
+        </a>
+      ) : (
+        <span class={`font-medium ${item.current ? 'text-gray-900' : 'text-gray-500'}`}>
+          {item.label}
+        </span>
+      )}
+    </span>
+  ))}
+</nav>

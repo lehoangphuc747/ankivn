@@ -1,0 +1,51 @@
+---
+const { count = 8 } = Astro.props as { count?: number };
+---
+
+<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+  {Array.from({ length: count }).map((_, i) => (
+    <div key={i} class="bg-white/80 backdrop-blur-sm rounded-3xl border border-white/20 overflow-hidden animate-pulse">
+      <!-- Cover Skeleton -->
+      <div class="aspect-video bg-gradient-to-br from-gray-200 to-gray-300"></div>
+      
+      <!-- Content Skeleton -->
+      <div class="p-6">
+        <!-- Category Badge -->
+        <div class="w-20 h-6 bg-gray-200 rounded-full mb-3"></div>
+        
+        <!-- Title -->
+        <div class="space-y-2 mb-4">
+          <div class="w-full h-6 bg-gray-200 rounded"></div>
+          <div class="w-3/4 h-6 bg-gray-200 rounded"></div>
+        </div>
+        
+        <!-- Meta -->
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-16 h-4 bg-gray-200 rounded"></div>
+          <div class="w-20 h-4 bg-gray-200 rounded"></div>
+        </div>
+        
+        <!-- Tags -->
+        <div class="flex gap-2">
+          <div class="w-12 h-6 bg-gray-200 rounded-full"></div>
+          <div class="w-16 h-6 bg-gray-200 rounded-full"></div>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+</style>

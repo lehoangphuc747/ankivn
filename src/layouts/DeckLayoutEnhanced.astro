@@ -1,0 +1,201 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ReadingProgress from '@/components/common/ReadingProgress.astro';
+import Badge from '@/components/common/Badge.astro';
+import ImageGallery from '@/components/decks/ImageGallery.astro';
+import PreviewSection from '@/components/decks/PreviewSection.astro';
+
+const { title, date, cover, category, subCategory, size, tags = [], author, authorLink, previewImages = [] } = Astro.props as { 
+  title: string; 
+  date?: string; 
+  cover?: string;
+  category?: string;
+  subCategory?: string;
+  size?: number;
+  tags?: string[];
+  author?: string;
+  authorLink?: string;
+  previewImages?: Array<{
+    src: string;
+    alt: string;
+  }>;
+};
+const displayCover = cover ?? '/default-thumbnail.webp';
+---
+<BaseLayout title={title}>
+  <!-- Reading Progress Bar -->
+  <ReadingProgress />
+  
+  <!-- Hero Section with Preview First -->
+  <section class="hero-section-full">
+    <!-- Background decorations -->
+    <div class="hero-bg-decorations">
+      <div class="hero-radial-overlay"></div>
+      <div class="hero-side-blur-right"></div>
+      <div class="hero-side-blur-left"></div>
+    </div>
+    
+    <div class="relative w-full">
+      <div class="py-4 lg:py-6 px-4 sm:px-6">
+        <div class="max-w-6xl mx-auto">
+          <!-- Back to All Decks Button -->
+          <div class="mb-4">
+            <a 
+              href="/decks" 
+              class="inline-flex items-center gap-2 px-4 py-2 bg-white/80 hover:bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 text-gray-700 hover:text-gray-900 transition-all duration-200 shadow-sm hover:shadow-md"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+              <span class="font-medium">Tất cả bộ thẻ</span>
+            </a>
+          </div>
+
+          <!-- Layout: Title First, Image Last -->
+          <div class="space-y-6">
+            
+            <!-- 1. Title & Meta Information -->
+            <div class="text-center space-y-4">
+              
+              <!-- 1. Title First -->
+              <div>
+                <h1 class="text-4xl lg:text-5xl font-black text-gray-900 leading-tight">
+                  {title}
+                </h1>
+              </div>
+
+              <!-- 2. Category & Subcategory -->
+              <div class="flex flex-wrap justify-center gap-3">
+                {category && (
+                  <a 
+                    href={`/decks?category=${encodeURIComponent(category)}`}
+                    class="inline-flex items-center px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 hover:text-blue-900 font-semibold rounded-xl border border-blue-200 hover:border-blue-300 transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105"
+                  >
+                    📚 {category}
+                  </a>
+                )}
+                {subCategory && (
+                  <a 
+                    href={`/decks?category=${encodeURIComponent(category || '')}&sub=${encodeURIComponent(subCategory)}`}
+                    class="inline-flex items-center px-4 py-2 bg-purple-100 hover:bg-purple-200 text-purple-800 hover:text-purple-900 font-semibold rounded-xl border border-purple-200 hover:border-purple-300 transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105"
+                  >
+                    {subCategory}
+                  </a>
+                )}
+              </div>
+
+              <!-- 3. Author, Date & Tags - Combined in one line -->
+              <div class="flex flex-wrap justify-center items-center gap-4 text-sm text-gray-600">
+                {author && (
+                  <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    <span class="text-gray-600 font-medium">Nguồn:</span>
+                    {authorLink ? (
+                      <a 
+                        href={authorLink} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-800 hover:text-blue-900 font-semibold rounded-lg border border-blue-200 hover:border-blue-300 transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105"
+                      >
+                        <span>{author}</span>
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </a>
+                    ) : (
+                      <span class="inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-700 font-medium rounded-lg border border-gray-200">{author}</span>
+                    )}
+                  </div>
+                )}
+                {date && (
+                  <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span>{new Date(date).toLocaleDateString('vi-VN')}</span>
+                  </div>
+                )}
+                {tags.length > 0 && (
+                  <>
+                    {(author || date) && <span class="text-gray-400">•</span>}
+                    <div class="flex flex-wrap items-center gap-2">
+                      {tags.map(tag => (
+                        <Badge variant="outline" size="sm">
+                          #{tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Continue using hero background for all content -->
+      <div class="py-4 px-4 sm:px-6">
+        <div class="max-w-4xl mx-auto">
+          
+          <!-- Preview Section -->
+          <PreviewSection images={previewImages} />
+          
+          <!-- Enhanced Content Card -->
+          <div class="bg-white backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-200/50 overflow-hidden">
+            <!-- Content Header -->
+            <div class="px-6 py-4 border-b border-gray-200/50" style="background-color: #ED3F27;">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color: #ED3F27;">
+                  <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-white">Mô tả chi tiết</h3>
+                  <p class="text-sm text-white/80">Thông tin đầy đủ về bộ thẻ</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Article Content -->
+            <div class="p-8">
+              <article class="prose prose-slate max-w-none prose-lg 
+                prose-headings:font-black prose-headings:text-gray-900 prose-headings:tracking-tight
+                prose-h1:text-4xl prose-h1:mb-8 prose-h1:pb-6 prose-h1:border-b-2 prose-h1:border-gradient prose-h1:bg-gradient-to-r prose-h1:from-blue-600 prose-h1:to-purple-600 prose-h1:bg-clip-text prose-h1:text-transparent prose-h1:leading-tight prose-h1:font-black
+                prose-h2:text-3xl prose-h2:mb-6 prose-h2:mt-12 prose-h2:pb-3 prose-h2:text-blue-800 prose-h2:border-b prose-h2:border-blue-200 prose-h2:leading-tight prose-h2:font-black
+                prose-h3:text-2xl prose-h3:mb-4 prose-h3:mt-8 prose-h3:text-emerald-700 prose-h3:font-black prose-h3:leading-tight
+                prose-h4:text-xl prose-h4:mb-3 prose-h4:mt-6 prose-h4:text-gray-800 prose-h4:font-bold
+                prose-h5:text-lg prose-h5:mb-2 prose-h5:mt-4 prose-h5:text-gray-700 prose-h5:font-bold
+                prose-h6:text-base prose-h6:mb-2 prose-h6:mt-3 prose-h6:text-gray-600 prose-h6:font-bold prose-h6:uppercase prose-h6:tracking-wide
+                prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-6 prose-p:text-base
+                prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-a:font-medium prose-a:transition-colors prose-a:duration-200 hover:prose-a:text-blue-800
+                prose-strong:text-gray-900 prose-strong:font-bold
+                prose-em:text-gray-600 prose-em:italic
+                prose-ul:my-6 prose-ul:space-y-2 prose-li:my-1 prose-li:leading-relaxed
+                prose-ol:my-6 prose-ol:space-y-2
+                prose-img:rounded-2xl prose-img:shadow-lg prose-img:border prose-img:border-gray-200 prose-img:my-8
+                prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-gradient-to-r prose-blockquote:from-blue-50 prose-blockquote:to-indigo-50 prose-blockquote:p-6 prose-blockquote:rounded-r-lg prose-blockquote:my-6 prose-blockquote:italic prose-blockquote:text-blue-900
+                prose-code:bg-gray-100 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-code:font-mono prose-code:text-gray-800
+                prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:rounded-xl prose-pre:p-6 prose-pre:overflow-x-auto prose-pre:my-6
+                prose-table:my-6 prose-table:border-collapse prose-table:border prose-table:border-gray-300
+                prose-th:bg-gray-50 prose-th:border prose-th:border-gray-300 prose-th:px-4 prose-th:py-3 prose-th:text-left prose-th:font-semibold prose-th:text-gray-900
+                prose-td:border prose-td:border-gray-300 prose-td:px-4 prose-td:py-3 prose-td:text-gray-700
+                prose-hr:my-8 prose-hr:border-gray-300">
+                <div id="deck-body" class="space-y-6 [&_h1]:!text-3xl [&_h1]:!font-black [&_h2]:!text-2xl [&_h2]:!font-black [&_h3]:!text-xl [&_h3]:!font-black [&_h4]:!text-lg [&_h4]:!font-bold [&_h5]:!text-base [&_h5]:!font-bold [&_h6]:!text-sm [&_h6]:!font-bold">
+                  <slot />
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <!-- Download Section -->
+          <div class="mt-8">
+            <slot name="actions" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

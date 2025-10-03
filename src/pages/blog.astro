@@ -1,10 +1,86 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import BlogSearch from '@/components/blog/BlogSearch.jsx';
+import BlogCard from '@/components/blog/BlogCard.astro';
 const posts = await getCollection('blog');
 ---
 <BaseLayout title="Blog">
-  <h1 class="text-2xl font-semibold mb-4">Blog</h1>
-  <BlogSearch client:only="react" items={posts} />
+  <!-- Hero Header -->
+  <section class="hero-section-full">
+    <!-- Background decorations -->
+    <div class="hero-bg-decorations">
+      <div class="hero-radial-overlay"></div>
+      <div class="hero-side-blur-right"></div>
+      <div class="hero-side-blur-left"></div>
+    </div>
+    
+    <div class="relative w-full">
+      <div class="text-center py-16 lg:py-20 px-4 sm:px-6 fade-in-scroll">
+        <!-- Icon badge -->
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-3xl mb-6 shadow-2xl transform hover:scale-110 transition-transform duration-500">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+          </svg>
+        </div>
+
+        <!-- Title & Description -->
+        <div class="mb-8 space-y-4">
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight">
+            <span class="bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 bg-clip-text text-transparent animate-gradient bg-300% font-display">
+              Blog AnkiVN
+            </span>
+          </h1>
+          <div class="w-20 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full"></div>
+        </div>
+
+        <div class="max-w-3xl mx-auto mb-8 fade-in-scroll" style="animation-delay: 300ms;">
+          <p class="text-lg lg:text-xl text-gray-700 leading-relaxed mb-4 font-medium">
+            Tin tức, tips và thủ thuật về Anki, học tập hiệu quả
+          </p>
+          <p class="text-base lg:text-lg text-gray-600 leading-relaxed">
+            Cập nhật những bài viết mới nhất về cách sử dụng Anki và phương pháp học tập thông minh
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Content -->
+  <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Stats -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-2xl px-6 py-3 border border-white/20 shadow-lg">
+        <svg class="h-5 w-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+        </svg>
+        <span class="font-bold text-purple-600">{posts.length}</span>
+        <span class="text-gray-600">bài viết</span>
+      </div>
+    </div>
+
+    <!-- Blog Grid -->
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 fade-in-scroll">
+      {posts.map((post) => (
+        <BlogCard
+          title={post.data.title}
+          summary={post.data.summary}
+          cover={post.data.cover}
+          date={post.data.date}
+          tags={post.data.tags}
+          href={`/blog/${post.slug}`}
+        />
+      ))}
+    </div>
+
+    <!-- Empty State -->
+    {posts.length === 0 && (
+      <div class="text-center py-12">
+        <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+        </svg>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">Chưa có bài viết nào</h3>
+        <p class="text-gray-500">Hãy quay lại sau để đọc những bài viết mới nhất.</p>
+      </div>
+    )}
+  </section>
 </BaseLayout>

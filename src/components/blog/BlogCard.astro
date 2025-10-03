@@ -1,0 +1,77 @@
+---
+export interface Props {
+  title: string;
+  summary?: string;
+  cover?: string;
+  date?: string;
+  tags?: string[];
+  href: string;
+}
+
+const { title, summary, cover, date, tags = [], href } = Astro.props;
+const displayCover = cover ?? '/default-thumbnail.webp';
+---
+
+<article class="group relative bg-white/80 backdrop-blur-sm rounded-3xl border border-white/20 overflow-hidden hover:shadow-2xl hover:border-white/40 transition-all duration-500 hover:-translate-y-2">
+  <a href={href} class="block">
+    <!-- Cover Image -->
+    <div class="aspect-video bg-gradient-to-br from-blue-50 to-emerald-50 overflow-hidden relative">
+      <img 
+        src={displayCover} 
+        alt={title}
+        loading="lazy"
+        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+      />
+      
+      <!-- Gradient Overlay on Hover -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="p-6">
+      <!-- Date -->
+      {date && (
+        <div class="flex items-center gap-2 mb-3 text-sm text-gray-500">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span>{new Date(date).toLocaleDateString('vi-VN')}</span>
+        </div>
+      )}
+
+      <!-- Title -->
+      <h3 class="font-bold text-xl text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors leading-tight">
+        {title}
+      </h3>
+
+      <!-- Summary -->
+      {summary && (
+        <p class="text-gray-600 mb-4 line-clamp-3 leading-relaxed">
+          {summary}
+        </p>
+      )}
+
+      <!-- Tags -->
+      {tags.length > 0 && (
+        <div class="flex flex-wrap gap-2">
+          {tags.slice(0, 3).map(tag => (
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-700 font-medium">
+              #{tag}
+            </span>
+          ))}
+          {tags.length > 3 && (
+            <span class="text-sm text-gray-400">+{tags.length - 3}</span>
+          )}
+        </div>
+      )}
+
+      <!-- Read More Arrow -->
+      <div class="mt-4 flex items-center text-blue-600 font-medium">
+        <span class="mr-2">Đọc tiếp</span>
+        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </div>
+    </div>
+  </a>
+</article>

@@ -1,0 +1,272 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Alert from '../components/common/Alert.astro';
+import Badge from '../components/common/Badge.astro';
+import LoadingSkeleton from '../components/common/LoadingSkeleton.astro';
+import Modal from '../components/common/Modal.astro';
+import Tooltip from '../components/common/Tooltip.astro';
+---
+
+<BaseLayout title="UI Components Demo">
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <!-- Page Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">UI Components Demo</h1>
+      <p class="text-lg text-gray-600">Showcase of all available UI components</p>
+    </div>
+
+    <!-- Alerts Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">Alerts</h2>
+      <div class="space-y-4">
+        <Alert type="success" title="Success Alert" dismissible>
+          This is a success alert with dismiss button.
+        </Alert>
+        <Alert type="error" title="Error Alert">
+          This is an error alert without dismiss button.
+        </Alert>
+        <Alert type="warning" title="Warning Alert" dismissible>
+          This is a warning alert that can be dismissed.
+        </Alert>
+        <Alert type="info">
+          This is an info alert without title or icon.
+        </Alert>
+      </div>
+    </section>
+
+    <!-- Badges Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">Badges</h2>
+      <div class="space-y-4">
+        <div class="flex flex-wrap gap-2">
+          <Badge>Default</Badge>
+          <Badge variant="primary">Primary</Badge>
+          <Badge variant="secondary">Secondary</Badge>
+          <Badge variant="success">Success</Badge>
+          <Badge variant="warning">Warning</Badge>
+          <Badge variant="error">Error</Badge>
+          <Badge variant="outline">Outline</Badge>
+        </div>
+        
+        <div class="flex flex-wrap gap-2">
+          <Badge size="sm">Small</Badge>
+          <Badge size="md">Medium</Badge>
+          <Badge size="lg">Large</Badge>
+        </div>
+        
+        <div class="flex flex-wrap gap-2">
+          <Badge rounded={false}>Square</Badge>
+          <Badge>Rounded</Badge>
+          <Badge href="https://example.com">Link Badge</Badge>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tooltips Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">Tooltips</h2>
+      <div class="flex flex-wrap gap-8">
+        <Tooltip text="Tooltip on top" position="top">
+          <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+            Hover me (top)
+          </button>
+        </Tooltip>
+        
+        <Tooltip text="Tooltip on bottom" position="bottom">
+          <button class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+            Hover me (bottom)
+          </button>
+        </Tooltip>
+        
+        <Tooltip text="Tooltip on left" position="left">
+          <button class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">
+            Hover me (left)
+          </button>
+        </Tooltip>
+        
+        <Tooltip text="Tooltip on right" position="right">
+          <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+            Hover me (right)
+          </button>
+        </Tooltip>
+      </div>
+    </section>
+
+    <!-- Loading Skeletons Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">Loading Skeletons</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="text-lg font-semibold mb-3">Card Skeleton</h3>
+          <LoadingSkeleton variant="card" />
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-3">Text Skeleton</h3>
+          <LoadingSkeleton variant="text" count={3} />
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-3">Avatar Skeleton</h3>
+          <LoadingSkeleton variant="avatar" count={2} />
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-3">Button Skeleton</h3>
+          <LoadingSkeleton variant="button" count={3} />
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">Modals</h2>
+      <div class="flex flex-wrap gap-4">
+        <button 
+          onclick="openModal('demo-modal-sm')"
+          class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Small Modal
+        </button>
+        
+        <button 
+          onclick="openModal('demo-modal-md')"
+          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+        >
+          Medium Modal
+        </button>
+        
+        <button 
+          onclick="openModal('demo-modal-lg')"
+          class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
+        >
+          Large Modal
+        </button>
+      </div>
+    </section>
+
+    <!-- Interactive Examples -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">Interactive Examples</h2>
+      <div class="bg-gray-50 rounded-lg p-6">
+        <div class="flex flex-wrap gap-4 items-center">
+          <Tooltip text="This badge is clickable!" position="top">
+            <Badge variant="primary" href="#">
+              Clickable Badge
+            </Badge>
+          </Tooltip>
+          
+          <button 
+            onclick="document.querySelector('#dynamic-alert').innerHTML = '<div class=\\'mb-4\\'>' + document.querySelector('#alert-template').innerHTML + '</div>'"
+            class="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+          >
+            Show Dynamic Alert
+          </button>
+          
+          <div id="dynamic-alert"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modals -->
+  <Modal id="demo-modal-sm" title="Small Modal" size="sm">
+    <p>This is a small modal. Perfect for simple confirmations or alerts.</p>
+    <div slot="footer" class="px-6 py-4 bg-gray-50 border-t flex justify-end gap-3">
+      <button 
+        onclick="closeModal('demo-modal-sm')"
+        class="px-4 py-2 text-gray-600 hover:text-gray-800"
+      >
+        Cancel
+      </button>
+      <button 
+        onclick="closeModal('demo-modal-sm')"
+        class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        Confirm
+      </button>
+    </div>
+  </Modal>
+
+  <Modal id="demo-modal-md" title="Medium Modal" size="md">
+    <div class="space-y-4">
+      <p>This is a medium-sized modal with more content.</p>
+      <Alert type="info">
+        You can put any content inside modals, including other components!
+      </Alert>
+      <div class="flex gap-2">
+        <Badge variant="success">Feature</Badge>
+        <Badge variant="warning">Beta</Badge>
+      </div>
+    </div>
+  </Modal>
+
+  <Modal id="demo-modal-lg" title="Large Modal" size="lg">
+    <div class="space-y-6">
+      <p>This is a large modal that can contain complex layouts.</p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <h4 class="font-semibold mb-2">Loading States</h4>
+          <LoadingSkeleton variant="text" count={2} />
+        </div>
+        <div>
+          <h4 class="font-semibold mb-2">Status Badges</h4>
+          <div class="flex gap-2">
+            <Badge variant="success">Active</Badge>
+            <Badge variant="error">Error</Badge>
+          </div>
+        </div>
+      </div>
+      
+      <Alert type="warning" title="Important Note">
+        This modal demonstrates how components can be combined together.
+      </Alert>
+    </div>
+    
+    <div slot="footer" class="px-6 py-4 bg-gray-50 border-t flex justify-between">
+      <button 
+        onclick="closeModal('demo-modal-lg')"
+        class="px-4 py-2 text-gray-600 hover:text-gray-800"
+      >
+        Close
+      </button>
+      <div class="flex gap-3">
+        <button class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50">
+          Save Draft
+        </button>
+        <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+          Publish
+        </button>
+      </div>
+    </div>
+  </Modal>
+
+  <!-- Hidden alert template for dynamic alerts -->
+  <template id="alert-template">
+    <div class="rounded-lg border p-4 bg-green-50 border-green-200 text-green-800" role="alert">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm font-medium">Dynamic Alert Created!</p>
+          <p class="text-sm mt-1">This alert was created dynamically using JavaScript.</p>
+        </div>
+        <div class="ml-auto pl-3">
+          <button 
+            type="button"
+            onclick="this.closest('[role=alert]').parentElement.remove()"
+            class="inline-flex rounded-md p-1.5 hover:bg-black/5"
+          >
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </template>
+</BaseLayout>

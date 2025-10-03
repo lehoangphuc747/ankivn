@@ -1,0 +1,66 @@
+---
+const { variant = 'card', count = 1 } = Astro.props as {
+  variant?: 'card' | 'text' | 'avatar' | 'button';
+  count?: number;
+};
+
+const skeletonItems = Array.from({ length: count }, (_, i) => i);
+---
+
+<div class="animate-pulse space-y-4">
+  {skeletonItems.map(() => (
+    <div class={`
+      ${variant === 'card' ? 'p-6 bg-gray-200 rounded-lg space-y-4' : ''}
+      ${variant === 'text' ? 'space-y-2' : ''}
+      ${variant === 'avatar' ? 'flex items-center space-x-4' : ''}
+      ${variant === 'button' ? 'inline-block' : ''}
+    `}>
+      {variant === 'card' && (
+        <>
+          <div class="h-4 bg-gray-300 rounded w-3/4"></div>
+          <div class="space-y-2">
+            <div class="h-3 bg-gray-300 rounded"></div>
+            <div class="h-3 bg-gray-300 rounded w-5/6"></div>
+          </div>
+          <div class="h-8 bg-gray-300 rounded w-24"></div>
+        </>
+      )}
+      
+      {variant === 'text' && (
+        <>
+          <div class="h-4 bg-gray-300 rounded w-3/4"></div>
+          <div class="h-4 bg-gray-300 rounded w-1/2"></div>
+        </>
+      )}
+      
+      {variant === 'avatar' && (
+        <>
+          <div class="w-12 h-12 bg-gray-300 rounded-full"></div>
+          <div class="flex-1 space-y-2">
+            <div class="h-4 bg-gray-300 rounded w-1/4"></div>
+            <div class="h-3 bg-gray-300 rounded w-1/2"></div>
+          </div>
+        </>
+      )}
+      
+      {variant === 'button' && (
+        <div class="h-10 bg-gray-300 rounded px-4 py-2 w-24"></div>
+      )}
+    </div>
+  ))}
+</div>
+
+<style>
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: .5;
+    }
+  }
+  
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+</style>

@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Nav from '@/components/common/Nav.astro';
 import Footer from '@/components/common/Footer.astro';
+import ScrollToTop from '@/components/common/ScrollToTop.astro';
 
 const { title = 'Anki Việt Nam', description = 'Chia sẻ deck Anki, hướng dẫn và blog học tập', ogImage } = Astro.props as {
   title?: string;
@@ -17,11 +18,11 @@ const { title = 'Anki Việt Nam', description = 'Chia sẻ deck Anki, hướng 
     <meta name="generator" content={Astro.generator} />
     
     <!-- Preload critical resources -->
-    <link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml" />
+    <link rel="preload" href="/vietnam-logo.ico" as="image" type="image/x-icon" />
     <link rel="dns-prefetch" href="//fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/vietnam-logo.ico" />
     
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
@@ -100,6 +101,85 @@ const { title = 'Anki Việt Nam', description = 'Chia sẻ deck Anki, hướng 
         box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -5px rgba(0, 0, 0, 0.04);
       }
 
+      /* Hero section styles - Full viewport width */
+      .hero-section-full {
+        position: relative;
+        overflow: hidden;
+        min-height: 100vh;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        margin-right: calc(-50vw + 50%);
+      }
+
+      .hero-bg-decorations {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .hero-bg-decorations::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 33.333333%;
+        width: 24rem;
+        height: 24rem;
+        background: linear-gradient(to right, rgb(96 165 250), rgb(52 211 153));
+        border-radius: 50%;
+        mix-blend-mode: multiply;
+        filter: blur(3rem);
+        opacity: 0.25;
+        animation: pulse 4s ease-in-out infinite;
+      }
+
+      .hero-bg-decorations::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 33.333333%;
+        width: 24rem;
+        height: 24rem;
+        background: linear-gradient(to right, rgb(147 51 234), rgb(236 72 153));
+        border-radius: 50%;
+        mix-blend-mode: multiply;
+        filter: blur(3rem);
+        opacity: 0.25;
+        animation: pulse 4s ease-in-out infinite;
+        animation-delay: 3s;
+      }
+
+      .hero-radial-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(ellipse at center, transparent, rgba(219, 234, 254, 0.4), transparent);
+      }
+
+      .hero-side-blur-left {
+        position: absolute;
+        bottom: 25%;
+        left: 0;
+        width: 20rem;
+        height: 20rem;
+        background: linear-gradient(to right, rgba(52, 211, 153, 0.3), transparent);
+        border-radius: 50%;
+        filter: blur(3rem);
+      }
+
+      .hero-side-blur-right {
+        position: absolute;
+        top: 25%;
+        right: 0;
+        width: 20rem;
+        height: 20rem;
+        background: linear-gradient(to left, rgba(96, 165, 250, 0.3), transparent);
+        border-radius: 50%;
+        filter: blur(3rem);
+      }
+
       .hover-scale {
         transition: transform 0.2s ease-out;
       }
@@ -159,7 +239,7 @@ const { title = 'Anki Việt Nam', description = 'Chia sẻ deck Anki, hướng 
       }
     </style>
   </head>
-  <body class="min-h-screen bg-gray-50 text-gray-900 flex flex-col antialiased">
+  <body class="min-h-screen bg-gradient-to-br from-blue-50/80 via-slate-50 to-emerald-50/80 text-gray-900 flex flex-col antialiased">
     <!-- Loading bar -->
     <div class="loading-bar" id="loading-bar"></div>
     
@@ -174,6 +254,9 @@ const { title = 'Anki Việt Nam', description = 'Chia sẻ deck Anki, hướng 
     </main>
     
     <Footer />
+
+    <!-- Scroll to top button -->
+    <ScrollToTop />
 
     <!-- Enhanced page interaction script -->
     <script>
