@@ -1,0 +1,218 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout 
+  title="Giới thiệu - AnkiVN" 
+  description="Tìm hiểu về AnkiVN - nền tảng chia sẻ bộ thẻ Anki chất lượng cao cho cộng đồng học tập Việt Nam."
+>
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="relative py-20 lg:py-32 overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-slate-50 to-emerald-50/80"></div>
+      <div class="relative container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6 fade-in-scroll">
+            Về <span class="text-blue-600">AnkiVN</span>
+          </h1>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed fade-in-scroll">
+            Nền tảng chia sẻ bộ thẻ Anki chất lượng cao, được xây dựng bởi và cho cộng đồng học tập Việt Nam
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="py-16 lg:py-24">
+      <div class="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="fade-in-scroll">
+            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+              Sứ mệnh của chúng tôi
+            </h2>
+            <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+              AnkiVN ra đời với mục tiêu tạo ra một cộng đồng học tập mạnh mẽ, nơi mọi người có thể chia sẻ và tiếp cận những bộ thẻ Anki chất lượng cao một cách dễ dàng và miễn phí.
+            </p>
+            <p class="text-lg text-gray-600 leading-relaxed">
+              Chúng tôi tin rằng kiến thức nên được chia sẻ và phát triển cùng nhau, giúp mọi người đạt được mục tiêu học tập của mình một cách hiệu quả nhất.
+            </p>
+          </div>
+          <div class="fade-in-scroll">
+            <div class="bg-white rounded-3xl p-8 shadow-xl border border-gray-200/60">
+              <div class="grid grid-cols-2 gap-6">
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-blue-600 mb-2">10K+</div>
+                  <div class="text-sm text-gray-600">Người truy cập/tháng</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-emerald-600 mb-2">500+</div>
+                  <div class="text-sm text-gray-600">Bộ thẻ chất lượng</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-purple-600 mb-2">50+</div>
+                  <div class="text-sm text-gray-600">Chủ đề đa dạng</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-orange-600 mb-2">100%</div>
+                  <div class="text-sm text-gray-600">Miễn phí</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 lg:py-24 bg-gray-50">
+      <div class="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6 fade-in-scroll">
+            Tại sao chọn AnkiVN?
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto fade-in-scroll">
+            Chúng tôi cam kết mang đến trải nghiệm tốt nhất cho cộng đồng học tập
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Quality Content -->
+          <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-200/60 fade-in-scroll">
+            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 mx-auto">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Nội dung chất lượng</h3>
+            <p class="text-gray-600 text-center leading-relaxed">
+              Tất cả bộ thẻ được kiểm duyệt kỹ lưỡng để đảm bảo chất lượng và độ chính xác cao
+            </p>
+          </div>
+
+          <!-- Easy Access -->
+          <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-200/60 fade-in-scroll">
+            <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-6 mx-auto">
+              <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Truy cập dễ dàng</h3>
+            <p class="text-gray-600 text-center leading-relaxed">
+              Giao diện thân thiện, tìm kiếm nhanh chóng theo chủ đề, ngôn ngữ và cấp độ
+            </p>
+          </div>
+
+          <!-- Community Driven -->
+          <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-200/60 fade-in-scroll">
+            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-6 mx-auto">
+              <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Cộng đồng mạnh mẽ</h3>
+            <p class="text-gray-600 text-center leading-relaxed">
+              Được xây dựng và phát triển bởi cộng đồng, cho cộng đồng học tập Việt Nam
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="py-16 lg:py-24">
+      <div class="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6 fade-in-scroll">
+            Đội ngũ phát triển
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto fade-in-scroll">
+            Chúng tôi là nhóm những người đam mê giáo dục và công nghệ
+          </p>
+        </div>
+
+        <div class="bg-white rounded-3xl p-8 lg:p-12 shadow-xl border border-gray-200/60 fade-in-scroll">
+          <div class="text-center max-w-3xl mx-auto">
+            <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 mx-auto">
+              <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">Cộng đồng AnkiVN</h3>
+            <p class="text-lg text-gray-600 leading-relaxed mb-6">
+              AnkiVN được phát triển và duy trì bởi một cộng đồng những người yêu thích học tập và chia sẻ kiến thức. 
+              Chúng tôi luôn chào đón những đóng góp từ cộng đồng để cùng nhau xây dựng một nền tảng học tập tốt hơn.
+            </p>
+            <p class="text-base text-gray-500">
+              Bạn muốn đóng góp? Hãy liên hệ với chúng tôi!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-16 lg:py-24 bg-gray-50">
+      <div class="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6 fade-in-scroll">
+            Liên hệ với chúng tôi
+          </h2>
+          <p class="text-lg text-gray-600 mb-8 fade-in-scroll">
+            Có câu hỏi hoặc góp ý? Chúng tôi luôn sẵn sàng lắng nghe!
+          </p>
+          
+          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center fade-in-scroll">
+            <a href="mailto:contact@ankivn.com" 
+               class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition-colors">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              Email liên hệ
+            </a>
+            
+            <a href="/decks" 
+               class="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-medium rounded-xl hover:bg-emerald-700 transition-colors">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+              Khám phá bộ thẻ
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<script>
+  // Fade in scroll animation
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.fade-in-scroll').forEach(el => {
+    observer.observe(el);
+  });
+</script>
+
+<style>
+  .fade-in-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+  }
+  
+  .fade-in-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
