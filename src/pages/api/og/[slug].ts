@@ -17,7 +17,6 @@ export const GET = async ({ params }: APIContext) => {
     const title = deck?.data.title || decodeURIComponent(slug || 'AnkiVN');
     const category = deck?.data.category || 'Deck';
     const subCategory = deck?.data.subCategory;
-    const size = deck?.data.size || 0;
     
     // Truncate title if too long
     const displayTitle = title.length > 40 ? title.substring(0, 37) + '...' : title;
@@ -74,15 +73,10 @@ export const GET = async ({ params }: APIContext) => {
       
       <!-- Stats -->
       <g transform='translate(120, 360)'>
-        <!-- Cards count -->
-        <rect x='0' y='0' width='200' height='60' rx='12' fill='#F1F5F9' stroke='#CBD5E1' stroke-width='1'/>
-        <text x='20' y='25' font-family='system-ui, -apple-system, sans-serif' font-size='14' font-weight='600' fill='#64748B'>SỐ THẺ</text>
-        <text x='20' y='45' font-family='system-ui, -apple-system, sans-serif' font-size='24' font-weight='700' fill='#1E293B'>${size}</text>
-        
         <!-- Download indicator -->
-        <rect x='220' y='0' width='160' height='60' rx='12' fill='#ECFDF5' stroke='#22C55E' stroke-width='1'/>
-        <text x='240' y='25' font-family='system-ui, -apple-system, sans-serif' font-size='14' font-weight='600' fill='#15803D'>MIỄN PHÍ</text>
-        <text x='240' y='45' font-family='system-ui, -apple-system, sans-serif' font-size='16' font-weight='600' fill='#15803D'>Tải ngay</text>
+        <rect x='0' y='0' width='200' height='60' rx='12' fill='#ECFDF5' stroke='#22C55E' stroke-width='1'/>
+        <text x='20' y='25' font-family='system-ui, -apple-system, sans-serif' font-size='14' font-weight='600' fill='#15803D'>MIỄN PHÍ</text>
+        <text x='20' y='45' font-family='system-ui, -apple-system, sans-serif' font-size='16' font-weight='600' fill='#15803D'>Tải ngay</text>
       </g>
       
       <!-- Footer -->

@@ -21,7 +21,6 @@ const decks = defineCollection({
     title: z.string(),
     category: categoryEnum,
     subCategory: subCategoryEnum.optional(),
-    size: z.number(),
     date: z.string(),
     author: z.string().optional(),
     authorLink: z.string().url().optional(),

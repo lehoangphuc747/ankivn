@@ -12,6 +12,9 @@ export default defineConfig({
   site: SITE,
   output: 'static',
   compressHTML: true,
+  build: {
+    inlineStylesheets: 'auto',
+  },
   vite: {
     plugins: [tailwindcss()],
     resolve: {
@@ -22,10 +25,18 @@ export default defineConfig({
       },
     },
     build: {
+      cssCodeSplit: true,
       rollupOptions: {
         output: {
           manualChunks: {
-            'react': ['react', 'react-dom'],
+            'vendor': ['react', 'react-dom'],
+            'utils': ['@astrojs/react'],
+          },
+          assetFileNames: (assetInfo) => {
+            if (assetInfo.name?.endsWith('.css')) {
+              return 'assets/[name].[hash].css';
+            }
+            return 'assets/[name].[hash][extname]';
           },
         },
       },

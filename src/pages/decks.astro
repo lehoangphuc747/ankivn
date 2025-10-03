@@ -89,13 +89,11 @@ const decks = await getCollection('decks');
              data-category={d.data.category || ''} 
              data-subcategory={d.data.subCategory || ''} 
              data-tags={(d.data.tags || []).map(t => t.toLowerCase()).join(',')}
-             data-date={d.data.date || ''}
-             data-size={d.data.size || 0}>
+             data-date={d.data.date || ''}>
           <DeckCard
             title={d.data.title}
             cover={d.data.cover}
             date={d.data.date}
-            size={d.data.size}
             category={d.data.category}
             subCategory={d.data.subCategory}
             href={`/decks/${d.slug}`}
