@@ -76,6 +76,12 @@ const decks = await getCollection('decks');
 
   <!-- Decks Content -->
   <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Section Heading -->
+    <div class="text-center mb-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Danh sách bộ thẻ</h2>
+      <p class="text-gray-600">Sử dụng bộ lọc bên dưới để tìm deck phù hợp</p>
+    </div>
+
     <!-- Filters -->
     <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-6 border border-white/20 shadow-xl mb-8 fade-in-scroll">
       <DeckFilters client:only="react" items={decks} />

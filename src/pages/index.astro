@@ -36,19 +36,21 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
         </div>
 
         <!-- Enhanced Quick Actions -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 max-w-6xl mx-auto mb-10 fade-in-scroll" style="animation-delay: 600ms;">
-          <a href="/decks" class="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/40 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-br from-blue-50/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="relative">
-              <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
+        <div class="max-w-6xl mx-auto mb-10 fade-in-scroll" style="animation-delay: 600ms;">
+          <h2 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-6 text-center">Khám phá ngay</h2>
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+            <a href="/decks" class="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/40 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-50/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div class="relative">
+                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                </div>
+                <h3 class="font-bold text-lg text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">Bộ thẻ</h3>
+                <p class="text-sm text-gray-600 leading-relaxed">Khám phá thư viện deck Anki đa dạng</p>
               </div>
-              <h3 class="font-bold text-lg text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">Bộ thẻ</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">Khám phá thư viện deck Anki đa dạng</p>
-            </div>
-          </a>
+            </a>
 
           <a href="/guides" class="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/40 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden" style="animation-delay: 100ms;">
             <div class="absolute inset-0 bg-gradient-to-br from-emerald-50/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -76,18 +78,19 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             </div>
           </a>
 
-          <a href="/submit" class="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/40 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden" style="animation-delay: 300ms;">
-            <div class="absolute inset-0 bg-gradient-to-br from-orange-50/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="relative">
-              <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                </svg>
+            <a href="/submit" class="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/40 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden" style="animation-delay: 300ms;">
+              <div class="absolute inset-0 bg-gradient-to-br from-orange-50/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div class="relative">
+                <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                  </svg>
+                </div>
+                <h3 class="font-bold text-lg text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">Upload</h3>
+                <p class="text-sm text-gray-600 leading-relaxed">Chia sẻ deck của bạn</p>
               </div>
-              <h3 class="font-bold text-lg text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">Upload</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">Chia sẻ deck của bạn</p>
-            </div>
-          </a>
+            </a>
+          </div>
         </div>
       </div>
 
