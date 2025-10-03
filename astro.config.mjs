@@ -6,7 +6,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 
-const SITE = process.env.SITE_URL || undefined;
+const SITE = process.env.SITE_URL || 'https://ankivn.com';
 
 export default defineConfig({
   site: SITE,
