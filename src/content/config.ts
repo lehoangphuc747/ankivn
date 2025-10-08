@@ -53,8 +53,15 @@ const guides = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    description: z.string().optional(),
+    level: z.string().optional(),
+    duration: z.string().optional(),
+    category: z.string().optional(),
+    author: z.string().optional(),
+    publishDate: z.union([z.date(), z.string()]).optional(),
     tags: z.array(z.string()).default([]),
-    guideType: z.enum(['Cơ bản','Nâng cao','Tips']),
+    thumbnail: z.string().optional(),
+    guideType: z.enum(['Cơ bản','Nâng cao','Tips']).optional(),
     cover: z.string().optional()
   })
 });

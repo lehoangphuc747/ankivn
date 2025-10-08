@@ -1,108 +1,93 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import GuideCard from '@/components/guides/GuideCard.astro';
+
 const guides = await getCollection('guides');
+
+// Group guides by type - Only Cơ bản and Nâng cao
+const guidesByType = {
+  'Cơ bản': guides.filter(g => g.data.guideType === 'Cơ bản'),
+  'Nâng cao': guides.filter(g => g.data.guideType === 'Nâng cao')
+};
+
+// Calculate statistics for only these two types
+const allValidGuides = [...guidesByType['Cơ bản'], ...guidesByType['Nâng cao']];
+const totalCourses = allValidGuides.length;
+const totalLessons = allValidGuides.reduce((acc, guide) => {
+  return acc + (guide.data.modules?.reduce((lessonAcc, module) => lessonAcc + module.lessons.length, 0) || 1);
+}, 0);
+
+const totalDuration = allValidGuides.reduce((acc, guide) => {
+  const duration = (guide.data as any).duration || "30 phút";
+  const hours = parseFloat(duration.match(/(\d+\.?\d*)/)?.[1] || "0.5");
+  return acc + hours;
+}, 0);
 ---
-<BaseLayout title="Hướng dẫn">
-  <!-- Hero Header -->
-  <section class="hero-section-full">
-    <!-- Background decorations -->
-    <div class="hero-bg-decorations">
-      <div class="hero-radial-overlay"></div>
-      <div class="hero-side-blur-right"></div>
-      <div class="hero-side-blur-left"></div>
-    </div>
+
+<BaseLayout title="Anki Academy - Học viện Anki trực tuyến">
+  <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-green-50/20">
     
-    <div class="relative w-full">
-      <div class="text-center py-16 lg:py-20 px-4 sm:px-6 fade-in-scroll">
-        <!-- Icon badge -->
-        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-3xl mb-6 shadow-2xl transform hover:scale-110 transition-transform duration-500">
-          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-          </svg>
-        </div>
-
-        <!-- Title & Description -->
-        <div class="mb-8 space-y-4">
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight">
-            <span class="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent animate-gradient bg-300% font-display">
-              Hướng dẫn Anki
-            </span>
+    <!-- Hero Section with Enhanced Design -->
+    <section class="relative overflow-hidden">
+      <!-- Background decoration -->
+      <div class="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-green-600/5"></div>
+      
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="text-center">
+          <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500 to-green-500 rounded-2xl mb-6 shadow-lg">
+            <span class="text-3xl">📚</span>
+          </div>
+          <h1 class="text-5xl md:text-6xl font-black text-gray-900 mb-6 leading-tight">
+            Anki Academy
           </h1>
-          <div class="w-20 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 mx-auto rounded-full"></div>
-        </div>
-
-        <div class="max-w-3xl mx-auto mb-8 fade-in-scroll" style="animation-delay: 300ms;">
-          <p class="text-lg lg:text-xl text-gray-700 leading-relaxed mb-4 font-medium">
-            Hướng dẫn chi tiết từ cơ bản đến nâng cao
-          </p>
-          <p class="text-base lg:text-lg text-gray-600 leading-relaxed">
-            Học cách sử dụng Anki hiệu quả, import deck, tối ưu cài đặt và nhiều thủ thuật hay
+          <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed font-medium">
+            Học viện trực tuyến về Anki - Từ cơ bản đến chuyên gia
           </p>
         </div>
+      </div>
+    </section>
 
-        <!-- Guide Types Stats -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto mb-8 fade-in-scroll" style="animation-delay: 600ms;">
-          <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-lg">
-            <div class="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-              {guides.filter(g => g.data.guideType === 'Cơ bản').length}
+    <!-- Learning Paths with Enhanced Cards -->
+    <section class="relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Chọn lộ trình học tập</h2>
+          <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-green-500 mx-auto rounded-full"></div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <!-- Beginner Path with Enhanced Design -->
+          <a href="/guides/co-ban" class="group relative bg-white/80 backdrop-blur-sm border border-green-100 rounded-3xl p-10 hover:bg-green-50 hover:border-green-200 hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 cursor-pointer overflow-hidden">
+            <!-- Background pattern -->
+            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-100/50 to-transparent rounded-full -translate-y-16 translate-x-16 group-hover:scale-150 transition-transform duration-700"></div>
+            
+            <div class="relative text-center">
+              <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                <span class="text-3xl">🌱</span>
+              </div>
+              <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 group-hover:text-green-600 transition-colors duration-300">Cơ bản</h3>
+              <p class="text-lg text-gray-600 leading-relaxed font-medium">Bắt đầu từ con số 0, học các khái niệm cơ bản.</p>
             </div>
-            <div class="text-sm text-gray-600 font-medium">📖 Cơ bản</div>
-          </div>
-          <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-lg">
-            <div class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-              {guides.filter(g => g.data.guideType === 'Nâng cao').length}
+          </a>
+
+          <!-- Advanced Path with Enhanced Design -->
+          <a href="/guides/nang-cao" class="group relative bg-white/80 backdrop-blur-sm border border-blue-100 rounded-3xl p-10 hover:bg-blue-50 hover:border-blue-200 hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 cursor-pointer overflow-hidden">
+            <!-- Background pattern -->
+            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100/50 to-transparent rounded-full -translate-y-16 translate-x-16 group-hover:scale-150 transition-transform duration-700"></div>
+            
+            <div class="relative text-center">
+              <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                <span class="text-3xl">🚀</span>
+              </div>
+              <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">Nâng cao</h3>
+              <p class="text-lg text-gray-600 leading-relaxed font-medium mb-4">Kỹ thuật nâng cao và tối ưu hóa</p>
+              <div class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 text-sm font-semibold rounded-full">
+                {guidesByType['Nâng cao'].length} khóa học
+              </div>
             </div>
-            <div class="text-sm text-gray-600 font-medium">🚀 Nâng cao</div>
-          </div>
-          <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-lg">
-            <div class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              {guides.filter(g => g.data.guideType === 'Tips').length}
-            </div>
-            <div class="text-sm text-gray-600 font-medium">💡 Tips</div>
-          </div>
+          </a>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Guides Content -->
-  <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <!-- Stats -->
-    <div class="text-center mb-8">
-      <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-2xl px-6 py-3 border border-white/20 shadow-lg">
-        <svg class="h-5 w-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-        </svg>
-        <span class="font-bold text-emerald-600">{guides.length}</span>
-        <span class="text-gray-600">hướng dẫn</span>
-      </div>
-    </div>
-
-    <!-- Guides Grid -->
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 fade-in-scroll">
-      {guides.map((guide) => (
-        <GuideCard
-          title={guide.data.title}
-          guideType={guide.data.guideType}
-          cover={guide.data.cover}
-          tags={guide.data.tags}
-          href={`/guides/${guide.slug}`}
-        />
-      ))}
-    </div>
-
-    <!-- Empty State -->
-    {guides.length === 0 && (
-      <div class="text-center py-12">
-        <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-        </svg>
-        <h2 class="text-xl font-bold text-gray-900 mb-2">Nội dung hướng dẫn</h2>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">Chưa có hướng dẫn nào</h3>
-        <p class="text-gray-500">Hãy quay lại sau để xem những hướng dẫn mới nhất.</p>
-      </div>
-    )}
-  </section>
+    </section>
+  </div>
 </BaseLayout>

@@ -1,0 +1,191 @@
+---
+import CourseLayout from '../../layouts/CourseLayout.astro';
+import { getCollection } from 'astro:content';
+import { getGradientTheme } from '../../utils/gradients';
+
+// Get all guides
+const allGuides = await getCollection('guides');
+
+// Filter advanced level guides
+const advancedGuides = allGuides.filter(guide => 
+  guide.data.level === 'Nâng cao' || 
+  guide.data.category === 'advanced' ||
+  guide.slug.includes('advanced') ||
+  guide.slug.includes('nang-cao') ||
+  ['anki-advanced-settings', 'anki-add-ons', 'anki-scheduling', 'anki-statistics', 'anki-synchronization', 'anki-deck-management'].includes(guide.slug)
+);
+
+// Course data for advanced level
+const advancedCourse = {
+  id: 'nang-cao',
+  title: 'Khóa học Anki Nâng cao',
+  level: 'Nâng cao',
+  description: 'Khám phá các tính năng nâng cao và kỹ thuật chuyên sâu để tối ưu hóa việc học. Dành cho những ai đã có kinh nghiệm với Anki và muốn nâng cao hiệu quả học tập.',
+  duration: '12 giờ',
+  students: 3280,
+  rating: 4.9,
+  modules: [
+    {
+      id: 'advanced-module-1',
+      title: 'Module 1: Cài đặt nâng cao Anki',
+      duration: '75 phút',
+      description: 'Tùy chỉnh các cài đặt nâng cao để tối ưu hóa trải nghiệm học',
+      lessons: [
+        {
+          title: 'Lesson 1.1: Cài đặt nâng cao Anki',
+          slug: 'anki-advanced-settings',
+          duration: '75 phút'
+        }
+      ]
+    },
+    {
+      id: 'advanced-module-2',
+      title: 'Module 2: Add-ons và Extensions',
+      duration: '90 phút',
+      description: 'Sử dụng các add-ons để mở rộng tính năng của Anki',
+      lessons: [
+        {
+          title: 'Lesson 2.1: Add-ons và Extensions',
+          slug: 'anki-add-ons',
+          duration: '90 phút'
+        }
+      ]
+    },
+    {
+      id: 'advanced-module-3',
+      title: 'Module 3: Quản lý Scheduling Algorithm',
+      duration: '120 phút',
+      description: 'Hiểu rõ và tùy chỉnh thuật toán lặp lại của Anki',
+      lessons: [
+        {
+          title: 'Lesson 3.1: Quản lý Scheduling Algorithm',
+          slug: 'anki-scheduling',
+          duration: '120 phút'
+        }
+      ]
+    },
+    {
+      id: 'advanced-module-4',
+      title: 'Module 4: Phân tích thống kê học tập',
+      duration: '60 phút',
+      description: 'Sử dụng thống kê để theo dõi và cải thiện hiệu quả học',
+      lessons: [
+        {
+          title: 'Lesson 4.1: Phân tích thống kê học tập',
+          slug: 'anki-statistics',
+          duration: '60 phút'
+        }
+      ]
+    },
+    {
+      id: 'advanced-module-5',
+      title: 'Module 5: Đồng bộ hóa và Backup',
+      duration: '45 phút',
+      description: 'Quản lý đồng bộ dữ liệu và sao lưu an toàn',
+      lessons: [
+        {
+          title: 'Lesson 5.1: Đồng bộ hóa và Backup',
+          slug: 'anki-synchronization',
+          duration: '45 phút'
+        }
+      ]
+    },
+    {
+      id: 'advanced-module-6',
+      title: 'Module 6: Quản lý Deck nâng cao',
+      duration: '90 phút',
+      description: 'Tổ chức và quản lý bộ thẻ một cách chuyên nghiệp',
+      lessons: [
+        {
+          title: 'Lesson 6.1: Quản lý Deck nâng cao',
+          slug: 'anki-deck-management',
+          duration: '90 phút'
+        }
+      ]
+    }
+  ]
+};
+
+// Theme configuration for advanced course
+const advancedTheme = {
+  emoji: '🚀',
+  colors: {
+    primary: 'blue',
+    secondary: 'purple',
+    badge: 'blue',
+    hover: {
+      primary: 'blue',
+      secondary: 'purple'
+    }
+  }
+};
+
+// No custom gradients - use default layout without gradients
+
+// Prerequisite section content
+const prerequisiteContent = `
+  <div class="flex items-start">
+    <div class="text-2xl mr-4">⚠️</div>
+    <div>
+      <h3 class="text-lg font-bold text-amber-800 mb-2">Yêu cầu trước khi học</h3>
+      <p class="text-amber-700 mb-4">
+        Khóa học này yêu cầu bạn đã có kiến thức cơ bản về Anki. Nếu bạn chưa quen với Anki, hãy học khóa cơ bản trước.
+      </p>
+      <a 
+        href="/guides/co-ban"
+        class="inline-flex items-center text-amber-800 font-semibold hover:text-amber-900"
+      >
+        Học khóa Cơ bản trước
+        <svg class="ml-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+`;
+
+// Back to basic course section content
+const backToBasicContent = `
+  <h2 class="text-3xl font-bold text-gray-900 mb-4">
+    Cần ôn lại kiến thức cơ bản?
+  </h2>
+  <p class="text-gray-600 mb-8">
+    Nếu bạn gặp khó khăn với nội dung nâng cao, hãy quay lại củng cố kiến thức cơ bản
+  </p>
+  
+  <div class="bg-white rounded-xl shadow-lg p-8 border border-gray-200">
+    <div class="text-4xl mb-4">🌱</div>
+    <h3 class="text-2xl font-bold text-gray-900 mb-2">Khóa học Anki Cơ bản</h3>
+    <p class="text-gray-600 mb-6">
+      Học cách sử dụng Anki từ những bước đầu tiên và nắm vững các tính năng cơ bản
+    </p>
+    <div class="flex justify-center gap-4">
+      <a 
+        href="/guides/co-ban"
+        class="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+      >
+        Ôn lại khóa Cơ bản
+      </a>
+      <a 
+        href="/guides"
+        class="border-2 border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:border-green-500 hover:text-green-600 transition-colors"
+      >
+        Xem tất cả khóa học
+      </a>
+    </div>
+  </div>
+`;
+---
+
+<CourseLayout 
+  course={advancedCourse}
+  theme={advancedTheme}
+  prerequisiteSection={{
+    show: true,
+    content: prerequisiteContent
+  }}
+  nextCourseSection={{
+    show: true,
+    content: backToBasicContent
+  }}
+/>

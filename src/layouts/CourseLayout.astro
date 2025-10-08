@@ -1,0 +1,286 @@
+---
+import type { CourseGradients } from '../utils/gradients';
+import { buildGradientClass, mergeGradients, defaultGradients } from '../utils/gradients';
+
+export interface Props {
+  course: {
+    id: string;
+    title: string;
+    level: string;
+    description: string;
+    duration: string;
+    students: number;
+    rating: number;
+    modules: Array<{
+      id: string;
+      title: string;
+      duration: string;
+      description: string;
+      lessons: Array<{
+        title: string;
+        slug: string;
+        duration: string;
+      }>;
+    }>;
+  };
+  theme: {
+    emoji: string;
+    colors: {
+      primary: string;
+      secondary: string;
+      badge: string;
+      hover: {
+        primary: string;
+        secondary: string;
+      };
+    };
+  };
+  gradients?: Partial<CourseGradients>;
+  prerequisiteSection?: {
+    show: boolean;
+    content?: any;
+  };
+  nextCourseSection?: {
+    show: boolean;
+    content?: any;
+  };
+}
+
+const { course, theme, gradients, prerequisiteSection, nextCourseSection } = Astro.props;
+const courseGradients = mergeGradients(gradients, defaultGradients);
+const heroGradientClass = buildGradientClass(courseGradients.hero!);
+const moduleHeaderGradientClass = buildGradientClass(courseGradients.moduleHeader!);
+
+import BaseLayout from './BaseLayout.astro';
+---
+
+<BaseLayout title={`${course.title} - AnkiVN`}>
+  <main>
+    <!-- Hero Section -->
+    <section class={`${heroGradientClass} py-16`}>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <div class="text-6xl mb-6">{theme.emoji}</div>
+          <h1 class="text-5xl font-bold text-gray-900 mb-6">
+            {course.title}
+          </h1>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+            {course.description}
+          </p>
+          
+          <!-- Course Stats -->
+          <div class="flex flex-wrap justify-center gap-8 mb-8">
+            <div class="text-center">
+              <div class={`text-2xl font-bold text-${theme.colors.primary}-600`}>{course.modules.length}</div>
+              <div class="text-gray-600">Modules</div>
+            </div>
+            <div class="text-center">
+              <div class={`text-2xl font-bold text-${theme.colors.secondary}-600`}>{course.modules.reduce((acc, module) => acc + module.lessons.length, 0)}</div>
+              <div class="text-gray-600">Bài học</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-indigo-600">{course.duration}</div>
+              <div class="text-gray-600">Thời lượng</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-orange-600">{course.students.toLocaleString()}</div>
+              <div class="text-gray-600">Học viên</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-yellow-600">⭐ {course.rating}</div>
+              <div class="text-gray-600">Đánh giá</div>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a 
+              href="#modules" 
+              class={`bg-${theme.colors.primary}-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-${theme.colors.hover.primary}-700 transition-colors`}
+            >
+              Bắt đầu học ngay
+            </a>
+            <a 
+              href="/guides" 
+              class={`border-2 border-${theme.colors.primary}-600 text-${theme.colors.primary}-600 px-8 py-3 rounded-lg font-semibold hover:bg-${theme.colors.primary}-50 transition-colors`}
+            >
+              Xem tất cả khóa học
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prerequisites Section (Optional) -->
+    {prerequisiteSection?.show && (
+      <section class={`py-12 ${course.level === 'Cơ bản' ? 'bg-green-50 border-l-4 border-green-400' : 'bg-amber-50 border-l-4 border-amber-400'}`}>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Fragment set:html={prerequisiteSection.content} />
+        </div>
+      </section>
+    )}
+
+    <!-- Course Content -->
+    <section id="modules" class="py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">
+            Nội dung khóa học
+          </h2>
+          <p class="text-gray-600">
+            {course.modules.length} modules • {course.modules.reduce((acc, module) => acc + module.lessons.length, 0)} bài học • {course.duration} tổng thời lượng
+          </p>
+        </div>
+
+        <div class="max-w-4xl mx-auto">
+          <div class="space-y-6">
+            {course.modules.map((module, index) => (
+              <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                <!-- Module Header - Collapsible -->
+                <button 
+                  class={`module-toggle w-full ${moduleHeaderGradientClass} text-white p-6 text-left hover:opacity-90 transition-all duration-300`}
+                  data-module-id={module.id}
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                      <span class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-lg font-bold mr-4">
+                        {index + 1}
+                      </span>
+                      <div>
+                        <h3 class="text-xl font-bold">{module.title}</h3>
+                        <p class="text-white/90 mt-1">{module.duration} • {module.lessons.length} bài học</p>
+                      </div>
+                    </div>
+                    <!-- Collapse Icon -->
+                    <svg 
+                      id={`arrow-${module.id}`}
+                      class="w-6 h-6 transform transition-transform duration-300" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </button>
+                
+                <!-- Module Content - Collapsible -->
+                <div id={`content-${module.id}`} class="module-content">
+                  <div class="p-6 border-b border-gray-100">
+                    <p class="text-gray-600 leading-relaxed mb-4">
+                      {module.description}
+                    </p>
+                    
+                    <div class="flex items-center text-sm text-gray-500">
+                      <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                        <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                      </svg>
+                      {course.level === 'Nâng cao' ? 'Cấp độ nâng cao' : ''}
+                    </div>
+                  </div>
+                  
+                  <!-- Lessons List -->
+                  <div class="divide-y divide-gray-100">
+                    {module.lessons.map((lesson, lessonIndex) => (
+                      <a 
+                        href={`/guides/${lesson.slug}`}
+                        class="block p-4 hover:bg-gray-50 transition-colors group cursor-pointer"
+                      >
+                        <div class="flex items-center">
+                          <span class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-bold mr-4 group-hover:bg-blue-200 transition-colors">
+                            {lessonIndex + 1}
+                          </span>
+                          <div class="flex-1">
+                            <h4 class={`font-semibold text-gray-900 mb-2 group-hover:text-${theme.colors.primary}-600 transition-colors`}>{lesson.title}</h4>
+                            <div class="flex items-center text-xs text-gray-500">
+                              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              {lesson.duration}
+                            </div>
+                          </div>
+                          <svg class={`w-5 h-5 text-gray-400 group-hover:text-${theme.colors.primary}-600 transition-colors`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Next Course Section (Optional) -->
+    {nextCourseSection?.show && (
+      <section class="py-16 bg-gray-50">
+        <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+          <Fragment set:html={nextCourseSection.content} />
+        </div>
+      </section>
+    )}
+  </main>
+</BaseLayout>
+
+<script>
+  function toggleModule(moduleId) {
+    const content = document.getElementById(`content-${moduleId}`);
+    const arrow = document.getElementById(`arrow-${moduleId}`);
+    
+    if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+      // Collapse
+      content.style.maxHeight = '0px';
+      arrow.style.transform = 'rotate(-90deg)';
+    } else {
+      // Expand
+      content.style.maxHeight = content.scrollHeight + 'px';
+      arrow.style.transform = 'rotate(0deg)';
+    }
+  }
+  
+  // Initialize modules and add event listeners
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize modules - all expanded by default
+    const moduleContents = document.querySelectorAll('.module-content');
+    moduleContents.forEach(content => {
+      content.style.maxHeight = content.scrollHeight + 'px';
+    });
+    
+    // Add click event listeners to module toggle buttons
+    const toggleButtons = document.querySelectorAll('.module-toggle');
+    toggleButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const moduleId = this.getAttribute('data-module-id');
+        toggleModule(moduleId);
+      });
+    });
+  });
+</script>
+
+<style>
+  .module-content {
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+  }
+  
+  /* Custom gradient for co-ban page (green) */
+  .custom-gradient.bg-gradient-to-br {
+    background: linear-gradient(to bottom right, #00f260, #0575e6);
+  }
+  
+  .custom-gradient.bg-gradient-to-r {
+    background: linear-gradient(to right, #00f260, #0575e6);
+  }
+  
+  /* Custom gradient for nang-cao page (blue-purple) */
+  .custom-gradient-advanced.bg-gradient-to-br {
+    background: linear-gradient(to bottom right, #667eea, #764ba2);
+  }
+  
+  .custom-gradient-advanced.bg-gradient-to-r {
+    background: linear-gradient(to right, #667eea, #764ba2);
+  }
+</style>

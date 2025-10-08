@@ -1,0 +1,386 @@
+---
+title: "Làm quen với Anki - Từ tải về đến thẻ đầu tiên"
+description: "Hướng dẫn chi tiết tải, cài đặt và làm quen với giao diện Anki. Tạo deck đầu tiên và hiểu các thành phần cơ bản của phần mềm."
+level: "Cơ bản"
+duration: "60 phút"
+category: "basic"
+author: "AnkiVN Team"
+publishDate: 2024-01-16
+tags: ["anki-setup", "installation", "interface", "first-deck"]
+thumbnail: "/images/anki-getting-started.jpg"
+---
+
+# Làm quen với Anki - Từ tải về đến thẻ đầu tiên
+
+## Tải và cài đặt Anki
+
+### Bước 1: Tải Anki
+
+Truy cập **[https://apps.ankiweb.net](https://apps.ankiweb.net)** và tải phiên bản phù hợp:
+
+#### **💻 Desktop (Khuyến nghị)**
+- **Windows**: `anki-2.1.xx-windows-qt6.exe`
+- **macOS**: `anki-2.1.xx-mac-intel-qt6.dmg` (Intel) hoặc `anki-2.1.xx-mac-apple-qt6.dmg` (Apple Silicon)
+- **Linux**: `anki-2.1.xx-linux-qt6.tar.zst`
+
+#### **📱 Mobile**
+- **Android**: [AnkiDroid](https://play.google.com/store/apps/details?id=com.ichi2.anki) (Miễn phí)
+- **iOS**: [AnkiMobile](https://apps.apple.com/app/ankimobile-flashcards/id373493387) ($24.99)
+
+#### **🌐 Web**
+- **AnkiWeb**: [https://ankiweb.net](https://ankiweb.net) (Miễn phí, tính năng hạn chế)
+
+### Bước 2: Cài đặt
+
+#### **Windows:**
+1. Chạy file `.exe` vừa tải
+2. Nhấn "Next" → "I Agree" → "Install"
+3. Chọn "Launch Anki" → "Finish"
+
+#### **macOS:**
+1. Mở file `.dmg`
+2. Kéo Anki vào thư mục Applications
+3. Mở Anki từ Launchpad
+
+#### **Linux:**
+```bash
+tar -xf anki-2.1.xx-linux-qt6.tar.zst
+cd anki-2.1.xx-linux-qt6
+sudo ./install.sh
+```
+
+### Bước 3: Khởi động lần đầu
+
+Khi mở Anki lần đầu, bạn sẽ thấy:
+
+![Anki Welcome Screen](/images/anki-welcome.png)
+
+1. **Language**: Chọn "Tiếng Việt" nếu muốn
+2. **Profile**: Giữ mặc định "User 1"
+3. Nhấn "OK"
+
+## Giao diện chính của Anki
+
+### Tổng quan giao diện
+
+![Anki Main Interface](/images/anki-main-interface.png)
+
+### 1. **Thanh Menu (Menu Bar)**
+
+#### **File**
+- **Import**: Nhập deck từ file `.apkg`
+- **Export**: Xuất deck ra file
+- **Exit**: Thoát Anki
+
+#### **Edit**
+- **Undo**: Hoàn tác thao tác cuối
+- **Preferences**: Cài đặt tổng quát
+
+#### **Tools**
+- **Add-ons**: Quản lý add-ons
+- **Create Filtered Deck**: Tạo deck lọc
+- **Study Deck**: Học deck được chọn
+
+#### **Help**
+- **Documentation**: Tài liệu hướng dẫn
+- **About**: Thông tin phiên bản
+
+### 2. **Deck List (Danh sách Deck)**
+
+Hiển thị tất cả deck với thông tin:
+- **Deck Name**: Tên deck
+- **New**: Số thẻ mới
+- **Learning**: Số thẻ đang học
+- **To Review**: Số thẻ cần ôn tập
+- **Total**: Tổng số thẻ
+
+### 3. **Toolbar (Thanh công cụ)**
+
+- **Decks**: Quay về danh sách deck
+- **Add**: Thêm thẻ mới
+- **Browse**: Mở trình duyệt thẻ
+- **Stats**: Xem thống kê
+- **Sync**: Đồng bộ với AnkiWeb
+
+### 4. **Study Area (Khu vực học)**
+
+Nơi hiển thị thẻ khi học, với các nút:
+- **Again**: Thẻ khó, sẽ xuất hiện lại sớm
+- **Hard**: Thẻ hơi khó
+- **Good**: Thẻ vừa phải
+- **Easy**: Thẻ dễ, sẽ xuất hiện lại muộn
+
+## Tạo Deck đầu tiên
+
+### Bước 1: Tạo Deck mới
+
+1. Nhấn nút **"Create Deck"** ở cuối danh sách deck
+2. Hoặc nhấn **Ctrl+Shift+D** (Windows/Linux) / **Cmd+Shift+D** (Mac)
+3. Nhập tên deck, ví dụ: **"Tiếng Anh Cơ bản"**
+4. Nhấn **"OK"**
+
+![Create Deck Dialog](/images/create-deck.png)
+
+### Bước 2: Thêm thẻ đầu tiên
+
+1. Chọn deck vừa tạo
+2. Nhấn nút **"Add"** hoặc **Ctrl+Shift+A**
+3. Cửa sổ "Add" sẽ mở ra
+
+![Add Note Window](/images/add-note.png)
+
+### Bước 3: Hiểu cửa sổ "Add Note"
+
+#### **Note Type**: Loại thẻ
+- **Basic**: Thẻ 2 mặt cơ bản (Front/Back)
+- **Basic (and reversed card)**: Tạo 2 thẻ (A→B và B→A)
+- **Cloze**: Thẻ điền khuyết
+
+#### **Deck**: Deck đích
+- Hiển thị deck hiện tại được chọn
+- Có thể thay đổi bằng dropdown
+
+#### **Fields**: Các trường thông tin
+- **Front**: Mặt trước thẻ (câu hỏi)
+- **Back**: Mặt sau thẻ (đáp án)
+
+#### **Tags**: Thẻ tag
+- Giúp phân loại và tìm kiếm thẻ
+- Cách nhau bởi dấu cách
+
+### Bước 4: Tạo thẻ đầu tiên
+
+Hãy tạo một thẻ từ vựng tiếng Anh:
+
+**Front**: `What does "serendipity" mean?`
+**Back**: `The occurrence of events by chance in a happy way`
+**Tags**: `vocabulary english`
+
+![First Card Example](/images/first-card.png)
+
+Nhấn **"Add"** để lưu thẻ.
+
+### Bước 5: Tạo thêm một vài thẻ
+
+Thêm 4-5 thẻ nữa để có đủ để luyện tập:
+
+| Front | Back | Tags |
+|-------|------|------|
+| `What is the capital of Vietnam?` | `Hanoi` | `geography vietnam` |
+| `What does "ubiquitous" mean?` | `Present everywhere at the same time` | `vocabulary english` |
+| `2 + 2 = ?` | `4` | `math basic` |
+| `Who wrote "To Kill a Mockingbird"?` | `Harper Lee` | `literature english` |
+
+## Học thẻ đầu tiên
+
+### Bước 1: Bắt đầu học
+
+1. Đóng cửa sổ "Add Note"
+2. Quay về danh sách deck
+3. Nhấn vào deck "Tiếng Anh Cơ bản"
+4. Nhấn **"Study Now"**
+
+### Bước 2: Hiểu giao diện học
+
+![Study Interface](/images/study-interface.png)
+
+#### **Phần trên**: Thông tin thẻ
+- Số thẻ hiện tại / tổng số thẻ
+- Loại thẻ (New/Learning/Review)
+
+#### **Phần giữa**: Nội dung thẻ
+- Mặt trước của thẻ (câu hỏi)
+- Nút "Show Answer" để xem đáp án
+
+#### **Phần dưới**: Các nút đánh giá
+- Xuất hiện sau khi nhấn "Show Answer"
+
+### Bước 3: Quy trình học một thẻ
+
+1. **Đọc câu hỏi** ở mặt trước
+2. **Nghĩ về đáp án** trong đầu
+3. **Nhấn "Show Answer"** hoặc **Space**
+4. **So sánh** đáp án của bạn với đáp án đúng
+5. **Chọn độ khó**:
+   - **Again (1)**: Hoàn toàn không biết
+   - **Hard (2)**: Biết nhưng khó nhớ
+   - **Good (3)**: Biết và nhớ được
+   - **Easy (4)**: Rất dễ, biết chắc chắn
+
+### Bước 4: Thực hành với thẻ đầu tiên
+
+Khi thẻ "What does 'serendipity' mean?" xuất hiện:
+
+1. **Đọc câu hỏi**
+2. **Nghĩ về định nghĩa** trong 3-5 giây
+3. **Nhấn "Show Answer"**
+4. **Đánh giá**:
+   - Nếu bạn nhớ đúng → **Good**
+   - Nếu bạn nhớ một phần → **Hard**
+   - Nếu bạn không biết → **Again**
+
+## Hiểu về trạng thái thẻ
+
+### 1. **New Cards (Thẻ mới)**
+- Thẻ chưa từng học
+- Màu xanh dương
+- Sẽ chuyển sang Learning sau lần đầu
+
+### 2. **Learning Cards (Thẻ đang học)**
+- Thẻ đang trong quá trình học
+- Màu đỏ
+- Xuất hiện lại trong vòng vài phút đến vài ngày
+
+### 3. **Review Cards (Thẻ ôn tập)**
+- Thẻ đã học xong giai đoạn Learning
+- Màu xanh lá
+- Xuất hiện theo lịch spaced repetition
+
+### 4. **Graduated Cards (Thẻ tốt nghiệp)**
+- Thẻ đã vượt qua giai đoạn Learning
+- Chuyển sang Review với interval dài hơn
+
+## Cài đặt cơ bản quan trọng
+
+### 1. **Deck Options**
+
+Nhấn chuột phải vào deck → **"Options"**
+
+#### **New Cards Tab**:
+- **Steps**: `1 10` (1 phút, 10 phút)
+- **Graduating interval**: `1` ngày
+- **Easy interval**: `4` ngày
+- **New cards/day**: `20` (cho người mới)
+
+#### **Reviews Tab**:
+- **Maximum reviews/day**: `200`
+- **Easy bonus**: `130%`
+- **Interval modifier**: `100%`
+
+#### **Lapses Tab**:
+- **Steps**: `10`
+- **New interval**: `0%`
+- **Minimum interval**: `1` ngày
+
+### 2. **Preferences**
+
+Vào **Tools** → **Preferences**
+
+#### **Scheduling Tab**:
+- ✅ **Show next review time above answer buttons**
+- ✅ **Show remaining card count during review**
+- **Learn ahead limit**: `20` phút
+
+#### **Review Tab**:
+- ✅ **Show both sides of cards**
+- ✅ **Interrupt current audio when answering**
+
+## Tạo tài khoản AnkiWeb
+
+### Tại sao cần AnkiWeb?
+
+- **Backup tự động**: Dữ liệu an toàn trên cloud
+- **Đồng bộ nhiều thiết bị**: Desktop, mobile, web
+- **Truy cập mọi lúc**: Học trên điện thoại, máy tính
+
+### Bước tạo tài khoản:
+
+1. Truy cập **[https://ankiweb.net/account/register](https://ankiweb.net/account/register)**
+2. Điền thông tin:
+   - **Email**: Email thật (để khôi phục)
+   - **Username**: Tên đăng nhập
+   - **Password**: Mật khẩu mạnh
+3. Nhấn **"Sign Up"**
+4. Xác nhận email
+
+### Đồng bộ lần đầu:
+
+1. Trong Anki Desktop: nhấn **"Sync"**
+2. Nhập username/password AnkiWeb
+3. Chọn **"Upload to AnkiWeb"** (lần đầu)
+4. Đợi đồng bộ hoàn tất
+
+## Troubleshooting phổ biến
+
+### ❓ **"Anki không khởi động được"**
+**Giải pháp**:
+- Chạy as Administrator
+- Cập nhật driver card đồ họa
+- Gỡ cài đặt và cài lại
+
+### ❓ **"Thẻ không hiển thị"**
+**Kiểm tra**:
+- Deck có thẻ không?
+- Settings có giới hạn thẻ/ngày không?
+- Thẻ có bị suspended không?
+
+### ❓ **"Không đồng bộ được"**
+**Kiểm tra**:
+- Kết nối internet
+- Username/password đúng
+- Thời gian hệ thống chính xác
+
+### ❓ **"Font tiếng Việt bị lỗi"**
+**Giải pháp**:
+- Cài font Unicode đầy đủ
+- Thay đổi font trong Anki settings
+
+## Best Practices cho người mới
+
+### 1. **Bắt đầu nhỏ**
+- 10-15 thẻ mới/ngày
+- Tăng dần khi quen
+
+### 2. **Consistency**
+- Học mỗi ngày, dù chỉ 10 phút
+- Tốt hơn học 2 giờ cuối tuần
+
+### 3. **Quality over Quantity**
+- Tạo thẻ chất lượng
+- Tốt hơn nhiều thẻ kém
+
+### 4. **Regular Review**
+- Không bỏ qua Review cards
+- Chúng quan trọng hơn New cards
+
+### 5. **Backup**
+- Đồng bộ AnkiWeb thường xuyên
+- Export deck quan trọng
+
+## Bài tập thực hành
+
+### **Exercise 1: Tạo deck cá nhân**
+1. Tạo deck về chủ đề bạn quan tâm
+2. Thêm 10 thẻ đầu tiên
+3. Học hết 10 thẻ đó
+
+### **Exercise 2: Khám phá giao diện**
+1. Thử tất cả nút trên toolbar
+2. Mở Browser và xem thẻ đã tạo
+3. Xem Stats của deck
+
+### **Exercise 3: Cài đặt AnkiWeb**
+1. Tạo tài khoản AnkiWeb
+2. Đồng bộ deck đầu tiên
+3. Đăng nhập AnkiWeb và kiểm tra
+
+## Kết luận
+
+Chúc mừng! Bạn đã hoàn thành bước đầu tiên quan trọng nhất - làm quen với Anki và tạo được deck đầu tiên. 
+
+### Những gì bạn đã học:
+
+✅ **Cài đặt Anki** trên máy tính  
+✅ **Hiểu giao diện** và các thành phần chính  
+✅ **Tạo deck và thẻ** đầu tiên  
+✅ **Học thẻ** và hiểu quy trình đánh giá  
+✅ **Cài đặt AnkiWeb** để backup và đồng bộ  
+
+### Chuẩn bị cho module tiếp theo:
+
+Trong module "Tạo thẻ", chúng ta sẽ đi sâu vào nghệ thuật tạo thẻ hiệu quả - yếu tố quyết định 80% thành công khi sử dụng Anki.
+
+---
+
+**Bài trước**: [Nền móng Anki ←](/guides/nen-mong-anki)  
+**Bài tiếp theo**: [Tạo thẻ hiệu quả →](/guides/tao-the-hieu-qua-co-ban)

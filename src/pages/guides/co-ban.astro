@@ -1,0 +1,149 @@
+---
+import CourseLayout from '../../layouts/CourseLayout.astro';
+import { getCollection } from 'astro:content';
+import { getGradientTheme } from '../../utils/gradients';
+
+// Get all guides
+const allGuides = await getCollection('guides');
+
+// Filter basic level guides
+const basicGuides = allGuides.filter(guide => 
+  guide.data.level === 'Cơ bản' || 
+  guide.data.category === 'basic' ||
+  guide.slug.includes('basic') ||
+  guide.slug.includes('co-ban') ||
+  ['anki-la-gi', 'anki-basic-features', 'tao-the-hieu-qua', 'xu-ly-quen-the'].includes(guide.slug)
+);
+
+// Course data for basic level
+const basicCourse = {
+  id: 'co-ban',
+  title: 'Khóa học Anki Cơ bản',
+  level: 'Cơ bản',
+  description: 'Học cách sử dụng Anki từ những bước đầu tiên. Khóa học này sẽ giúp bạn nắm vững các tính năng cơ bản và bắt đầu hành trình học tập hiệu quả.',
+  duration: '6 giờ',
+  students: 5420,
+  rating: 4.8,
+  modules: [
+    {
+      id: 'module-1',
+      title: 'Module 1: Nền móng Anki',
+      duration: '45 phút',
+      description: 'Hiểu bản chất ghi nhớ và tại sao Anki hiệu quả',
+      lessons: [
+        {
+          title: 'Lesson 1.1: Nền móng Anki - Hiểu bản chất của việc ghi nhớ',
+          slug: 'nen-mong-anki',
+          duration: '45 phút'
+        }
+      ]
+    },
+    {
+      id: 'module-2', 
+      title: 'Module 2: Làm quen với Anki',
+      duration: '60 phút',
+      description: 'Từ tải về đến tạo deck và thẻ đầu tiên',
+      lessons: [
+        {
+          title: 'Lesson 2.1: Làm quen với Anki',
+          slug: 'lam-quen-anki',
+          duration: '60 phút'
+        }
+      ]
+    },
+    {
+      id: 'module-3',
+      title: 'Module 3: Tạo thẻ hiệu quả cơ bản',
+      duration: '75 phút',
+      description: 'Nguyên tắc vàng và kỹ thuật tạo thẻ chất lượng',
+      lessons: [
+        {
+          title: 'Lesson 3.1: Tạo thẻ hiệu quả cơ bản',
+          slug: 'tao-the-hieu-qua-co-ban',
+          duration: '75 phút'
+        }
+      ]
+    }
+  ]
+};
+
+// Theme configuration for basic course
+const basicTheme = {
+  emoji: '🌱',
+  colors: {
+    primary: 'green',
+    secondary: 'blue',
+    badge: 'green',
+    hover: {
+      primary: 'green',
+      secondary: 'blue'
+    }
+  }
+};
+
+// No custom gradients - use default layout without gradients
+
+// Prerequisite section content
+const prerequisiteContent = `
+  <div class="flex items-start">
+    <div class="text-2xl mr-4">💡</div>
+    <div>
+      <h3 class="text-lg font-bold text-green-800 mb-2">Dành cho người mới bắt đầu</h3>
+      <p class="text-green-700 mb-4">
+        Khóa học này được thiết kế cho những ai chưa từng sử dụng Anki hoặc mới bắt đầu. Không cần kiến thức nền tảng gì trước đó.
+      </p>
+      <div class="inline-flex items-center text-green-800 font-semibold">
+        <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+        </svg>
+        Phù hợp cho người mới bắt đầu
+      </div>
+    </div>
+  </div>
+`;
+
+// Next course section content
+const nextCourseContent = `
+  <h2 class="text-3xl font-bold text-gray-900 mb-4">
+    Tiếp tục hành trình học tập
+  </h2>
+  <p class="text-gray-600 mb-8">
+    Sau khi hoàn thành khóa cơ bản, hãy thử thách bản thân với khóa học nâng cao
+  </p>
+  
+  <div class="bg-white rounded-xl shadow-lg p-8 border border-gray-200">
+    <div class="text-4xl mb-4">🚀</div>
+    <h3 class="text-2xl font-bold text-gray-900 mb-2">Khóa học Anki Nâng cao</h3>
+    <p class="text-gray-600 mb-6">
+      Khám phá các tính năng nâng cao và kỹ thuật chuyên sâu để tối ưu hóa việc học
+    </p>
+    <div class="flex justify-center gap-4">
+      <a 
+        href="/guides/nang-cao"
+        class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+      >
+        Khám phá khóa Nâng cao
+      </a>
+      <a 
+        href="/guides"
+        class="border-2 border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:border-blue-500 hover:text-blue-600 transition-colors"
+      >
+        Xem tất cả khóa học
+      </a>
+    </div>
+  </div>
+`;
+---
+
+<CourseLayout 
+  course={basicCourse}
+  theme={basicTheme}
+  prerequisiteSection={{
+    show: true,
+    content: prerequisiteContent
+  }}
+  nextCourseSection={{
+    show: true,
+    content: nextCourseContent
+  }}
+/>

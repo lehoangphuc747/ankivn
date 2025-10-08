@@ -1,0 +1,201 @@
+---
+interface Props {
+  src: string;
+  title?: string;
+  width?: string;
+  height?: string;
+  allowFullscreen?: boolean;
+  showDownload?: boolean;
+  className?: string;
+}
+
+const {
+  src,
+  title = "PDF Document",
+  width = "100%",
+  height = "600px",
+  allowFullscreen = true,
+  showDownload = true,
+  className = ""
+} = Astro.props;
+
+// Generate unique ID for this PDF viewer
+const viewerId = `pdf-viewer-${Math.random().toString(36).substr(2, 9)}`;
+---
+
+<div class={`pdf-embed-container ${className}`}>
+  <!-- PDF Header -->
+  <div class="pdf-header bg-gray-100 border border-gray-300 rounded-t-lg p-3 flex items-center justify-between">
+    <div class="flex items-center">
+      <svg class="w-5 h-5 text-red-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"/>
+      </svg>
+      <span class="text-sm font-medium text-gray-700">{title}</span>
+    </div>
+    
+    <div class="flex items-center space-x-2">
+      {showDownload && (
+        <a 
+          href={src} 
+          download 
+          class="text-sm text-blue-600 hover:text-blue-800 flex items-center"
+          title="Tải xuống PDF"
+        >
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          Tải xuống
+        </a>
+      )}
+      
+      {allowFullscreen && (
+        <button 
+          class="text-sm text-gray-600 hover:text-gray-800 flex items-center"
+          onclick={`openPdfFullscreen('${src}', '${title}')`}
+          title="Xem toàn màn hình"
+        >
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+          </svg>
+          Toàn màn hình
+        </button>
+      )}
+    </div>
+  </div>
+
+  <!-- PDF Viewer -->
+  <div class="pdf-viewer-wrapper border-l border-r border-b border-gray-300 rounded-b-lg">
+    <iframe
+      id={viewerId}
+      src={`${src}#view=FitH&toolbar=1&navpanes=1&scrollbar=1`}
+      title={title}
+      width={width}
+      height={height}
+      class="w-full rounded-b-lg"
+      loading="lazy"
+      allowfullscreen={allowFullscreen}
+    >
+      <!-- Fallback for browsers that don't support PDF viewing -->
+      <div class="pdf-fallback p-8 text-center bg-gray-50">
+        <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"/>
+        </svg>
+        <p class="text-gray-600 mb-4">
+          Trình duyệt của bạn không hỗ trợ xem PDF trực tiếp.
+        </p>
+        <a 
+          href={src} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+          </svg>
+          Mở PDF trong tab mới
+        </a>
+      </div>
+    </iframe>
+  </div>
+
+  <!-- PDF Loading Indicator -->
+  <div id={`${viewerId}-loading`} class="pdf-loading absolute inset-0 bg-gray-100 rounded-lg flex items-center justify-center">
+    <div class="text-center">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
+      <p class="text-sm text-gray-600">Đang tải PDF...</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Function to open PDF in fullscreen modal
+  function openPdfFullscreen(src, title) {
+    const modal = document.createElement('div');
+    modal.className = 'fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center p-4';
+    modal.innerHTML = `
+      <div class="bg-white rounded-lg max-w-7xl max-h-full w-full h-full flex flex-col">
+        <div class="flex items-center justify-between p-4 border-b">
+          <h3 class="text-lg font-semibold">${title}</h3>
+          <button onclick="this.closest('.fixed').remove()" class="text-gray-500 hover:text-gray-700">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        <div class="flex-1 min-h-0">
+          <iframe 
+            src="${src}#view=FitH&toolbar=1&navpanes=1&scrollbar=1" 
+            class="w-full h-full"
+            title="${title}"
+          ></iframe>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    
+    // Close on escape key
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        modal.remove();
+        document.removeEventListener('keydown', handleEscape);
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+  }
+
+  // Hide loading indicator when PDF loads
+  document.addEventListener('DOMContentLoaded', function() {
+    const iframes = document.querySelectorAll('.pdf-viewer-wrapper iframe');
+    iframes.forEach(iframe => {
+      iframe.addEventListener('load', function() {
+        const loadingDiv = document.getElementById(`${this.id}-loading`);
+        if (loadingDiv) {
+          loadingDiv.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .pdf-embed-container {
+    position: relative;
+    margin: 1.5rem 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .pdf-viewer-wrapper {
+    position: relative;
+    background: #f8fafc;
+  }
+  
+  .pdf-loading {
+    display: flex;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .pdf-embed-container iframe {
+      height: 400px;
+    }
+    
+    .pdf-header {
+      padding: 0.75rem;
+    }
+    
+    .pdf-header span {
+      font-size: 0.875rem;
+    }
+  }
+  
+  /* Print styles */
+  @media print {
+    .pdf-embed-container {
+      page-break-inside: avoid;
+    }
+    
+    .pdf-header button {
+      display: none;
+    }
+  }
+</style>

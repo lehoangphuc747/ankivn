@@ -1,0 +1,473 @@
+---
+export interface Props {
+  driveId: string;
+  title: string;
+  description?: string;
+  height?: string;
+  showToolbar?: boolean;
+}
+
+const { driveId, title, description, height = "800px", showToolbar = true } = Astro.props;
+
+const previewUrl = `https://drive.google.com/file/d/${driveId}/preview`;
+const viewUrl = `https://drive.google.com/file/d/${driveId}/view?usp=drivesdk`;
+const downloadUrl = `https://drive.google.com/uc?export=download&id=${driveId}`;
+---
+
+<div class="pdf-embed-container">
+  <!-- PDF Container - hiển thị ngay -->
+  <div class="pdf-container" id={`container-${driveId}`}>
+    <div class="pdf-header">
+      <div class="pdf-title-section">
+        <div class="pdf-icon">📄</div>
+        <div class="title-content">
+          <h4 class="pdf-title">{title}</h4>
+          <span class="pdf-source">Google Drive</span>
+        </div>
+      </div>
+      
+      {showToolbar && (
+        <div class="pdf-actions">
+          <button class="action-btn refresh-btn" onclick={`refreshPDF('${driveId}')`} title="Làm mới">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <polyline points="1 20 1 14 7 14"></polyline>
+              <path d="m3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+          </button>
+          
+          <a href={downloadUrl} target="_blank" class="action-btn download-btn" title="Tải xuống">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Tải xuống</span>
+          </a>
+          
+          <a href={viewUrl} target="_blank" class="action-btn external-btn" title="Mở trong Google Drive">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            <span>Mở riêng</span>
+          </a>
+        </div>
+      )}
+    </div>
+    
+    <div class="pdf-viewer-wrapper">
+      <!-- Loading overlay bên trong iframe -->
+      <div class="pdf-loading-overlay" id={`loading-overlay-${driveId}`}>
+        <div class="loading-spinner">
+          <svg width="40" height="40" viewBox="0 0 50 50">
+            <circle cx="25" cy="25" r="20" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" stroke-dasharray="31.416" stroke-dashoffset="31.416">
+              <animate attributeName="stroke-dasharray" dur="2s" values="0 31.416;15.708 15.708;0 31.416" repeatCount="indefinite"/>
+              <animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416" repeatCount="indefinite"/>
+            </circle>
+          </svg>
+        </div>
+        <p class="loading-text">Đang tải PDF từ Google Drive...</p>
+      </div>
+      
+      <iframe 
+        src={previewUrl}
+        width="100%" 
+        height={height}
+        class="pdf-iframe"
+        title={title}
+        allowfullscreen
+        loading="eager"
+        onload={`hidePDFLoading('${driveId}')`}
+      >
+      </iframe>
+    </div>
+  </div>
+</div>
+
+{description && (
+  <div class="pdf-description">
+    <div class="description-icon">💡</div>
+    <div class="description-content">
+      <strong>Về tài liệu:</strong> {description}
+    </div>
+  </div>
+)}
+
+<style>
+  .pdf-embed-container {
+    position: relative;
+    margin: 2rem 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    transition: all 0.3s ease;
+  }
+  
+  .pdf-embed-container:hover {
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+
+  /* Loading Overlay (bên trong PDF viewer) */
+  .pdf-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(248, 250, 252, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    z-index: 10;
+    backdrop-filter: blur(2px);
+    transition: opacity 0.3s ease;
+  }
+  
+  .pdf-loading-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Loading Skeleton - giữ cho fallback */
+  .pdf-loading-skeleton {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    display: none; /* Ẩn mặc định */
+  }
+  
+  .loading-header {
+    padding: 1.25rem;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .loading-title {
+    width: 200px;
+    height: 20px;
+    background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 4px;
+  }
+  
+  .loading-buttons {
+    display: flex;
+    gap: 0.75rem;
+  }
+  
+  .loading-button {
+    width: 80px;
+    height: 32px;
+    background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 6px;
+  }
+  
+  .loading-content {
+    height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .loading-spinner svg {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .loading-text {
+    color: #64748b;
+    font-size: 0.875rem;
+    margin: 0;
+  }
+  
+  @keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* PDF Container */
+  .pdf-container {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  .pdf-header {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-bottom: 1px solid #e2e8f0;
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .pdf-title-section {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .pdf-icon {
+    font-size: 1.5rem;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  }
+  
+  .title-content {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .pdf-title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1e293b;
+    line-height: 1.4;
+  }
+  
+  .pdf-source {
+    font-size: 0.75rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: 0.25rem;
+  }
+  
+  .pdf-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+  
+  .refresh-btn {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .refresh-btn:hover {
+    background: #e2e8f0;
+    color: #334155;
+    transform: rotate(180deg);
+  }
+  
+  .download-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: 1px solid #059669;
+  }
+  
+  .download-btn:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  }
+  
+  .external-btn {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    border: 1px solid #2563eb;
+  }
+  
+  .external-btn:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+  
+  .pdf-viewer-wrapper {
+    position: relative;
+    background: #f8fafc;
+  }
+  
+  .pdf-iframe {
+    border: none;
+    display: block;
+    width: 100%;
+    transition: opacity 0.3s ease;
+  }
+  
+  .pdf-description {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border: 1px solid #bfdbfe;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+  }
+  
+  .description-icon {
+    font-size: 1.25rem;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+  }
+  
+  .description-content {
+    flex: 1;
+    font-size: 0.9375rem;
+    color: #1e40af;
+    line-height: 1.6;
+  }
+  
+  .description-content strong {
+    color: #1e3a8a;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .pdf-embed-container {
+      margin: 1rem 0;
+      border-radius: 8px;
+    }
+    
+    .pdf-header {
+      padding: 1rem;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+    
+    .pdf-actions {
+      justify-content: space-between;
+    }
+    
+    .action-btn {
+      flex: 1;
+      justify-content: center;
+      font-size: 0.8125rem;
+      padding: 0.625rem 0.5rem;
+    }
+    
+    .action-btn span {
+      display: none;
+    }
+    
+    .pdf-iframe {
+      height: 400px !important;
+    }
+    
+    .pdf-title {
+      font-size: 1rem;
+    }
+    
+    /* Fullscreen mobile optimizations - Removed */
+  }
+  
+  @media (max-width: 480px) {
+    .pdf-actions {
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+    
+    .action-btn {
+      padding: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  function hidePDFLoading(driveId: string): void {
+    const loadingOverlay = document.getElementById(`loading-overlay-${driveId}`);
+    if (loadingOverlay) {
+      loadingOverlay.classList.add('hidden');
+      // Xóa hoàn toàn sau animation
+      setTimeout(() => {
+        if (loadingOverlay.parentNode) {
+          loadingOverlay.parentNode.removeChild(loadingOverlay);
+        }
+      }, 300);
+    }
+  }
+  
+  function refreshPDF(driveId: string): void {
+    const iframe = document.querySelector(`#container-${driveId} .pdf-iframe`) as HTMLIFrameElement;
+    if (iframe) {
+      // Hiển thị lại loading overlay
+      const viewerWrapper = iframe.parentElement;
+      if (viewerWrapper) {
+        const existingOverlay = document.getElementById(`loading-overlay-${driveId}`);
+        if (!existingOverlay) {
+          const loadingOverlay = document.createElement('div');
+          loadingOverlay.className = 'pdf-loading-overlay';
+          loadingOverlay.id = `loading-overlay-${driveId}`;
+          loadingOverlay.innerHTML = `
+            <div class="loading-spinner">
+              <svg width="40" height="40" viewBox="0 0 50 50">
+                <circle cx="25" cy="25" r="20" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" stroke-dasharray="31.416" stroke-dashoffset="31.416">
+                  <animate attributeName="stroke-dasharray" dur="2s" values="0 31.416;15.708 15.708;0 31.416" repeatCount="indefinite"/>
+                  <animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416" repeatCount="indefinite"/>
+                </circle>
+              </svg>
+            </div>
+            <p class="loading-text">Đang làm mới PDF...</p>
+          `;
+          viewerWrapper.appendChild(loadingOverlay);
+        }
+      }
+      
+      const src = iframe.src;
+      iframe.src = '';
+      setTimeout(() => {
+        iframe.src = src;
+      }, 100);
+    }
+  }
+
+  // Auto-hide loading overlay
+  document.addEventListener('DOMContentLoaded', function() {
+    const overlays = document.querySelectorAll('.pdf-loading-overlay');
+    overlays.forEach(overlay => {
+      setTimeout(() => {
+        if (overlay && !overlay.classList.contains('hidden')) {
+          overlay.classList.add('hidden');
+          setTimeout(() => {
+            if (overlay.parentNode) {
+              overlay.parentNode.removeChild(overlay);
+            }
+          }, 300);
+        }
+      }, 3000);
+    });
+  });
+
+  // Make functions globally available
+  (window as any).hidePDFLoading = hidePDFLoading;
+  (window as any).refreshPDF = refreshPDF;
+</script>
+
