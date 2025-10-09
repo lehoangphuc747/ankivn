@@ -1,5 +1,5 @@
 ---
-import PostLayout from '@/layouts/PostLayout.astro';
+import BlogLayout from '@/layouts/BlogLayout.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -13,13 +13,13 @@ if (!post) throw new Error('Post not found');
 
 const { Content } = await post.render();
 ---
-<PostLayout 
+<BlogLayout 
   title={post.data.title} 
   date={post.data.date}
   author={post.data.author}
   tags={post.data.tags}
-  readingTime={post.data.readingTime}
   cover={post.data.cover}
+  summary={post.data.summary}
 >
   <Content />
-</PostLayout>
+</BlogLayout>

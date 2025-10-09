@@ -19,12 +19,14 @@ const decks = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    slug: z.string().optional(),
     category: categoryEnum,
     subCategory: subCategoryEnum.optional(),
     date: z.string(),
     author: z.string().optional(),
     authorLink: z.string().url().optional(),
     tags: z.array(z.string()).default([]),
+    description: z.string().optional(),
     cover: z.string().optional(),
     previews: z.array(z.object({
       src: z.string(),
@@ -38,14 +40,12 @@ const decks = defineCollection({
       src: z.string(),
       alt: z.string(),
     })).optional(),
-    downloads: z.object({
-      author: z.string().url().optional(),
-      ankivn: z.string().url().optional(),
-      r2: z.string().url().optional(),
-      gdrive: z.string().url().optional(),
-      firebase: z.string().url().optional(),
-      onedrive: z.string().url().optional(),
-    }).partial()
+    downloads: z.array(z.object({
+      name: z.string(),
+      url: z.string().url(),
+      description: z.string().optional(),
+      type: z.enum(['author', 'ankivn', 'gdrive', 'onedrive', 'r2', 'firebase', 'other']).optional()
+    })).min(1)
   })
 });
 
@@ -71,6 +71,7 @@ const blog = defineCollection({
   schema: z.object({
     title: z.string(),
     date: z.string(),
+    author: z.string().optional(),
     tags: z.array(z.string()).default([]),
     summary: z.string().optional(),
     cover: z.string().optional()

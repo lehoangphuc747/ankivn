@@ -131,17 +131,25 @@ const decks = await getCollection('decks');
         item.style.display = 'none';
       });
       
-      // Show filtered items
+      // Show and reorder filtered items
       if (filtered.length > 0) {
+        // Clear current order
+        deckGrid.innerHTML = '';
+        
+        // Add items in sorted order
         filtered.forEach(deck => {
-          const item = deckGrid.querySelector(`[data-title="${deck.data.title.toLowerCase()}"]`);
+          const item = Array.from(deckItems).find(item => 
+            item.getAttribute('data-title') === deck.data.title.toLowerCase()
+          );
           if (item) {
+            deckGrid.appendChild(item);
             item.style.display = 'block';
           }
         });
-        emptyState.classList.add('hidden');
+        
+        emptyState?.classList.add('hidden');
       } else {
-        emptyState.classList.remove('hidden');
+        emptyState?.classList.remove('hidden');
       }
     });
   </script>

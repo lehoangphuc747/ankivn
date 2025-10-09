@@ -1,0 +1,133 @@
+---
+title: "Spaced Repetition: Khoa Học Đằng Sau Anki"
+date: "2024-12-18"
+tags: ["khoa học", "spaced repetition", "bộ nhớ", "nghiên cứu"]
+summary: "Tìm hiểu về cơ sở khoa học của thuật toán Spaced Repetition và cách nó giúp cải thiện khả năng ghi nhớ."
+cover: "/images/blog/spaced-repetition.webp"
+author: "Dr. Memory"
+---
+
+# Spaced Repetition: Khoa Học Đằng Sau Anki
+
+**Spaced Repetition** (lặp lại ngắt quãng) không chỉ là một kỹ thuật học tập, mà còn là một phương pháp được **khoa học chứng minh** giúp tối ưu hóa quá trình ghi nhớ của bộ não.
+
+## Đường Cong Quên Lãng của Ebbinghaus
+
+Năm 1885, nhà tâm lý học Hermann Ebbinghaus đã khám phá ra **Đường cong quên lãng** (Forgetting Curve) - một hiện tượng cho thấy chúng ta quên thông tin theo cấp số nhân theo thời gian.
+
+```
+Tỷ lệ ghi nhớ:
+100% ────┐
+         │╲
+ 80%     │ ╲
+         │  ╲
+ 60%     │   ╲
+         │    ╲
+ 40%     │     ╲
+         │      ╲
+ 20%     │       ╲
+         │        ╲
+  0% ────┴─────────╲────────► Thời gian
+      1h   1d    1w    1m
+```
+
+### Những phát hiện quan trọng:
+
+1. **Sau 1 giờ**: Chúng ta quên khoảng 50% thông tin
+2. **Sau 1 ngày**: Còn lại khoảng 30%
+3. **Sau 1 tuần**: Chỉ còn 10%
+4. **Sau 1 tháng**: Gần như quên hoàn toàn
+
+## Cách Spaced Repetition Hoạt Động
+
+Spaced Repetition hoạt động bằng cách **ôn tập đúng thời điểm** - ngay trước khi chúng ta sắp quên thông tin đó.
+
+### Chu kỳ ôn tập tối ưu:
+
+| Lần ôn | Khoảng cách | Lý do |
+|--------|-------------|-------|
+| 1 | Ngay lập tức | Củng cố ký ức ngắn hạn |
+| 2 | 1 ngày | Chuyển sang ký ức dài hạn |
+| 3 | 3 ngày | Tăng cường kết nối neural |
+| 4 | 1 tuần | Ổn định hóa ký ức |
+| 5 | 2 tuần | Ký ức trở nên bền vững |
+| 6 | 1 tháng | Lưu trữ lâu dài |
+
+## Cơ Sở Thần Kinh Học
+
+### Synapse và Long-term Potentiation (LTP)
+
+Khi chúng ta học một thông tin mới, các **synapse** (khớp thần kinh) trong não được tạo ra. Spaced Repetition giúp:
+
+- **Tăng cường** các synapse này
+- **Tạo ra nhiều đường dẫn** đến cùng một thông tin
+- **Ổn định hóa** các kết nối thần kinh
+
+### Vai trò của Hippocampus
+
+**Hippocampus** đóng vai trò quan trọng trong quá trình:
+1. **Encoding**: Mã hóa thông tin mới
+2. **Consolidation**: Củng cố ký ức
+3. **Retrieval**: Truy xuất thông tin
+
+## Thuật Toán SM-2 trong Anki
+
+Anki sử dụng thuật toán **SM-2** (SuperMemo 2) được phát triển bởi Piotr Wozniak:
+
+```javascript
+// Công thức tính khoảng cách ôn tập
+if (quality >= 3) {
+  if (n == 1) {
+    interval = 1;
+  } else if (n == 2) {
+    interval = 6;
+  } else {
+    interval = interval * easeFactor;
+  }
+  easeFactor = easeFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02));
+}
+```
+
+### Các tham số quan trọng:
+- **Quality**: Độ khó khi nhớ (1-5)
+- **Interval**: Khoảng cách ôn tập (ngày)
+- **Ease Factor**: Hệ số độ dễ (1.3-2.5)
+
+## Nghiên Cứu Khoa Học
+
+### Các nghiên cứu nổi bật:
+
+1. **Bahrick et al. (1993)**: Nghiên cứu 50 năm về việc học từ vựng tiếng Tây Ban Nha
+   - **Kết quả**: Spaced repetition giúp duy trì 80% kiến thức sau 5 năm
+
+2. **Cepeda et al. (2006)**: Meta-analysis của 317 nghiên cứu
+   - **Kết quả**: Spaced repetition hiệu quả hơn massed practice 2-3 lần
+
+3. **Roediger & Karpicke (2006)**: Testing effect
+   - **Kết quả**: Việc test (như flashcard) hiệu quả hơn đọc lại 50%
+
+## Ứng Dụng Thực Tế
+
+### Trong giáo dục:
+- **Học ngôn ngữ**: Từ vựng, ngữ pháp
+- **Y học**: Thuật ngữ, triệu chứng
+- **Lịch sử**: Năm, sự kiện
+- **Khoa học**: Công thức, định lý
+
+### Trong đời sống:
+- **Nhớ tên**: Gặp gỡ người mới
+- **Kỹ năng**: Lái xe, chơi nhạc cụ
+- **Thói quen**: Tập thể dục, ăn uống lành mạnh
+
+## Kết Luận
+
+Spaced Repetition không phải là "ma thuật" mà là **khoa học thực sự**. Hiểu được cơ chế hoạt động giúp chúng ta sử dụng Anki hiệu quả hơn và có động lực học tập lâu dài.
+
+> *"Repetition is the mother of learning"* - Repetitio est mater studiorum
+
+---
+
+**Tham khảo**:
+- Ebbinghaus, H. (1885). Memory: A contribution to experimental psychology
+- Wozniak, P. (1990). Optimization of learning
+- Bahrick, H. P., et al. (1993). Maintenance of foreign language vocabulary

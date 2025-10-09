@@ -1,62 +1,126 @@
 ---
+// Import BaseLayout - Layout chính của website để kế thừa header, footer, và các style cơ bản
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+// Định nghĩa interface Props - Kiểu dữ liệu cho các props được truyền vào component này
 interface Props {
-  title: string;
-  description?: string;
-  author?: string;
-  date?: string | Date;
-  duration?: string;
-  level?: string;
-  tags?: string[];
+  title: string;                                          // Tiêu đề bài học (bắt buộc)
+  description?: string;                                    // Mô tả bài học (tùy chọn)
+  author?: string;                                         // Tác giả bài học (tùy chọn)
+  date?: string | Date;                                    // Ngày xuất bản (tùy chọn, có thể là string hoặc Date object)
+  duration?: string;                                       // Thời lượng học (ví dụ: "45 phút") (tùy chọn)
+  level?: string;                                          // Cấp độ bài học (ví dụ: "Cơ bản", "Nâng cao") (tùy chọn)
+  tags?: string[];                                         // Mảng các tag/từ khóa (tùy chọn)
+  prevLesson?: { title: string; slug: string; };          // Thông tin bài học trước (title và slug để tạo link) (tùy chọn)
+  nextLesson?: { title: string; slug: string; };          // Thông tin bài học tiếp theo (title và slug để tạo link) (tùy chọn)
 }
 
+// Destructuring props từ Astro.props - Lấy ra các giá trị được truyền vào component
 const { 
-  title, 
-  description,
-  author, 
-  date, 
-  duration,
-  level,
-  tags = []
+  title,                                                   // Tiêu đề bài học
+  description,                                             // Mô tả bài học
+  author,                                                  // Tác giả
+  date,                                                    // Ngày xuất bản
+  duration,                                                // Thời lượng
+  level,                                                   // Cấp độ
+  tags = [],                                               // Tags (mặc định là mảng rỗng nếu không có)
+  prevLesson,                                              // Bài học trước
+  nextLesson                                               // Bài học tiếp theo
 } = Astro.props as Props;
 
+// Định nghĩa màu sắc cho các level badge - Object mapping level với CSS classes
 const levelColors: Record<string, string> = {
-  'Cơ bản': 'bg-green-100 text-green-800',
-  'Nâng cao': 'bg-blue-100 text-blue-800',
-  'Trung bình': 'bg-yellow-100 text-yellow-800'
+  'Cơ bản': 'bg-green-100 text-green-800',               // Level cơ bản: background xanh lá nhạt, text xanh đậm
+  'Nâng cao': 'bg-blue-100 text-blue-800',               // Level nâng cao: background xanh dương nhạt, text xanh đậm
 };
 ---
 
+<!-- 
+  BASELAYOUT WRAPPER: 
+  Bọc toàn bộ content trong BaseLayout để có header, footer, và meta tags cơ bản
+  title={title} truyền title của bài học vào meta title của trang
+-->
 <BaseLayout title={title}>
+  <!-- 
+    MAIN CONTAINER: 
+    Container chính của trang với min-height full screen và background xám nhạt
+    bg-gray-50: Background màu xám rất nhạt để tạo contrast với content box trắng
+  -->
   <main class="min-h-screen bg-gray-50">
-    <!-- Hero Section -->
+    
+    <!-- 
+      HERO SECTION - PHẦN TIÊU ĐỀ CHÍNH:
+      Section hiển thị thông tin cơ bản của bài học ở đầu trang
+      bg-gradient-to-br: Gradient background từ góc trên trái xuống góc dưới phải
+      from-blue-50 to-purple-50: Màu gradient từ xanh dương nhạt đến tím nhạt
+      py-16: Padding top và bottom 4rem (64px) để tạo không gian thoáng
+    -->
     <section class="bg-gradient-to-br from-blue-50 to-purple-50 py-16">
+      <!-- 
+        CONTAINER RESPONSIVE:
+        max-w-4xl: Giới hạn width tối đa 896px
+        mx-auto: Center horizontal
+        px-4 sm:px-6 lg:px-8: Responsive padding horizontal (16px -> 24px -> 32px)
+      -->
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- text-center: Căn giữa tất cả nội dung trong hero -->
         <div class="text-center">
-          <!-- Level Badge -->
+          
+          <!-- 
+            LEVEL BADGE - NHÃN CẤP ĐỘ:
+            Hiển thị cấp độ bài học (Cơ bản/Nâng cao) nếu có
+            Sử dụng conditional rendering {level && (...)}
+          -->
           {level && (
             <span class={`inline-block px-4 py-2 rounded-full text-sm font-bold mb-6 ${level && levelColors[level] ? levelColors[level] : 'bg-gray-100 text-gray-800'}`}>
               📖 {level}
+              {/* 
+                Template literal với conditional:
+                - Nếu level tồn tại trong levelColors object -> dùng màu đó
+                - Nếu không -> dùng màu xám mặc định
+                📖 emoji để tạo visual cue cho education content
+              */}
             </span>
           )}
           
-          <!-- Title -->
+          <!-- 
+            TITLE - TIÊU ĐỀ CHÍNH:
+            text-4xl md:text-5xl: Responsive font size (36px -> 48px trên medium+)
+            font-bold: Font weight 700
+            text-gray-900: Màu text đen đậm
+            mb-6: Margin bottom 24px
+            leading-tight: Line height chặt để title đẹp hơn
+          -->
           <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
             {title}
           </h1>
           
-          <!-- Description -->
+          <!-- 
+            DESCRIPTION - MÔ TẢ BÀI HỌC:
+            Chỉ hiển thị nếu có description
+            text-xl: Font size 20px
+            text-gray-600: Màu xám vừa phải để tạo hierarchy
+            max-w-3xl mx-auto: Giới hạn width 768px và center
+          -->
           {description && (
             <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
               {description}
             </p>
           )}
           
-          <!-- Meta Info -->
+          <!-- 
+            META INFO ROW - THÔNG TIN META:
+            Hiển thị author, duration, date trong 1 hàng flexible
+            flex-wrap: Cho phép wrap xuống dòng trên mobile
+            justify-center: Center các items
+            gap-6: Space giữa các items 24px
+          -->
           <div class="flex flex-wrap justify-center items-center gap-6 text-gray-600">
+            
+            <!-- AUTHOR INFO - Hiển thị nếu có author -->
             {author && (
               <div class="flex items-center gap-2">
+                <!-- SVG icon người dùng -->
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
@@ -64,8 +128,10 @@ const levelColors: Record<string, string> = {
               </div>
             )}
             
+            <!-- DURATION INFO - Hiển thị nếu có duration -->
             {duration && (
               <div class="flex items-center gap-2">
+                <!-- SVG icon đồng hồ -->
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -73,20 +139,43 @@ const levelColors: Record<string, string> = {
               </div>
             )}
             
+            <!-- DATE INFO - Hiển thị nếu có date -->
             {date && (
               <div class="flex items-center gap-2">
+                <!-- SVG icon lịch -->
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
+                <!-- 
+                  Format date bằng JavaScript Date API:
+                  new Date(date).toLocaleDateString('vi-VN') 
+                  -> Convert thành định dạng ngày Việt Nam
+                -->
                 <span>{new Date(date).toLocaleDateString('vi-VN')}</span>
               </div>
             )}
           </div>
           
-          <!-- Tags -->
+          <!-- 
+            TAGS SECTION - HIỂN THỊ CÁC TAG:
+            Chỉ hiển thị nếu có tags và mảng tags không rỗng
+            flex-wrap: Cho phép tags wrap xuống dòng
+            gap-2: Khoảng cách giữa các tags 8px
+            mt-8: Margin top 32px để tách khỏi meta info
+          -->
           {tags && tags.length > 0 && (
             <div class="flex flex-wrap justify-center gap-2 mt-8">
               {tags.map((tag: string) => (
+                <!-- 
+                  Mỗi tag là một badge nhỏ:
+                  inline-flex: Display flex inline
+                  px-3 py-1: Padding horizontal 12px, vertical 4px
+                  rounded-full: Border radius 9999px (hoàn toàn tròn)
+                  text-sm: Font size 14px
+                  bg-white: Background trắng
+                  border border-gray-200: Border xám nhạt
+                  # prefix để chỉ đây là hashtag
+                -->
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-white text-gray-700 border border-gray-200">
                   #{tag}
                 </span>
@@ -97,39 +186,354 @@ const levelColors: Record<string, string> = {
       </div>
     </section>
 
-    <!-- Content -->
+    <!-- 
+      CONTENT SECTION - PHẦN NỘI DUNG BÀI HỌC:
+      Section chứa nội dung markdown chính của bài học
+      py-16: Padding top và bottom 64px để tạo không gian thoáng
+    -->
     <section class="py-16">
+      <!-- 
+        CONTENT CONTAINER:
+        max-w-4xl: Giới hạn width tối đa 896px cho readability tốt
+        mx-auto: Center horizontal
+        px-4 sm:px-6 lg:px-8: Responsive horizontal padding
+      -->
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- 
+          CONTENT CARD:
+          bg-white: Background trắng để nổi bật trên bg-gray-50
+          rounded-xl: Border radius 12px
+          shadow-lg: Drop shadow đậm để tạo elevation
+          p-8 md:p-12: Responsive padding (32px -> 48px)
+        -->
         <div class="bg-white rounded-xl shadow-lg p-8 md:p-12">
-          <div class="prose prose-lg max-w-none">
-            <slot />
-          </div>
+          
+          <!-- 
+            ARTICLE WRAPPER:
+            content-article: Class wrapper cho article content
+            Được sử dụng trong global.css để apply markdown styling
+          -->
+          <article class="content-article">
+            <!-- 
+              MARKDOWN CONTENT CONTAINER:
+              markdown-content: Class chính để apply tất cả markdown styling
+              Trong global.css có định nghĩa styling cho:
+              - Headers (h1, h2, h3, etc.)
+              - Paragraphs, lists, blockquotes
+              - Code blocks và inline code
+              - Tables, images, links
+              - Spacing và typography
+            -->
+            <div class="markdown-content">
+              <!-- 
+                SLOT - NỘI DUNG DYNAMIC:
+                Đây là nơi Astro sẽ render nội dung markdown từ file .mdx
+                Tất cả content từ file guides/[filename].mdx sẽ được inject vào đây
+              -->
+              <slot />
+            </div>
+          </article>
         </div>
       </div>
     </section>
     
-    <!-- Navigation -->
-    <section class="py-12 bg-gray-100">
+    <!-- 
+      NAVIGATION SECTION - PHẦN ĐIỀU HƯỚNG BÀI HỌC:
+      Section chứa các nút điều hướng giữa các bài học
+      py-8: Padding top và bottom 32px
+      bg-gradient-to-r from-blue-50 to-indigo-50: Gradient ngang từ xanh dương nhạt đến indigo nhạt
+      border-t border-blue-100: Border top màu xanh nhạt để phân tách với content
+    -->
+    <section class="py-8 bg-gradient-to-r from-blue-50 to-indigo-50 border-t border-blue-100">
+      <!-- 
+        NAVIGATION CONTAINER:
+        max-w-4xl: Giới hạn width tương ứng với content area
+        mx-auto: Center horizontal
+        px-4 sm:px-6 lg:px-8: Responsive padding horizontal
+      -->
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-          <a 
-            href="/guides/co-ban"
-            class="flex items-center px-6 py-3 bg-white text-gray-700 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200"
-          >
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            Quay lại khóa học
-          </a>
+        
+        <!-- 
+          MAIN NAVIGATION ROW - HÀNG ĐIỀU HƯỚNG CHÍNH:
+          Chứa 3 phần: Previous Lesson | Course Link | Next Lesson
+          flex flex-col md:flex-row: Vertical stack trên mobile, horizontal trên desktop
+          items-stretch md:items-center: Stretch height trên mobile, center trên desktop
+          justify-between: Distribute space equally
+          gap-4: Space giữa items 16px
+          mb-6: Margin bottom 24px để tách với secondary navigation
+        -->
+        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-6">
           
+          <!-- 
+            PREVIOUS LESSON - BÀI TRƯỚC:
+            flex-1: Flex grow để chiếm space có sẵn
+            max-w-sm: Giới hạn width tối đa 384px để không quá rộng
+          -->
+          <div class="flex-1 max-w-sm">
+            <!-- 
+              CONDITIONAL RENDERING - Previous lesson có tồn tại không?
+              Nếu có prevLesson -> hiển thị link active
+              Nếu không -> hiển thị placeholder disabled
+            -->
+            {prevLesson ? (
+              <!-- 
+                ACTIVE PREVIOUS LESSON LINK:
+                group: Để sử dụng group-hover effects
+                block w-full: Full width block element
+                p-4: Padding 16px tất cả phía
+                border-2 border-blue-200: Border 2px màu xanh nhạt
+                rounded-xl: Border radius 12px
+                bg-white: Background trắng
+                hover:bg-blue-50: Background xanh nhạt khi hover
+                hover:border-blue-300: Border đậm hơn khi hover
+                transition-all duration-200: Smooth animation 200ms
+                shadow-sm hover:shadow-md: Elevation tăng khi hover
+              -->
+              <a 
+                href={`/guides/${prevLesson.slug}`}
+                class="group block w-full p-4 border-2 border-blue-200 rounded-xl bg-white hover:bg-blue-50 hover:border-blue-300 transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                <!-- 
+                  LINK CONTENT LAYOUT:
+                  flex items-center: Horizontal layout với vertical center alignment
+                -->
+                <div class="flex items-center">
+                  <!-- 
+                    LEFT ARROW ICON:
+                    w-5 h-5: Size 20x20px
+                    mr-3: Margin right 12px
+                    text-blue-500: Màu xanh
+                    group-hover:-translate-x-1: Move left 4px khi hover parent
+                    transition-transform duration-200: Smooth movement animation
+                    flex-shrink-0: Không shrink khi space thiếu
+                  -->
+                  <svg class="w-5 h-5 mr-3 text-blue-500 group-hover:-translate-x-1 transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                  </svg>
+                  
+                  <!-- 
+                    TEXT CONTENT:
+                    text-left: Left align text
+                  -->
+                  <div class="text-left">
+                    <!-- 
+                      LABEL - "Bài trước":
+                      text-xs: Font size 12px
+                      text-blue-500: Màu xanh matching với icon
+                      font-medium: Font weight 500
+                      mb-1: Margin bottom 4px
+                    -->
+                    <div class="text-xs text-blue-500 font-medium mb-1">Bài trước</div>
+                    
+                    <!-- 
+                      LESSON TITLE:
+                      font-semibold: Font weight 600
+                      text-gray-900: Màu đen đậm
+                      text-sm: Font size 14px
+                      leading-tight: Line height chặt
+                      line-clamp-2: Giới hạn 2 dòng với ellipsis
+                    -->
+                    <div class="font-semibold text-gray-900 text-sm leading-tight line-clamp-2">{prevLesson.title}</div>
+                  </div>
+                </div>
+              </a>
+            ) : (
+              <!-- 
+                DISABLED PREVIOUS LESSON PLACEHOLDER:
+                Khi không có bài trước, hiển thị element disabled
+                cursor-not-allowed: Con trỏ chuột disabled
+                opacity-60: Giảm opacity để chỉ disabled state
+                border-gray-200, bg-gray-50: Màu xám để chỉ inactive
+              -->
+              <div class="block w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 cursor-not-allowed opacity-60">
+                <div class="flex items-center">
+                  <!-- Icon màu xám -->
+                  <svg class="w-5 h-5 mr-3 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                  </svg>
+                  <div class="text-left">
+                    <!-- Text màu xám để chỉ disabled -->
+                    <div class="text-xs text-gray-400 font-medium mb-1">Bài trước</div>
+                    <div class="font-semibold text-gray-400 text-sm">Không có</div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          
+          <!-- 
+            CENTER - COURSE LINK - LIÊN KẾT KHÓA HỌC:
+            flex-shrink-0: Không shrink khi thiếu space
+            Nút để quay lại trang tổng quan khóa học
+          -->
+          <div class="flex-shrink-0">
+            <!-- 
+              COURSE LINK:
+              Dynamic href dựa trên level:
+              - level === 'Cơ bản' -> '/guides/co-ban'
+              - level === 'Nâng cao' -> '/guides/nang-cao'  
+              - default -> '/guides'
+              
+              Styling:
+              inline-flex items-center: Inline flex với center alignment
+              px-4 py-3: Padding horizontal 16px, vertical 12px
+              text-sm: Font size 14px
+              text-gray-600: Màu xám vừa
+              hover:text-blue-600: Màu xanh khi hover
+              transition-colors: Smooth color transition
+              rounded-lg: Border radius 8px
+              hover:bg-white/70: Semi-transparent white background khi hover
+              font-medium: Font weight 500
+              border border-gray-200: Border xám nhạt
+              bg-white: Background trắng
+            -->
+            <a 
+              href={level === 'Cơ bản' ? '/guides/co-ban' : level === 'Nâng cao' ? '/guides/nang-cao' : '/guides'}
+              class="inline-flex items-center px-4 py-3 text-sm text-gray-600 hover:text-blue-600 transition-colors rounded-lg hover:bg-white/70 font-medium border border-gray-200 bg-white"
+            >
+              <!-- 
+                BACK ARROW ICON:
+                w-4 h-4: Size 16x16px (nhỏ hơn navigation arrows)
+                mr-2: Margin right 8px
+              -->
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0l-4-4m4 4l-4 4" />
+              </svg>
+              Quay lại khóa học
+            </a>
+          </div>
+          
+          <!-- 
+            NEXT LESSON - BÀI TIẾP THEO:
+            flex-1: Flex grow để cân bằng với previous lesson
+            max-w-sm: Giới hạn width tối đa 384px
+          -->
+          <div class="flex-1 max-w-sm">
+            <!-- 
+              CONDITIONAL RENDERING - Next lesson có tồn tại không?
+              Nếu có nextLesson -> hiển thị link "Bài tiếp theo"
+              Nếu không -> hiển thị link "Hoàn thành khóa học"
+            -->
+            {nextLesson ? (
+              <!-- 
+                ACTIVE NEXT LESSON LINK:
+                Styling prominent hơn previous lesson để encourage progression
+                bg-gradient-to-r from-blue-500 to-blue-600: Gradient background xanh
+                hover:from-blue-600 hover:to-blue-700: Đậm hơn khi hover
+                text-white: Text màu trắng
+                rounded-xl: Border radius 12px
+                shadow-lg hover:shadow-xl: Shadow mạnh hơn
+                transform hover:scale-[1.02]: Scale up nhẹ khi hover để tạo emphasis
+              -->
+              <a 
+                href={`/guides/${nextLesson.slug}`}
+                class="group block w-full p-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+              >
+                <!-- 
+                  LAYOUT:
+                  justify-end: Align content to right (ngược với previous lesson)
+                -->
+                <div class="flex items-center justify-end">
+                  <!-- 
+                    TEXT CONTENT:
+                    text-right: Right align text để mirror previous lesson
+                  -->
+                  <div class="text-right">
+                    <!-- 
+                      LABEL - "Bài tiếp theo":
+                      text-blue-100: Màu xanh nhạt trên background xanh đậm
+                    -->
+                    <div class="text-xs text-blue-100 font-medium mb-1">Bài tiếp theo</div>
+                    
+                    <!-- 
+                      LESSON TITLE:
+                      text-white: Màu trắng để contrast với background xanh
+                    -->
+                    <div class="font-semibold text-white text-sm leading-tight line-clamp-2">{nextLesson.title}</div>
+                  </div>
+                  
+                  <!-- 
+                    RIGHT ARROW ICON:
+                    ml-3: Margin left 12px (sau text content)
+                    text-white: Màu trắng
+                    group-hover:translate-x-1: Move right 4px khi hover
+                  -->
+                  <svg class="w-5 h-5 ml-3 text-white group-hover:translate-x-1 transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </a>
+            ) : (
+              <!-- 
+                COURSE COMPLETION LINK:
+                Khi không có bài tiếp theo, hiển thị completion state
+                bg-gradient-to-r from-green-500 to-green-600: Gradient xanh lá để chỉ completion
+                hover:from-green-600 hover:to-green-700: Hover state
+                Link đến trang tổng quan tất cả guides
+              -->
+              <a 
+                href="/guides" 
+                class="group block w-full p-4 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+              >
+                <div class="flex items-center justify-end">
+                  <div class="text-right">
+                    <!-- 
+                      COMPLETION LABEL:
+                      text-green-100: Màu xanh lá nhạt trên background xanh lá đậm
+                    -->
+                    <div class="text-xs text-green-100 font-medium mb-1">Hoàn thành</div>
+                    <div class="font-semibold text-white text-sm">Xem tất cả khóa học</div>
+                  </div>
+                  
+                  <!-- 
+                    CHECK CIRCLE ICON:
+                    Icon completion thay vì arrow
+                    group-hover:scale-110: Scale up khi hover để celebrate completion
+                  -->
+                  <svg class="w-5 h-5 ml-3 text-white group-hover:scale-110 transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+              </a>
+            )}
+          </div>
+        </div>
+        
+        <!-- 
+          SECONDARY NAVIGATION - ĐIỀU HƯỚNG PHỤ:
+          Navigation bổ sung để quay lại trang tổng quan tất cả guides
+          text-center: Center align nội dung
+          pt-4: Padding top 16px
+          border-t border-blue-200: Border top để phân tách với main navigation
+        -->
+        <div class="text-center pt-4 border-t border-blue-200">
+          <!-- 
+            ALL GUIDES LINK:
+            Link tới trang tổng quan tất cả hướng dẫn
+            inline-flex items-center: Inline flex với center alignment
+            px-4 py-2: Padding horizontal 16px, vertical 8px (nhỏ hơn main buttons)
+            text-sm: Font size 14px
+            text-gray-600: Màu xám neutral
+            hover:text-gray-800: Đậm hơn khi hover
+            transition-colors: Smooth color transition
+            rounded-lg: Border radius 8px
+            hover:bg-white/50: Semi-transparent white background khi hover
+          -->
           <a 
             href="/guides"
-            class="flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            class="inline-flex items-center px-4 py-2 text-sm text-gray-600 hover:text-gray-800 transition-colors rounded-lg hover:bg-white/50"
           >
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <!-- 
+              GRID ICON:
+              Icon grid để represent "tất cả hướng dẫn"
+              w-4 h-4: Size 16x16px
+              mr-2: Margin right 8px
+            -->
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
             </svg>
-            Tất cả khóa học
+            Xem tất cả hướng dẫn
           </a>
         </div>
       </div>
@@ -137,110 +541,27 @@ const levelColors: Record<string, string> = {
   </main>
 </BaseLayout>
 
+<!-- 
+  CUSTOM STYLES - CSS TÙY CHỈNH:
+  Định nghĩa các utility styles không có sẵn trong Tailwind
+-->
 <style>
-  .prose {
-    color: #374151;
-    line-height: 1.75;
-  }
-  
-  .prose h2 {
-    color: #1f2937;
-    font-weight: 700;
-    font-size: 1.875rem;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid #e5e7eb;
-    padding-bottom: 0.5rem;
-  }
-  
-  .prose h3 {
-    color: #374151;
-    font-weight: 600;
-    font-size: 1.5rem;
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
-  }
-  
-  .prose h4 {
-    color: #4b5563;
-    font-weight: 600;
-    font-size: 1.25rem;
-    margin-top: 1.25rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .prose p {
-    margin-bottom: 1.25rem;
-  }
-  
-  .prose ul, .prose ol {
-    margin-bottom: 1.25rem;
-    padding-left: 1.5rem;
-  }
-  
-  .prose li {
-    margin-bottom: 0.5rem;
-  }
-  
-  .prose pre {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    overflow-x: auto;
-    margin-bottom: 1.25rem;
-  }
-  
-  .prose code {
-    background: #f1f5f9;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    font-size: 0.875rem;
-    color: #dc2626;
-  }
-  
-  .prose blockquote {
-    background: #fef7cd;
-    border-left: 4px solid #f59e0b;
-    padding: 1rem 1.5rem;
-    margin: 1.5rem 0;
-    border-radius: 0.5rem;
-  }
-  
-  .prose img {
-    border-radius: 0.5rem;
-    margin: 1.5rem 0;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  }
-  
-  .prose a {
-    color: #2563eb;
-    text-decoration: underline;
-    text-decoration-color: #93c5fd;
-    text-underline-offset: 2px;
-    transition: all 0.2s;
-  }
-  
-  .prose a:hover {
-    color: #1d4ed8;
-    text-decoration-color: #2563eb;
-  }
-  
-  .prose table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1.5rem 0;
-  }
-  
-  .prose th,
-  .prose td {
-    border: 1px solid #e5e7eb;
-    padding: 0.75rem;
-    text-align: left;
-  }
-  
-  .prose th {
-    background: #f9fafb;
-    font-weight: 600;
+  /* 
+    LINE CLAMP UTILITY:
+    Tạo hiệu ứng text truncate với ellipsis cho nhiều dòng
+    Sử dụng webkit line clamp để giới hạn số dòng hiển thị
+    
+    display: -webkit-box: Sử dụng webkit flexbox
+    -webkit-line-clamp: 2: Giới hạn 2 dòng
+    -webkit-box-orient: vertical: Hướng vertical
+    overflow: hidden: Ẩn text dư thừa
+    
+    Kết quả: Text dài sẽ bị cắt ở dòng thứ 2 và thêm "..." ở cuối
+  */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 </style>

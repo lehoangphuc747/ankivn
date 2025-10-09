@@ -40,6 +40,7 @@ export default function DeckFilters({ items }) {
     if (category) arr = arr.filter((d) => d.data.category === category);
     if (sub) arr = arr.filter((d) => d.data.subCategory === sub);
     if (sort === 'date') arr = [...arr].sort((a, b) => (b.data.date || '').localeCompare(a.data.date || ''));
+    if (sort === 'date-asc') arr = [...arr].sort((a, b) => (a.data.date || '').localeCompare(b.data.date || ''));
     return arr;
   }, [items, q, category, sub, sort]);
 
@@ -154,6 +155,7 @@ export default function DeckFilters({ items }) {
             onChange={(e) => setSort(e.target.value)}
           >
             <option value="date">📅 Mới nhất</option>
+            <option value="date-asc">📅 Cũ nhất</option>
           </select>
           <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
             <svg className="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">

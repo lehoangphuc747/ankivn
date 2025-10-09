@@ -47,6 +47,22 @@ body {
 }
 
 /* Text utilities for better title handling */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -251,6 +267,41 @@ body {
   font-family: inherit !important;
 }
 
+/* Markdown code blocks styling */
+.content-article .markdown-content pre {
+  background-color: #1e293b !important;
+  color: #e2e8f0 !important;
+  padding: 1.5rem !important;
+  margin: 2rem 0 !important;
+  border-radius: 12px !important;
+  overflow-x: auto !important;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'SF Mono', Consolas, monospace !important;
+  font-size: 0.875rem !important;
+  line-height: 1.6 !important;
+  border: 1px solid #334155 !important;
+}
+
+.content-article .markdown-content pre code {
+  background: none !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  color: inherit !important;
+  font-size: inherit !important;
+}
+
+.content-article .markdown-content code:not(pre code) {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+  padding: 0.25rem 0.5rem !important;
+  margin: 0.125rem 0 !important;
+  border-radius: 6px !important;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'SF Mono', Consolas, monospace !important;
+  font-size: 0.875rem !important;
+  border: 1px solid #e2e8f0 !important;
+  display: inline-block !important;
+}
+
 /* Print styles */
 @media print {
   .no-print {
@@ -267,4 +318,383 @@ body {
   a[href^="javascript:"]:after {
     content: "";
   }
+}
+
+/* Horizontal rule styling */
+hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #3B82F6, transparent);
+  margin: 2rem 0;
+  border-radius: 1px;
+}
+
+/* ===== OPTIMIZED LIST STYLES ===== */
+
+/* Base list styling */
+ul, ol {
+  margin: 1.25rem 0;
+  padding-left: 1.5rem;
+  line-height: 1.6;
+}
+
+/* Root level bullet lists */
+ul {
+  list-style-type: disc;
+}
+
+/* Root level numbered lists */
+ol {
+  list-style-type: decimal;
+}
+
+/* Nested lists - improved hierarchy */
+ul ul {
+  list-style-type: circle;
+  margin: 0.75rem 0 0.75rem 1rem;
+  padding-left: 1rem;
+}
+
+ul ul ul {
+  list-style-type: square;
+  margin: 0.5rem 0 0.5rem 1rem;
+  padding-left: 1rem;
+}
+
+ol ol {
+  list-style-type: lower-alpha;
+  margin: 0.75rem 0 0.75rem 1rem;
+  padding-left: 1rem;
+}
+
+ol ol ol {
+  list-style-type: lower-roman;
+  margin: 0.5rem 0 0.5rem 1rem;
+  padding-left: 1rem;
+}
+
+/* Enhanced list styling for better UX */
+ul, ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+  line-height: 1.6;
+}
+
+li {
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+/* Main bullet styling */
+ul > li::marker {
+  color: #1d6aff;
+  font-weight: 600;
+}
+
+ol > li::marker {
+  color: #1d6aff;
+  font-weight: 600;
+}
+
+/* Sub-bullet styling with hover effects */
+ul ul, ol ol, ul ol, ol ul {
+  margin: 0.5rem 0 0.5rem 1rem;
+}
+
+ul ul > li::marker,
+ol ol > li::marker {
+  color: #4f46e5;
+  font-size: 0.875em;
+}
+
+/* Hover effects for sub-bullets */
+ul ul > li,
+ol ol > li,
+ul ol > li,
+ol ul > li {
+  transition: all 0.2s ease;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+}
+
+ul ul > li:hover,
+ol ol > li:hover,
+ul ol > li:hover,
+ol ul > li:hover {
+  background-color: rgba(29, 106, 255, 0.05);
+  transform: translateX(2px);
+}
+
+/* Enhanced nested list styling */
+ul ul ul > li::marker,
+ol ol ol > li::marker {
+  color: #7c3aed;
+  font-size: 0.8em;
+}
+
+ul ul ul > li:hover,
+ol ol ol > li:hover {
+  background-color: rgba(124, 58, 237, 0.05);
+}
+
+/* List item content styling */
+li > p {
+  margin: 0.5rem 0;
+}
+
+li > p:first-child {
+  margin-top: 0;
+}
+
+li > p:last-child {
+  margin-bottom: 0;
+}
+
+/* Task list styling (if used) */
+li input[type="checkbox"] {
+  margin-right: 0.5rem;
+  accent-color: #1d6aff;
+}
+
+/* Enhanced marker styling */
+li::marker {
+  color: #3B82F6;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  font-size: 1.1em;
+}
+
+/* Different marker colors for nested levels */
+ul ul li::marker {
+  color: #3B82F6;
+}
+
+ul ul ul li::marker {
+  color: #8B5CF6;
+}
+
+ol li::marker {
+  color: #3B82F6;
+  font-weight: 700;
+}
+
+ol ol li::marker {
+  color: #F59E0B;
+}
+
+ol ol ol li::marker {
+  color: #EF4444;
+}
+
+/* Hover effects for markers */
+li:hover::marker {
+  transform: scale(1.2);
+  filter: brightness(1.2);
+}
+
+/* Focus styles for accessibility */
+li:focus-within {
+  outline: 2px solid #3B82F6;
+  outline-offset: 2px;
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+/* Subtle animation for markers */
+@keyframes markerPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* Apply subtle pulse only on first load, not continuously */
+li:first-child::marker {
+  animation: markerPulse 2s ease-in-out;
+}
+
+/* Better spacing for nested content */
+li > ul,
+li > ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Task list styling (if used) */
+.task-list-item {
+  list-style-type: none;
+}
+
+.task-list-item input[type="checkbox"] {
+  margin-right: 0.5rem;
+  accent-color: #3B82F6;
+}
+
+/* Code blocks in lists */
+li pre {
+  margin: 0.75rem 0;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+li pre code {
+  background: none;
+  padding: 0;
+}
+
+/* Links in list items */
+li a {
+  color: #2563eb;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+li a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+  text-decoration-color: #3B82F6;
+  text-decoration-thickness: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  ul, ol {
+    padding-left: 1.25rem;
+  }
+
+  ul ul, ol ol {
+    padding-left: 0.875rem;
+    margin-left: 0.75rem;
+  }
+
+  li {
+    padding: 0.25rem 0.25rem;
+  }
+
+  li:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  li::marker {
+    color: #000000;
+  }
+
+  li:hover {
+    background-color: #ffff00;
+    color: #000000;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  li {
+    transition: none;
+  }
+
+  li:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  li::marker {
+    animation: none;
+    transition: none;
+  }
+
+  li:hover::marker {
+    transform: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  li {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  li::marker {
+    color: #000000;
+  }
+}
+
+/* Paragraph styling for Markdown */
+p {
+  line-height: 1.6;
+  margin: 1rem 0;
+  text-indent: 1em;
+}
+
+/* Heading styling for Markdown */
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 2rem 0 1rem;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 1.5rem 0 0.75rem;
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #4b5563;
+  margin: 1.25rem 0 0.5rem;
+  line-height: 1.4;
+}
+
+h4 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin: 1rem 0 0.5rem;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+h5 {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #9ca3af;
+  margin: 0.875rem 0 0.5rem;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+h6 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #d1d5db;
+  margin: 0.75rem 0 0.5rem;
+  line-height: 1.4;
+  opacity: 0.8;
+}
+
+/* Responsive font sizes for headings */
+@media (max-width: 768px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  h4 { font-size: 1.125rem; }
+  h5 { font-size: 1rem; }
+  h6 { font-size: 0.875rem; }
 }

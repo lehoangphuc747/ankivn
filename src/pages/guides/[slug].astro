@@ -8,8 +8,14 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const guide = (await getCollection('guides')).find((g) => g.slug === slug);
+const allGuides = await getCollection('guides');
+const guide = allGuides.find((g) => g.slug === slug);
 if (!guide) throw new Error('Guide not found');
+
+// Find prev/next lessons based on slug order (alphabetical or custom order)
+const currentIndex = allGuides.findIndex(g => g.slug === slug);
+const prevLesson = currentIndex > 0 ? allGuides[currentIndex - 1] : null;
+const nextLesson = currentIndex < allGuides.length - 1 ? allGuides[currentIndex + 1] : null;
 
 const { Content } = await guide.render();
 ---
@@ -22,6 +28,8 @@ const { Content } = await guide.render();
   duration={guide.data.duration}
   level={guide.data.level}
   tags={guide.data.tags}
+  prevLesson={prevLesson ? { title: prevLesson.data.title, slug: prevLesson.slug } : undefined}
+  nextLesson={nextLesson ? { title: nextLesson.data.title, slug: nextLesson.slug } : undefined}
 >
   <Content />
 </SimpleLessonLayout>
