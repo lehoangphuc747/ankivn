@@ -14,7 +14,27 @@ const slug = href.split('/').pop();
 const displayCover = cover ?? '/default-thumbnail.webp';
 ---
 
-<article class="group relative bg-white/80 backdrop-blur-sm rounded-3xl border-2 border-gray-200/60 overflow-hidden hover:border-4 hover:border-blue-300/40 transition-all duration-200">
+<style>
+  .deck-title {
+    font-size: 17px; /* Có thể điều chỉnh font size ở đây: 12px, 14px, 16px, 18px, 20px, 22px, 24px, etc. */
+    font-weight: 700;
+    line-height: 1.4;
+    color: rgb(17 24 39); /* text-gray-900 */
+    margin-bottom: 0.75rem;
+    padding-left: 0;
+    padding-right: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: color 200ms;
+    word-wrap: break-word;
+    hyphens: auto;
+    min-height: 4.5rem;
+  }
+</style>
+
+<article class="group relative bg-white/80 backdrop-blur-sm rounded-3xl border-2 border-gray-200/60 overflow-hidden hover:border-blue-300/40 transition-all duration-200">
   <a href={href} target="_blank" rel="noopener noreferrer" class="block">
     <!-- Cover Image with Overlay -->
     <div class="relative aspect-video bg-gradient-to-br from-blue-50 to-emerald-50 overflow-hidden">
@@ -49,10 +69,10 @@ const displayCover = cover ?? '/default-thumbnail.webp';
         </div>
       )}
 
-      <!-- Title -->
-      <h3 class="font-bold text-sm text-gray-900 mb-3 line-clamp-3 transition-colors duration-200 leading-tight break-words hyphens-auto min-h-[4.5rem]">
+      <!-- Title - Có thể điều chỉnh font size theo ý muốn: text-xs, text-sm, text-base, text-lg, text-xl, etc. -->
+      <div class="deck-title">
         {title}
-      </h3>
+      </div>
 
       <!-- Tags -->
       {tags.length > 0 && (
