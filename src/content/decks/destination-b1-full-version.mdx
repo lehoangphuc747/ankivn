@@ -20,15 +20,12 @@ downloads:
 ---
 
 ---
-import { MuxPlayer } from "@mux/mux-player-astro";
+import VideoEmbed from '@/components/common/VideoEmbed.astro';
 ---
 
-<!-- TODO: Replace with actual Mux playbackId after uploading video to Mux -->
-<MuxPlayer
-  playbackId="YOUR_MUX_PLAYBACK_ID_HERE"
-  metadata={{
-    video_title: 'Destination B1 Full Version Demo'
-  }}
+<VideoEmbed 
+  src="/images/destination-b1-full-version.mov"
+  title="Destination B1 Full Version Demo"
 />
 
 ## Nội dung
