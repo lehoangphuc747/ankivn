@@ -14,7 +14,7 @@ const slug = href.split('/').pop();
 const displayCover = cover ?? '/default-thumbnail.webp';
 ---
 
-<article class="group relative bg-white/80 backdrop-blur-sm rounded-3xl border-2 border-gray-200/60 overflow-hidden hover:shadow-lg hover:shadow-blue-500/5 hover:border-blue-300/40 transition-all duration-200 hover:-translate-y-0.5">
+<article class="group relative bg-white/80 backdrop-blur-sm rounded-3xl border-2 border-gray-200/60 overflow-hidden">
   <a href={href} target="_blank" rel="noopener noreferrer" class="block">
     <!-- Cover Image with Overlay -->
     <div class="relative aspect-video bg-gradient-to-br from-blue-50 to-emerald-50 overflow-hidden">
@@ -28,7 +28,7 @@ const displayCover = cover ?? '/default-thumbnail.webp';
       />
 
       <!-- Gradient overlay on hover -->
-      <div class="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 transition-opacity duration-150"></div>
     </div>
 
     <!-- Content -->
@@ -50,7 +50,7 @@ const displayCover = cover ?? '/default-thumbnail.webp';
       )}
 
       <!-- Title -->
-      <h3 class="font-bold text-base text-gray-900 mb-3 line-clamp-3 group-hover:text-blue-600 transition-colors duration-200 leading-tight break-words hyphens-auto min-h-[4.5rem]">
+      <h3 class="font-bold text-base text-gray-900 mb-3 line-clamp-3 transition-colors duration-200 leading-tight break-words hyphens-auto min-h-[4.5rem]">
         {title}
       </h3>
 
@@ -58,7 +58,7 @@ const displayCover = cover ?? '/default-thumbnail.webp';
       {tags.length > 0 && (
         <div class="flex flex-wrap gap-1 mb-4">
           {tags.slice(0, 3).map(tag => (
-            <span class="inline-flex items-center px-2 py-1 rounded-md text-xs bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">
+            <span class="inline-flex items-center px-2 py-1 rounded-md text-xs bg-gray-100 text-gray-600 transition-colors">
               #{tag}
             </span>
           ))}
