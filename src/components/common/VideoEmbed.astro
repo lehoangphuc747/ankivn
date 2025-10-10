@@ -1,0 +1,43 @@
+---
+interface Props {
+  src: string;
+  poster?: string;
+  title?: string;
+  width?: string;
+  height?: string;
+  controls?: boolean;
+}
+
+const { src, poster, title = "Video", width = "100%", height, controls = true } = Astro.props;
+---
+
+<div class="video-container my-6">
+  <video
+    controls={controls}
+    width={width}
+    height={height}
+    poster={poster}
+    class="rounded-lg shadow-lg max-w-full"
+    preload="metadata"
+  >
+    <source src={src} />
+    <p class="text-gray-600 text-sm mt-2">
+      Trình duyệt của bạn không hỗ trợ video. <a href={src} class="text-blue-600 hover:underline">Tải video</a>
+    </p>
+  </video>
+  {title && title !== "Video" && (
+    <p class="text-sm text-gray-600 mt-2 text-center">{title}</p>
+  )}
+</div>
+
+<style>
+  .video-container video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .video-container video:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+</style>
