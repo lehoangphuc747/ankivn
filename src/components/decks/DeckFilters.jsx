@@ -130,7 +130,18 @@ export default function DeckFilters({ items }) {
             id="subcategory"
             className="block w-full px-4 py-3 border-2 rounded-xl bg-white/95 backdrop-blur-md focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200 shadow-xl text-gray-900 font-medium appearance-none cursor-pointer border-gray-300/60"
             value={sub} 
-            onChange={(e) => setSub(e.target.value)}
+            onChange={(e) => {
+              const selectedSub = e.target.value;
+              setSub(selectedSub);
+              
+              // Auto-select category when subcategory is selected
+              if (selectedSub) {
+                const deckWithSub = items.find(d => d.data.subCategory === selectedSub);
+                if (deckWithSub && deckWithSub.data.category) {
+                  setCategory(deckWithSub.data.category);
+                }
+              }
+            }}
           >
             <option value="">🎯 Tất cả phân nhóm</option>
             {subs.map((s) => (
