@@ -14,7 +14,7 @@ const slug = href.split('/').pop();
 const displayCover = cover ?? '/default-thumbnail.webp';
 ---
 
-<article class="group relative bg-white/80 backdrop-blur-sm rounded-3xl border-2 border-gray-200/60 overflow-hidden">
+<article class="group relative bg-white/80 backdrop-blur-sm rounded-3xl border-2 border-gray-200/60 overflow-hidden hover:border-blue-300/40 transition-all duration-200">
   <a href={href} target="_blank" rel="noopener noreferrer" class="block">
     <!-- Cover Image with Overlay -->
     <div class="relative aspect-video bg-gradient-to-br from-blue-50 to-emerald-50 overflow-hidden">
