@@ -8,14 +8,29 @@
 1. **GIỮ NGUYÊN 100%** nội dung gốc của tác giả
 2. **KHÔNG THÊM** bất kỳ thông tin ngoài lề nào
 3. **KHÔNG CẮT BỚT** bất kỳ thông tin nào của tác giả
-4. **KHÔNG SỬA ĐỔI** văn phong, cách diễn đạt gốc
+4. **KHÔNG SỬA ĐỔI** văn phong, cách diễ### ⚠️ **CHECKLIST TRƯỚC KHI DEPLOY:**
+- [ ] Frontmatter đầy đủ và đúng schema
+- [ ] Nội dung gốc được giữ 100% không thay đổi
+- [ ] **DOWNLOAD LINKS đã được XOÁ HOÀN TOÀN khỏi nội dung bài viết** (quan trọng!)
+- [ ] **HÌNH ẢNH preview sử dụng đúng đường dẫn `/images/decks/`**
+- [ ] Không có thông tin ngoài lề được thêm vào
+- [ ] Markdown syntax đúng chuẩn
+- [ ] Download links đã test thành công
+- [ ] Preview images hiển thị chính xác
+- [ ] YouTube video (nếu có) sử dụng YouTubeEmbed component với import statement
+- [ ] PDF embed (nếu có) sử dụng PDFEmbed component với import statement
 5. **CHỈ FORMAT** theo cấu trúc frontmatter + markdown
+6. **XOÁ LINK DOWNLOAD** khỏi nội dung bài viết sau khi thêm vào frontmatter (quan trọng!)
+7. **KIỂM TRA HÌNH ẢNH** phải ở đúng vị trí `/images/decks/` (không phải `/images/covers/`)
 
 ### 📋 **Workflow bắt buộc:**
 1. Nhận nội dung gốc từ tác giả
 2. Tạo frontmatter phù hợp với schema
-3. Copy 100% nội dung gốc vào markdown body
-4. **KHÔNG** chỉnh sửa gì thêm
+3. **THÊM DOWNLOAD LINKS VÀO FRONTMATTER** (từ nội dung gốc)
+4. **XOÁ TOÀN BỘ LINK DOWNLOAD** khỏi nội dung bài viết (quan trọng!)
+5. **KIỂM TRA VÀ SỬA ĐƯỜNG DẪN HÌNH ẢNH** về `/images/decks/` nếu cần
+6. Copy 100% nội dung gốc vào markdown body (sau khi đã xoá links)
+7. **KHÔNG** chỉnh sửa gì thêm ngoài việc format
 
 ---
 
@@ -395,6 +410,8 @@ downloads:
 - **DÙNG** markdown chuẩn thay vì HTML/JSX
 - **YOUTUBE**: Dùng `<YouTubeEmbed videoId="..." />` với import statement
 - **PDF**: Dùng `<PDFEmbed driveId="..." />` với import statement
+- **DOWNLOAD LINKS**: Luôn thêm vào frontmatter `downloads` array, SAU ĐÓ XOÁ HOÀN TOÀN khỏi nội dung bài viết
+- **HÌNH ẢNH**: Kiểm tra đường dẫn phải là `/images/decks/` cho preview images (không phải `/images/covers/`)
 - Nếu nội dung của người dùng không có hình ảnh nào thì đừng cố gắng thêm nhé. Tuyệt đối không được thêm nếu không có ảnh trong nội dung người dùng gửi.
 
 #### **Cấu trúc bài viết chuẩn:**
@@ -452,6 +469,8 @@ downloads:
 ### ⚠️ **CHECKLIST TRƯỚC KHI DEPLOY:**
 - [ ] Frontmatter đầy đủ và đúng schema
 - [ ] Nội dung gốc được giữ 100% không thay đổi
+- [ ] **DOWNLOAD LINKS đã được XOÁ HOÀN TOÀN khỏi nội dung bài viết** (quan trọng!)
+- [ ] **HÌNH ẢNH preview sử dụng đúng đường dẫn `/images/decks/`**
 - [ ] Không có thông tin ngoài lề được thêm vào
 - [ ] Markdown syntax đúng chuẩn
 - [ ] Download links đã test thành công
