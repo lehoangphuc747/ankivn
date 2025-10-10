@@ -1,1110 +1,477 @@
-# 📝 Template cho Deck Content# 📝 Template cho Deck Content
+# 📝 Template cho Deck Content
 
+Đây là template chi tiết để tạo nội dung deck cho AnkiVN. File này bao gồm tất cả các trường frontmatter có thể sử dụng và hướng dẫn cách viết nội dung.
 
+## ⚠️ YÊU CẦU STRICT - KHÔNG ĐƯỢC VI PHẠM
 
-Đây là template chi tiết để tạo nội dung deck cho AnkiVN. File này bao gồm tất cả các trường frontmatter có thể sử dụng và hướng dẫn cách viết nội dung.Đây là template chi tiết để tạo nội dung deck cho AnkiVN. File này bao gồm tất cả các trường frontmatter có thể sử dụng và hướng dẫn cách viết nội dung.
+### 🔒 **Quy tắc nội dung:**
+1. **GIỮ NGUYÊN 100%** nội dung gốc của tác giả
+2. **KHÔNG THÊM** bất kỳ thông tin ngoài lề nào
+3. **KHÔNG CẮT BỚT** bất kỳ thông tin nào của tác giả
+4. **KHÔNG SỬA ĐỔI** văn phong, cách diễn đạt gốc
+5. **CHỈ FORMAT** theo cấu trúc frontmatter + markdown
 
-
-
-## ⚠️ YÊU CẦU STRICT - KHÔNG ĐƯỢC VI PHẠM## ⚠️ YÊU CẦU STRICT - KHÔNG ĐƯỢC VI PHẠM
-
-
-
-### 🔒 **Quy tắc nội dung:**### 🔒 **Quy tắc nội dung:**
-
-1. **GIỮ NGUYÊN 100%** nội dung gốc của tác giả1. **GIỮ NGUYÊN 100%** nội dung gốc của tác giả
-
-2. **KHÔNG THÊM** bất kỳ thông tin ngoài lề nào2. **KHÔNG THÊM** bất kỳ thông tin ngoài lề nào
-
-3. **KHÔNG CẮT BỚT** bất kỳ thông tin nào của tác giả3. **KHÔNG CẮT BỚT** bất kỳ thông tin nào của tác giả
-
-4. **KHÔNG SỬA ĐỔI** văn phong, cách diễn đạt gốc4. **KHÔNG SỬA ĐỔI** văn phong, cách diễ### ⚠️ **CHECKLIST TRƯỚC KHI DEPLOY:**
-
-5. **CHỈ FORMAT** theo cấu trúc frontmatter + markdown- [ ] Frontmatter đầy đủ và đúng schema
-
-6. **XỬ LÝ DOWNLOAD LINKS THEO NGỮ CẢNH:**- [ ] Nội dung gốc được giữ 100% không thay đổi
-
-   - Nếu link download **gom chung ở cuối bài** → Thêm vào frontmatter và **XOÁ** khỏi nội dung- [ ] **DOWNLOAD LINKS đã được XOÁ HOÀN TOÀN khỏi nội dung bài viết** (quan trọng!)
-
-   - Nếu link download **xuất hiện trong hướng dẫn từng bước** → **GIỮ NGUYÊN** trong nội dung (đừng xoá!)- [ ] **HÌNH ẢNH preview sử dụng đúng đường dẫn `/images/decks/`**
-
-7. **KIỂM TRA HÌNH ẢNH** phải ở đúng vị trí `/images/decks/` (không phải `/images/covers/`)- [ ] Không có thông tin ngoài lề được thêm vào
-
-- [ ] Markdown syntax đúng chuẩn
-
-### 📋 **Workflow bắt buộc:**- [ ] Download links đã test thành công
-
-1. Nhận nội dung gốc từ tác giả- [ ] Preview images hiển thị chính xác
-
-2. Tạo frontmatter phù hợp với schema- [ ] YouTube video (nếu có) sử dụng YouTubeEmbed component với import statement
-
-3. **THÊM DOWNLOAD LINKS VÀO FRONTMATTER** (từ nội dung gốc)- [ ] PDF embed (nếu có) sử dụng PDFEmbed component với import statement
-
-4. **XỬ LÝ DOWNLOAD LINKS THEO NGỮ CẢNH:**5. **CHỈ FORMAT** theo cấu trúc frontmatter + markdown
-
-   - Nếu links gom chung ở cuối bài → XOÁ khỏi nội dung bài viết6. **XOÁ LINK DOWNLOAD** khỏi nội dung bài viết sau khi thêm vào frontmatter (quan trọng!)
-
-   - Nếu links xuất hiện trong hướng dẫn từng bước → GIỮ NGUYÊN trong nội dung7. **KIỂM TRA HÌNH ẢNH** phải ở đúng vị trí `/images/decks/` (không phải `/images/covers/`)
-
-5. **KIỂM TRA VÀ SỬA ĐƯỜNG DẪN HÌNH ẢNH** về `/images/decks/` nếu cần
-
-6. Copy 100% nội dung gốc vào markdown body (sau khi đã xử lý links)### 📋 **Workflow bắt buộc:**
-
-7. **KHÔNG** chỉnh sửa gì thêm ngoài việc format1. Nhận nội dung gốc từ tác giả
-
+### 📋 **Workflow bắt buộc:**
+1. Nhận nội dung gốc từ tác giả
 2. Tạo frontmatter phù hợp với schema
-
----3. **THÊM DOWNLOAD LINKS VÀO FRONTMATTER** (từ nội dung gốc)
-
-4. **XOÁ TOÀN BỘ LINK DOWNLOAD** khỏi nội dung bài viết (quan trọng!)
-
-## 🔧 Frontmatter Template5. **KIỂM TRA VÀ SỬA ĐƯỜNG DẪN HÌNH ẢNH** về `/images/decks/` nếu cần
-
-6. Copy 100% nội dung gốc vào markdown body (sau khi đã xoá links)
-
-```markdown7. **KHÔNG** chỉnh sửa gì thêm ngoài việc format
+3. Copy 100% nội dung gốc vào markdown body
+4. **KHÔNG** chỉnh sửa gì thêm
 
 ---
 
-# ===== THÔNG TIN CƠ BẢN =====---
-
-title: "Tiêu đề bộ thẻ"                    # REQUIRED - Tên hiển thị của deck
-
-category: "Ngoại ngữ"                      # REQUIRED - Danh mục chính## 🔧 Frontmatter Template
-
-subCategory: "Tiếng Anh"                   # OPTIONAL - Danh mục con
-
-date: "2024-09-01"                         # REQUIRED - Ngày tạo (YYYY-MM-DD)```markdown
-
-author: "AnkiVN"                           # OPTIONAL - Tác giả---
-
-authorLink: "https://ankivn.com/about"     # OPTIONAL - Link đến trang tác giả# ===== THÔNG TIN CƠ BẢN =====
-
-tags: ["vocabulary", "A1", "A2"]          # REQUIRED - Mảng tags (tối thiểu 1)title: "Tiêu đề bộ thẻ"                    # REQUIRED - Tên hiển thị của deck
-
-category: "Ngoại ngữ"                      # REQUIRED - Danh mục chính
-
-# ===== HÌNH ẢNH =====subCategory: "Tiếng Anh"                   # OPTIONAL - Danh mục con
-
-cover: "/images/covers/deck-name.webp"     # OPTIONAL - Cover cho deck card (khuyến nghị nếu có thì mới thêm, chứ đừng cố :))))))date: "2024-09-01"                         # REQUIRED - Ngày tạo (YYYY-MM-DD)
-
-previewImages:                             # OPTIONAL - Ảnh preview trong trang chi tiếtauthor: "AnkiVN"                           # OPTIONAL - Tác giả
-
-  - src: "/images/decks/deck-name/front-01.webp"authorLink: "https://ankivn.com/about"     # OPTIONAL - Link đến trang tác giả
-
-    alt: "Mặt trước thẻ từ vựng"tags: ["vocabulary", "A1", "A2"]          # REQUIRED - Mảng tags (tối thiểu 1)
-
-  - src: "/images/decks/deck-name/back-01.webp"
-
-    alt: "Mặt sau thẻ với nghĩa tiếng Việt"# ===== HÌNH ẢNH =====
-
-  - src: "/images/decks/deck-name/overview.webp"cover: "/images/covers/deck-name.webp"     # OPTIONAL - Cover cho deck card (khuyến nghị nếu có thì mới thêm, chứ đừng cố :)))))
-
-    alt: "Tổng quan giao diện deck"previewImages:                             # OPTIONAL - Ảnh preview trong trang chi tiết
-
-  - src: "/images/decks/deck-name/front-01.webp"
-
-# ===== DOWNLOAD LINKS =====    alt: "Mặt trước thẻ từ vựng"
-
-downloads:                                 # REQUIRED - Ít nhất 1 link download  - src: "/images/decks/deck-name/back-01.webp"
-
-  - name: "AnkiVN"                         # REQUIRED - Tên hiển thị của link    alt: "Mặt sau thẻ với nghĩa tiếng Việt"
-
-    url: "https://drive.google.com/uc?id=DEMO_ID"  # REQUIRED - URL download  - src: "/images/decks/deck-name/overview.webp"
-
-    description: "Link chính từ AnkiVN"     # OPTIONAL - Mô tả ngắn    alt: "Tổng quan giao diện deck"
-
-    type: "ankivn"                          # OPTIONAL - Loại link (ankivn, author, gdrive, r2, firebase, onedrive, other)
-
-  - name: "Tác giả gốc"# ===== DOWNLOAD LINKS =====
-
-    url: "https://example.com/original-deck"downloads:                                 # REQUIRED - Ít nhất 1 link download
-
-    description: "Link từ tác giả ban đầu"  - name: "AnkiVN"                         # REQUIRED - Tên hiển thị của link
-
-    type: "author"    url: "https://drive.google.com/uc?id=DEMO_ID"  # REQUIRED - URL download
-
-  - name: "Google Drive Mirror"    description: "Link chính từ AnkiVN"     # OPTIONAL - Mô tả ngắn
-
-    url: "https://drive.google.com/file/d/1ABC123/view"    type: "ankivn"                          # OPTIONAL - Loại link (ankivn, author, gdrive, r2, firebase, onedrive, other)
-
-    description: "Backup trên Google Drive"  - name: "Tác giả gốc"
-
-    type: "gdrive"    url: "https://example.com/original-deck"
-
----    description: "Link từ tác giả ban đầu"
-
-    type: "author"
-
-<!--   - name: "Google Drive Mirror"
-
-  ⚠️ LƯU Ý VỀ SLUG:    url: "https://drive.google.com/file/d/1ABC123/view"
-
-      description: "Backup trên Google Drive"
-
-  KHÔNG CẦN field 'slug' trong frontmatter!    type: "gdrive"
-
-  ---
-
-  Astro Content Collections tự động tạo slug từ tên file:
-
-  - File: my-english-deck.mdx -> Slug: "my-english-deck"  <!-- 
-
-  - File: 100-phrasal-verbs.mdx -> Slug: "100-phrasal-verbs"  ⚠️ LƯU Ý VỀ SLUG:
-
-    
-
-  URL cuối cùng sẽ là: /decks/my-english-deck  KHÔNG CẦN field 'slug' trong frontmatter!
-
-    
-
-  Quy tắc đặt tên file:  Astro Content Collections tự động tạo slug từ tên file:
-
-  ✅ kebab-case (dấu gạch ngang)  - File: my-english-deck.mdx -> Slug: "my-english-deck"  
-
-  ✅ chỉ dùng chữ cái, số, gạch ngang  - File: 100-phrasal-verbs.mdx -> Slug: "100-phrasal-verbs"
-
-  ✅ không dấu tiếng Việt  
-
-  ✅ không space, ký tự đặc biệt  URL cuối cùng sẽ là: /decks/my-english-deck
-
-    
-
-  Ví dụ tên file tốt:  Quy tắc đặt tên file:
-
-  - english-business-vocabulary.mdx  ✅ kebab-case (dấu gạch ngang)
-
-  - jlpt-n5-kanji.mdx  ✅ chỉ dùng chữ cái, số, gạch ngang
-
-  - ielts-listening-practice.mdx  ✅ không dấu tiếng Việt
-
--->  ✅ không space, ký tự đặc biệt
-
-  
-
-```  Ví dụ tên file tốt:
-
-  - english-business-vocabulary.mdx
-
-# 📖 Mô tả ngắn (bắt buộc)  - jlpt-n5-kanji.mdx
-
-  - ielts-listening-practice.mdx
-
-Viết 1-2 câu mô tả ngắn gọn về bộ thẻ. Phần này sẽ hiển thị ngay sau tiêu đề.-->
-
-
-
-**💡 Nếu có video YouTube hướng dẫn, thêm ngay đây:**```
+## 🔧 Frontmatter Template
 
 ```markdown
-
-import YouTubeEmbed from '@/components/common/YouTubeEmbed.astro';# 📖 Mô tả ngắn (bắt buộc)
-
-<YouTubeEmbed videoId="VIDEO_ID" />
-
-```Viết 1-2 câu mô tả ngắn gọn về bộ thẻ. Phần này sẽ hiển thị ngay sau tiêu đề.
-
-
-
-**💡 Nếu có PDF từ Google Drive, thêm như sau:****💡 Nếu có video YouTube hướng dẫn, thêm ngay đây:**
-
-```markdown```markdown
-
-import PDFEmbed from '../../components/mdx/PDFEmbed.astro';import YouTubeEmbed from '@/components/common/YouTubeEmbed.astro';
-
-<YouTubeEmbed videoId="VIDEO_ID" />
-
-<PDFEmbed ```
-
-  driveId="GOOGLE_DRIVE_FILE_ID"
-
-  title="Tiêu đề PDF"**💡 Nếu có PDF từ Google Drive, thêm như sau:**
-
-  description="Mô tả ngắn về PDF"```markdown
-
-/>import PDFEmbed from '../../components/mdx/PDFEmbed.astro';
-
-```
-
-<PDFEmbed 
-
-## ✨ Tính năng chính  driveId="GOOGLE_DRIVE_FILE_ID"
-
-  title="Tiêu đề PDF"
-
-- **Đặc điểm 1**: Mô tả chi tiết tính năng  description="Mô tả ngắn về PDF"
-
-- **Đặc điểm 2**: Mô tả chi tiết tính năng  />
-
-- **Đặc điểm 3**: Mô tả chi tiết tính năng```
-
-
-
-## 📋 Nội dung bộ thẻ## ✨ Tính năng chính
-
-
-
-### Cấu trúc thẻ- **Đặc điểm 1**: Mô tả chi tiết tính năng
-
-- **Mặt trước**: Mô tả nội dung mặt trước- **Đặc điểm 2**: Mô tả chi tiết tính năng  
-
-- **Mặt sau**: Mô tả nội dung mặt sau- **Đặc điểm 3**: Mô tả chi tiết tính năng
-
-
-
-### Phân loại## 📋 Nội dung bộ thẻ
-
-1. **Nhóm 1** (số lượng thẻ): Mô tả
-
-2. **Nhóm 2** (số lượng thẻ): Mô tả### Cấu trúc thẻ
-
-- **Mặt trước**: Mô tả nội dung mặt trước
-
-## 🎯 Đối tượng phù hợp- **Mặt sau**: Mô tả nội dung mặt sau
-
-
-
-- Người học cấp độ X### Phân loại
-
-- Đang chuẩn bị cho kỳ thi Y1. **Nhóm 1** (số lượng thẻ): Mô tả
-
-- Muốn cải thiện kỹ năng Z2. **Nhóm 2** (số lượng thẻ): Mô tả
-
-
-
-## 📱 Hướng dẫn sử dụng## 🎯 Đối tượng phù hợp
-
-
-
-### Bước 1: Tải xuống- Người học cấp độ X
-
-1. Chọn một trong các link tải xuống ở trên- Đang chuẩn bị cho kỳ thi Y
-
-2. Lưu file .apkg về máy- Muốn cải thiện kỹ năng Z
-
-
-
-### Bước 2: Import vào Anki## 📱 Hướng dẫn sử dụng
-
-1. Mở Anki trên máy tính hoặc điện thoại
-
-2. Chọn File > Import (trên máy tính) hoặc Import (trên điện thoại)### Bước 1: Tải xuống
-
-3. Chọn file .apkg vừa tải1. Chọn một trong các link tải xuống ở trên
-
-2. Lưu file .apkg về máy
-
-### Bước 3: Học hiệu quả
-
-- Học 20-30 thẻ mới mỗi ngày### Bước 2: Import vào Anki
-
-- Review đầy đủ các thẻ đã học1. Mở Anki trên máy tính hoặc điện thoại
-
-- Sử dụng tính năng cloze deletion nếu có2. Chọn File > Import (trên máy tính) hoặc Import (trên điện thoại)
-
-3. Chọn file .apkg vừa tải
-
-## 💡 Tips học tập
-
-### Bước 3: Học hiệu quả
-
-1. **Consistency**: Học đều đặn mỗi ngày- Học 20-30 thẻ mới mỗi ngày
-
-2. **Context**: Đặt từ vào câu để dễ nhớ- Review đầy đủ các thẻ đã học
-
-3. **Practice**: Thực hành nói, viết từ đã học- Sử dụng tính năng cloze deletion nếu có
-
-
-
-## 🔗 Tài liệu liên quan## 💡 Tips học tập
-
-
-
-- [Hướng dẫn import deck](/guides/import-ankidroid)1. **Consistency**: Học đều đặn mỗi ngày
-
-- [Cách tối ưu hóa việc học với Anki](/guides/anki-optimization)2. **Context**: Đặt từ vào câu để dễ nhớ
-
-3. **Practice**: Thực hành nói, viết từ đã học
-
+---
+# ===== THÔNG TIN CƠ BẢN =====
+title: "Tiêu đề bộ thẻ"                    # REQUIRED - Tên hiển thị của deck
+category: "Ngoại ngữ"                      # REQUIRED - Danh mục chính
+subCategory: "Tiếng Anh"                   # OPTIONAL - Danh mục con
+date: "2024-09-01"                         # REQUIRED - Ngày tạo (YYYY-MM-DD)
+author: "AnkiVN"                           # OPTIONAL - Tác giả
+authorLink: "https://ankivn.com/about"     # OPTIONAL - Link đến trang tác giả
+tags: ["vocabulary", "A1", "A2"]          # REQUIRED - Mảng tags (tối thiểu 1)
+
+# ===== HÌNH ẢNH =====
+cover: "/images/decks/deck-name.webp"     # OPTIONAL - Cover cho deck card (khuyến nghị nếu có thì mới thêm, chứ đừng cố :)))))
+previewImages:                             # OPTIONAL - Ảnh preview trong trang chi tiết
+  - src: "/images/decks/deck-name/front-01.webp"
+    alt: "Mặt trước thẻ từ vựng"
+  - src: "/images/decks/deck-name/back-01.webp"
+    alt: "Mặt sau thẻ với nghĩa tiếng Việt"
+  - src: "/images/decks/deck-name/overview.webp"
+    alt: "Tổng quan giao diện deck"
+
+# ===== DOWNLOAD LINKS =====
+downloads:                                 # REQUIRED - Ít nhất 1 link download
+  - name: "AnkiVN"                         # REQUIRED - Tên hiển thị của link
+    url: "https://drive.google.com/uc?id=DEMO_ID"  # REQUIRED - URL download
+    description: "Link chính từ AnkiVN"     # OPTIONAL - Mô tả ngắn
+    type: "ankivn"                          # OPTIONAL - Loại link (ankivn, author, gdrive, r2, firebase, onedrive, other)
+  - name: "Tác giả gốc"
+    url: "https://example.com/original-deck"
+    description: "Link từ tác giả ban đầu"
+    type: "author"
+  - name: "Google Drive Mirror"
+    url: "https://drive.google.com/file/d/1ABC123/view"
+    description: "Backup trên Google Drive"
+    type: "gdrive"
 ---
 
-## 🔗 Tài liệu liên quan
-
-*Nếu bạn gặp vấn đề với bộ thẻ này, vui lòng [liên hệ với chúng tôi](/about).*
-
-- [Hướng dẫn import deck](/guides/import-ankidroid)
-
----- [Cách tối ưu hóa việc học với Anki](/guides/anki-optimization)
-
-
-
-## 📚 Hướng Dẫn Chi Tiết---
-
-
-
-### 🔗 Slug và URL Generation*Nếu bạn gặp vấn đề với bộ thẻ này, vui lòng [liên hệ với chúng tôi](/about).*
+<!-- 
+  ⚠️ LƯU Ý VỀ SLUG:
+  
+  KHÔNG CẦN field 'slug' trong frontmatter!
+  
+  Astro Content Collections tự động tạo slug từ tên file:
+  - File: my-english-deck.mdx -> Slug: "my-english-deck"  
+  - File: 100-phrasal-verbs.mdx -> Slug: "100-phrasal-verbs"
+  
+  URL cuối cùng sẽ là: /decks/my-english-deck
+  
+  Quy tắc đặt tên file:
+  ✅ kebab-case (dấu gạch ngang)
+  ✅ chỉ dùng chữ cái, số, gạch ngang
+  ✅ không dấu tiếng Việt
+  ✅ không space, ký tự đặc biệt
+  
+  Ví dụ tên file tốt:
+  - english-business-vocabulary.mdx
+  - jlpt-n5-kanji.mdx
+  - ielts-listening-practice.mdx
+-->
 
 ```
+
+# 📖 Mô tả ngắn (bắt buộc)
+
+Viết 1-2 câu mô tả ngắn gọn về bộ thẻ. Phần này sẽ hiển thị ngay sau tiêu đề.
+
+**💡 Nếu có video YouTube hướng dẫn, thêm ngay đây:**
+```markdown
+import YouTubeEmbed from '@/components/common/YouTubeEmbed.astro';
+<YouTubeEmbed videoId="VIDEO_ID" />
+```
+
+**💡 Nếu có PDF từ Google Drive, thêm như sau:**
+```markdown
+import PDFEmbed from '../../components/mdx/PDFEmbed.astro';
+
+<PDFEmbed 
+  driveId="GOOGLE_DRIVE_FILE_ID"
+  title="Tiêu đề PDF"
+  description="Mô tả ngắn về PDF"
+/>
+```
+
+## 📚 Hướng Dẫn Chi Tiết
+
+### 🔗 Slug và URL Generation
 
 #### **Tại sao không cần field `slug`?**
 
----
-
 Astro Content Collections **tự động tạo slug từ tên file**, không cần khai báo trong frontmatter:
 
-
-
-```## 📚 Hướng Dẫn Chi Tiết
-
+```
 File: english-business-vocabulary.mdx
-
-→ Slug: "english-business-vocabulary" ### 🔗 Slug và URL Generation
-
-→ URL: /decks/english-business-vocabulary
-
-```#### **Tại sao không cần field `slug`?**
-
-
-
-#### **Quy tắc đặt tên file:**Astro Content Collections **tự động tạo slug từ tên file**, không cần khai báo trong frontmatter:
-
-- ✅ **kebab-case**: `my-deck-name.mdx`
-
-- ✅ **Chỉ dùng**: chữ cái (a-z), số (0-9), gạch ngang (-)```
-
-- ❌ **Tránh**: space, dấu tiếng Việt, ký tự đặc biệtFile: english-business-vocabulary.mdx
-
 → Slug: "english-business-vocabulary" 
+→ URL: /decks/english-business-vocabulary
+```
 
-#### **Ví dụ tên file:**→ URL: /decks/english-business-vocabulary
+#### **Quy tắc đặt tên file:**
+- ✅ **kebab-case**: `my-deck-name.mdx`
+- ✅ **Chỉ dùng**: chữ cái (a-z), số (0-9), gạch ngang (-)
+- ❌ **Tránh**: space, dấu tiếng Việt, ký tự đặc biệt
 
-``````
-
+#### **Ví dụ tên file:**
+```
 ✅ Tốt:
-
-- english-business-vocabulary.mdx#### **Quy tắc đặt tên file:**
-
-- jlpt-n5-kanji-deck.mdx- ✅ **kebab-case**: `my-deck-name.mdx`
-
-- ielts-listening-practice.mdx- ✅ **Chỉ dùng**: chữ cái (a-z), số (0-9), gạch ngang (-)
-
-- medical-terminology-basic.mdx- ❌ **Tránh**: space, dấu tiếng Việt, ký tự đặc biệt
-
-
-
-❌ Tránh:#### **Ví dụ tên file:**
-
-- English Business Vocabulary.mdx    (có space)```
-
-- từ-vựng-tiếng-anh.mdx             (có dấu)✅ Tốt:
-
-- deck#1@special.mdx                (ký tự đặc biệt)- english-business-vocabulary.mdx
-
-```- jlpt-n5-kanji-deck.mdx
-
+- english-business-vocabulary.mdx
+- jlpt-n5-kanji-deck.mdx
 - ielts-listening-practice.mdx
+- medical-terminology-basic.mdx
 
-#### **Trong code Astro:**- medical-terminology-basic.mdx
-
-```typescript
-
-// src/pages/decks/[slug].astro❌ Tránh:
-
-const decks = await getCollection('decks');- English Business Vocabulary.mdx    (có space)
-
-return decks.map((d) => ({ - từ-vựng-tiếng-anh.mdx             (có dấu)
-
-  params: { slug: d.slug }  // ← d.slug tự động từ filename- deck#1@special.mdx                (ký tự đặc biệt)
-
-}));```
-
+❌ Tránh:
+- English Business Vocabulary.mdx    (có space)
+- từ-vựng-tiếng-anh.mdx             (có dấu)
+- deck#1@special.mdx                (ký tự đặc biệt)
 ```
 
 #### **Trong code Astro:**
-
-### 🏷️ Categories và SubCategories```typescript
-
+```typescript
 // src/pages/decks/[slug].astro
+const decks = await getCollection('decks');
+return decks.map((d) => ({ 
+  params: { slug: d.slug }  // ← d.slug tự động từ filename
+}));
+```
 
-#### **Categories chính:**const decks = await getCollection('decks');
-
-- `Tất cả` - Danh mục tổng hợpreturn decks.map((d) => ({ 
-
-- `Ngoại ngữ` - Các ngôn ngữ nước ngoài  params: { slug: d.slug }  // ← d.slug tự động từ filename
-
-- `Giáo dục` - Kiến thức phổ thông}));
-
-- `Chuyên ngành` - Kiến thức chuyên môn```
-
-- `Mẫu thẻ` - Templates và formatting
-
-- `Add-ons` - Tiện ích mở rộng### 🏷️ Categories và SubCategories
-
-- `Khác` - Các chủ đề khác
+### 🏷️ Categories và SubCategories
 
 #### **Categories chính:**
-
-#### **SubCategories cho Ngoại ngữ:**- `Tất cả` - Danh mục tổng hợp
-
-- `Tiếng Anh`, `Tiếng Nhật`, `Tiếng Trung`, `Tiếng Hàn`- `Ngoại ngữ` - Các ngôn ngữ nước ngoài
-
-- `Tiếng Pháp`, `Tiếng Đức`, `Tiếng Nga`- `Giáo dục` - Kiến thức phổ thông
-
+- `Tất cả` - Danh mục tổng hợp
+- `Ngoại ngữ` - Các ngôn ngữ nước ngoài
+- `Giáo dục` - Kiến thức phổ thông
 - `Chuyên ngành` - Kiến thức chuyên môn
-
-#### **SubCategories cho Giáo dục:**- `Mẫu thẻ` - Templates và formatting
-
-- `THCS`, `THPT`, `Đại học`- `Add-ons` - Tiện ích mở rộng
-
+- `Mẫu thẻ` - Templates và formatting
+- `Add-ons` - Tiện ích mở rộng
 - `Khác` - Các chủ đề khác
 
-#### **SubCategories cho Chuyên ngành:**
-
-- `Y Dược`, `Công nghệ thông tin`, `Kinh tế`#### **SubCategories cho Ngoại ngữ:**
-
+#### **SubCategories cho Ngoại ngữ:**
 - `Tiếng Anh`, `Tiếng Nhật`, `Tiếng Trung`, `Tiếng Hàn`
+- `Tiếng Pháp`, `Tiếng Đức`, `Tiếng Nga`
 
-### 🖼️ Quản Lý Hình Ảnh- `Tiếng Pháp`, `Tiếng Đức`, `Tiếng Nga`
+#### **SubCategories cho Giáo dục:**
+- `THCS`, `THPT`, `Đại học`
 
+#### **SubCategories cho Chuyên ngành:**
+- `Y Dược`, `Công nghệ thông tin`, `Kinh tế`
 
+### 🖼️ Quản Lý Hình Ảnh
 
-#### **Cover Image:**#### **SubCategories cho Giáo dục:**
-
-- **Định dạng**: `.webp` (khuyến nghị) hoặc `.jpg/.png`- `THCS`, `THPT`, `Đại học`
-
+#### **Cover Image:**
+- **Định dạng**: `.webp` (khuyến nghị) hoặc `.jpg/.png`
 - **Kích thước**: 1200x630px (tỷ lệ 1.91:1)
-
-- **Dung lượng**: < 500KB#### **SubCategories cho Chuyên ngành:**
-
-- **Đường dẫn**: `/images/covers/deck-name.webp`- `Y Dược`, `Công nghệ thông tin`, `Kinh tế`
-
-
-
-#### **Preview Images:**### 🖼️ Quản Lý Hình Ảnh
-
-- **Định dạng**: `.webp` (khuyến nghị)
-
-- **Kích thước**: Tối thiểu 800px chiều rộng#### **Cover Image:**
-
-- **Số lượng**: Không giới hạn, khuyến nghị 3-5 ảnh- **Định dạng**: `.webp` (khuyến nghị) hoặc `.jpg/.png`
-
-- **Đường dẫn**: `/images/decks/deck-name/`- **Kích thước**: 1200x630px (tỷ lệ 1.91:1)
-
 - **Dung lượng**: < 500KB
+- **Đường dẫn**: `/images/decks/deck-name.webp`
 
-#### **Cấu trúc thư mục:**- **Đường dẫn**: `/images/covers/deck-name.webp`
+#### **Preview Images:**
+- **Định dạng**: `.webp` (khuyến nghị)
+- **Kích thước**: Tối thiểu 800px chiều rộng
+- **Số lượng**: Không giới hạn, khuyến nghị 3-5 ảnh
+- **Đường dẫn**: `/images/decks/deck-name/`
 
+#### **Cấu trúc thư mục:**
+```
+public/
+└── images/
+    └── decks/
+        ├── front-01.webp
+        ├── back-01.webp
+        └── overview.webp
+        ├── hiragana-front.webp
+        └── kanji-back.webp
 ```
 
-public/#### **Preview Images:**
+### � YouTube Video (Tùy chọn)
 
-└── images/- **Định dạng**: `.webp` (khuyến nghị)
+#### **Cách thêm YouTube video trong MDX:**
 
-    ├── covers/- **Kích thước**: Tối thiểu 800px chiều rộng
-
-    │   ├── english-basic.webp- **Số lượng**: Không giới hạn, khuyến nghị 3-5 ảnh
-
-    │   ├── jlpt-n5.webp- **Đường dẫn**: `/images/decks/deck-name/`
-
-    │   └── it-terms.webp
-
-    └── decks/#### **Cấu trúc thư mục:**
-
-        ├── front-01.webp```
-
-        ├── back-01.webppublic/
-
-        └── overview.webp└── images/
-
-        ├── hiragana-front.webp    ├── covers/
-
-        └── kanji-back.webp    │   ├── english-basic.webp
-
-```    │   ├── jlpt-n5.webp
-
-    │   └── it-terms.webp
-
-### 🎥 YouTube Video (Tùy chọn)    └── decks/
-
-        ├── front-01.webp
-
-#### **Cách thêm YouTube video trong MDX:**        ├── back-01.webp
-
-        └── overview.webp
-
-**Sử dụng YouTubeEmbed component (khuyến nghị)**        ├── hiragana-front.webp
-
-```markdown        └── kanji-back.webp
-
----```
-
-[frontmatter metadata]
-
----### � YouTube Video (Tùy chọn)
-
-
-
-import YouTubeEmbed from '@/components/common/YouTubeEmbed.astro';#### **Cách thêm YouTube video trong MDX:**
-
-
-
-<YouTubeEmbed videoId="VIDEO_ID" />**Sử dụng YouTubeEmbed component (khuyến nghị)**
-
+**Sử dụng YouTubeEmbed component (khuyến nghị)**
 ```markdown
-
-## Nội dung chính...---
-
-```[frontmatter metadata]
-
+---
+[frontmatter metadata]
 ---
 
-#### **YouTubeEmbed Component Props:**
+import YouTubeEmbed from '@/components/common/YouTubeEmbed.astro';
 
-- `videoId`: ID của video YouTube (bắt buộc)import YouTubeEmbed from '@/components/common/YouTubeEmbed.astro';
-
-- `title`: Tiêu đề video (tùy chọn, mặc định "YouTube video")
-
-- `width`: Chiều rộng (tùy chọn, mặc định "100%")<YouTubeEmbed videoId="VIDEO_ID" />
-
-- `height`: Chiều cao (tùy chọn, mặc định "315")
+<YouTubeEmbed videoId="VIDEO_ID" />
 
 ## Nội dung chính...
-
-#### **Lấy Video ID từ YouTube URL:**```
-
 ```
 
-https://www.youtube.com/watch?v=GpFwGoKSs3M#### **YouTubeEmbed Component Props:**
-
-                                ↑- `videoId`: ID của video YouTube (bắt buộc)
-
-                            Video ID- `title`: Tiêu đề video (tùy chọn, mặc định "YouTube video")
-
-```- `width`: Chiều rộng (tùy chọn, mặc định "100%")
-
+#### **YouTubeEmbed Component Props:**
+- `videoId`: ID của video YouTube (bắt buộc)
+- `title`: Tiêu đề video (tùy chọn, mặc định "YouTube video")
+- `width`: Chiều rộng (tùy chọn, mặc định "100%")
 - `height`: Chiều cao (tùy chọn, mặc định "315")
 
-#### **Ví dụ thực tế:**
-
-```markdown#### **Lấy Video ID từ YouTube URL:**
-
----```
-
-title: "30 Chủ đề từ vựng tiếng Anh"https://www.youtube.com/watch?v=GpFwGoKSs3M
-
-# ... frontmatter khác                                ↑
-
----                            Video ID
-
+#### **Lấy Video ID từ YouTube URL:**
+```
+https://www.youtube.com/watch?v=GpFwGoKSs3M
+                                ↑
+                            Video ID
 ```
 
-import YouTubeEmbed from '@/components/common/YouTubeEmbed.astro';
-
 #### **Ví dụ thực tế:**
-
-<YouTubeEmbed videoId="GpFwGoKSs3M" />```markdown
-
-```---
-
-title: "30 Chủ đề từ vựng tiếng Anh"
-
-### 📄 PDF Embed (Tùy chọn)# ... frontmatter khác
-
+```markdown
 ---
-
-#### **Cách thêm PDF embed từ Google Drive:**
+title: "30 Chủ đề từ vựng tiếng Anh"
+# ... frontmatter khác
+---
 
 import YouTubeEmbed from '@/components/common/YouTubeEmbed.astro';
 
-```markdown
-
----<YouTubeEmbed videoId="GpFwGoKSs3M" />
-
-[frontmatter metadata]```
-
----
+<YouTubeEmbed videoId="GpFwGoKSs3M" />
+```
 
 ### 📄 PDF Embed (Tùy chọn)
 
-import PDFEmbed from '../../components/mdx/PDFEmbed.astro';
-
 #### **Cách thêm PDF embed từ Google Drive:**
 
+```markdown
+---
+[frontmatter metadata]
+---
+
+import PDFEmbed from '../../components/mdx/PDFEmbed.astro';
+
 <PDFEmbed 
+  driveId="GOOGLE_DRIVE_FILE_ID"
+  title="Tiêu đề PDF"
+  description="Mô tả ngắn về PDF"
+/>
 
-  driveId="GOOGLE_DRIVE_FILE_ID"```markdown
-
-  title="Tiêu đề PDF"---
-
-  description="Mô tả ngắn về PDF"[frontmatter metadata]
-
-/>---
-
-
-
-## Nội dung chính...import PDFEmbed from '../../components/mdx/PDFEmbed.astro';
-
+## Nội dung chính...
 ```
 
-<PDFEmbed 
-
-#### **PDFEmbed Component Props:**  driveId="GOOGLE_DRIVE_FILE_ID"
-
-- `driveId`: ID file từ Google Drive (bắt buộc nếu không có src)  title="Tiêu đề PDF"
-
-- `src`: URL trực tiếp đến PDF (thay thế driveId)  description="Mô tả ngắn về PDF"
-
-- `title`: Tiêu đề hiển thị (tùy chọn)/>
-
-- `description`: Mô tả PDF (tùy chọn)
-
-- `width`: Chiều rộng (mặc định "100%")## Nội dung chính...
-
-- `height`: Chiều cao (mặc định "600px")```
-
-- `allowFullscreen`: Cho phép toàn màn hình (mặc định true)
-
-- `showDownload`: Hiện nút tải xuống (mặc định true)#### **PDFEmbed Component Props:**
-
+#### **PDFEmbed Component Props:**
 - `driveId`: ID file từ Google Drive (bắt buộc nếu không có src)
-
-#### **Lấy Drive ID từ Google Drive URL:**- `src`: URL trực tiếp đến PDF (thay thế driveId)
-
-```- `title`: Tiêu đề hiển thị (tùy chọn)
-
-https://drive.google.com/file/d/1oPwDEQpqa_e8Il8yxvsAE03p4222_CNO/view- `description`: Mô tả PDF (tùy chọn)
-
-                                ↑- `width`: Chiều rộng (mặc định "100%")
-
-                          Google Drive ID- `height`: Chiều cao (mặc định "600px")
-
-```- `allowFullscreen`: Cho phép toàn màn hình (mặc định true)
-
+- `src`: URL trực tiếp đến PDF (thay thế driveId)
+- `title`: Tiêu đề hiển thị (tùy chọn)
+- `description`: Mô tả PDF (tùy chọn)
+- `width`: Chiều rộng (mặc định "100%")
+- `height`: Chiều cao (mặc định "600px")
+- `allowFullscreen`: Cho phép toàn màn hình (mặc định true)
 - `showDownload`: Hiện nút tải xuống (mặc định true)
 
-### 🔗 Download Links
-
 #### **Lấy Drive ID từ Google Drive URL:**
-
-#### **Cấu trúc mới - Array với tên tự do:**```
-
-```yamlhttps://drive.google.com/file/d/1oPwDEQpqa_e8Il8yxvsAE03p4222_CNO/view
-
-downloads:                                ↑
-
-  - name: "Tên hiển thị tự do"                          Google Drive ID
-
-    url: "https://example.com/download-link"```
-
-    description: "Mô tả ngắn (tùy chọn)"
-
-    type: "ankivn" # ankivn, author, gdrive, r2, firebase, onedrive, other### �🔗 Download Links
-
+```
+https://drive.google.com/file/d/1oPwDEQpqa_e8Il8yxvsAE03p4222_CNO/view
+                                ↑
+                          Google Drive ID
 ```
 
+### �🔗 Download Links
+
 #### **Cấu trúc mới - Array với tên tự do:**
-
-#### **Ưu điểm:**```yaml
-
-- **Linh hoạt**: Có thể thêm bao nhiêu link tùy ýdownloads:
-
-- **Tên tự do**: Đặt tên link theo ý muốn (VD: "Google Drive (Remake)", "Version 2.0")  - name: "Tên hiển thị tự do"
-
-- **Mô tả**: Giải thích chi tiết từng link    url: "https://example.com/download-link"
-
-- **Phân loại**: Type giúp hiển thị icon phù hợp    description: "Mô tả ngắn (tùy chọn)"
-
+```yaml
+downloads:
+  - name: "Tên hiển thị tự do"
+    url: "https://example.com/download-link"
+    description: "Mô tả ngắn (tùy chọn)"
     type: "ankivn" # ankivn, author, gdrive, r2, firebase, onedrive, other
+```
 
-#### **Quy tắc URL:**```
-
-- Tất cả link phải là HTTPS
-
-- Google Drive: Dùng direct download link#### **Ưu điểm:**
-
-- Đảm bảo file .apkg có thể tải trực tiếp- **Linh hoạt**: Có thể thêm bao nhiêu link tùy ý
-
+#### **Ưu điểm:**
+- **Linh hoạt**: Có thể thêm bao nhiêu link tùy ý
 - **Tên tự do**: Đặt tên link theo ý muốn (VD: "Google Drive (Remake)", "Version 2.0")
-
-### 🏷️ Tags System- **Mô tả**: Giải thích chi tiết từng link
-
+- **Mô tả**: Giải thích chi tiết từng link
 - **Phân loại**: Type giúp hiển thị icon phù hợp
 
+#### **Quy tắc URL:**
+- Tất cả link phải là HTTPS
+- Google Drive: Dùng direct download link
+- Đảm bảo file .apkg có thể tải trực tiếp
+
+### 🏷️ Tags System
+
 #### **Tags phổ biến:**
-
-- **Cấp độ**: `beginner`, `intermediate`, `advanced`, `A1`, `A2`, `B1`, `B2`, `C1`, `C2`#### **Quy tắc URL:**
-
-- **Kỹ năng**: `vocabulary`, `grammar`, `listening`, `speaking`, `reading`, `writing`- Tất cả link phải là HTTPS
-
-- **Chủ đề**: `business`, `travel`, `daily-life`, `academic`, `medical`, `technology`- Google Drive: Dùng direct download link
-
-- **Định dạng**: `audio`, `images`, `cloze`, `basic`, `reverse`- Đảm bảo file .apkg có thể tải trực tiếp
-
-
-
-#### **Quy tắc đặt tags:**### 🏷️ Tags System
-
-- Viết thường, không dấu
-
-- Dùng dấu gạch ngang thay space#### **Tags phổ biến:**
-
-- Tối thiểu 1 tag, tối đa 10 tags- **Cấp độ**: `beginner`, `intermediate`, `advanced`, `A1`, `A2`, `B1`, `B2`, `C1`, `C2`
-
-- Ưu tiên tags phổ biến để dễ tìm kiếm- **Kỹ năng**: `vocabulary`, `grammar`, `listening`, `speaking`, `reading`, `writing`
-
+- **Cấp độ**: `beginner`, `intermediate`, `advanced`, `A1`, `A2`, `B1`, `B2`, `C1`, `C2`
+- **Kỹ năng**: `vocabulary`, `grammar`, `listening`, `speaking`, `reading`, `writing`
 - **Chủ đề**: `business`, `travel`, `daily-life`, `academic`, `medical`, `technology`
+- **Định dạng**: `audio`, `images`, `cloze`, `basic`, `reverse`
 
-### 📝 Content Guidelines- **Định dạng**: `audio`, `images`, `cloze`, `basic`, `reverse`
-
-
-
-#### **YÊU CẦU NỘI DUNG - TUÂN THỦ NGHIÊM NGẶT:**#### **Quy tắc đặt tags:**
-
+#### **Quy tắc đặt tags:**
 - Viết thường, không dấu
-
-##### ✅ **ĐƯỢC PHÉP:**- Dùng dấu gạch ngang thay space
-
-- Tạo frontmatter metadata- Tối thiểu 1 tag, tối đa 10 tags
-
-- Format theo cấu trúc Markdown chuẩn- Ưu tiên tags phổ biến để dễ tìm kiếm
-
-- Sửa lỗi chính tả rõ ràng (nếu tác giả đồng ý)
+- Dùng dấu gạch ngang thay space
+- Tối thiểu 1 tag, tối đa 10 tags
+- Ưu tiên tags phổ biến để dễ tìm kiếm
 
 ### 📝 Content Guidelines
 
+#### **YÊU CẦU NỘI DUNG - TUÂN THỦ NGHIÊM NGẶT:**
+
+##### ✅ **ĐƯỢC PHÉP:**
+- Tạo frontmatter metadata
+- Format theo cấu trúc Markdown chuẩn
+- Sửa lỗi chính tả rõ ràng (nếu tác giả đồng ý)
+
 ##### ❌ **NGHIÊM CẤM:**
-
-- Thêm thông tin không có trong nội dung gốc#### **YÊU CẦU NỘI DUNG - TUÂN THỦ NGHIÊM NGẶT:**
-
+- Thêm thông tin không có trong nội dung gốc
 - Cắt bớt, rút gọn nội dung tác giả
+- Thay đổi ý nghĩa, ngữ điệu gốc
+- Thêm comment, ghi chú cá nhân
+- Sửa đổi cách diễn đạt của tác giả
+- Thêm section không có trong bản gốc
 
-- Thay đổi ý nghĩa, ngữ điệu gốc##### ✅ **ĐƯỢC PHÉP:**
-
-- Thêm comment, ghi chú cá nhân- Tạo frontmatter metadata
-
-- Sửa đổi cách diễn đạt của tác giả- Format theo cấu trúc Markdown chuẩn
-
-- Thêm section không có trong bản gốc- Sửa lỗi chính tả rõ ràng (nếu tác giả đồng ý)
-
-
-
-##### ⚠️ **LƯU Ý MDX SYNTAX:**##### ❌ **NGHIÊM CẤM:**
-
-- **KHÔNG dùng** `<!--truncate-->` (lỗi MDX)- Thêm thông tin không có trong nội dung gốc
-
-- **KHÔNG dùng** `:::info` directives (không support)- Cắt bớt, rút gọn nội dung tác giả
-
-- **KHÔNG dùng** JSX với `style={{}}` (syntax error)- Thay đổi ý nghĩa, ngữ điệu gốc
-
-- **SỬA** `<button class="">` thành markdown link- Thêm comment, ghi chú cá nhân
-
-- **ĐỔI** đường dẫn `static/images/` thành `/images/`- Sửa đổi cách diễn đạt của tác giả
-
-- **DÙNG** markdown chuẩn thay vì HTML/JSX- Thêm section không có trong bản gốc
-
-- **YOUTUBE**: Dùng `<YouTubeEmbed videoId="..." />` với import statement
-
-- **PDF**: Dùng `<PDFEmbed driveId="..." />` với import statement##### ⚠️ **LƯU Ý MDX SYNTAX:**
-
-- **DOWNLOAD LINKS**: Luôn thêm vào frontmatter `downloads` array, SAU ĐÓ XỬ LÝ THEO NGỮ CẢNH:- **KHÔNG dùng** `<!--truncate-->` (lỗi MDX)
-
-  - Nếu links gom chung ở cuối bài → XOÁ khỏi nội dung- **KHÔNG dùng** `:::info` directives (không support)
-
-  - Nếu links xuất hiện trong hướng dẫn từng bước → GIỮ NGUYÊN trong nội dung- **KHÔNG dùng** JSX với `style={{}}` (syntax error)
-
-- **HÌNH ẢNH**: Kiểm tra đường dẫn phải là `/images/decks/` cho preview images (không phải `/images/covers/`)- **SỬA** `<button class="">` thành markdown link
-
-- Nếu nội dung của người dùng không có hình ảnh nào thì đừng cố gắng thêm nhé. Tuyệt đối không được thêm nếu không có ảnh trong nội dung người dùng gửi.- **ĐỔI** đường dẫn `static/images/` thành `/images/`
-
+##### ⚠️ **LƯU Ý MDX SYNTAX:**
+- **KHÔNG dùng** `<!--truncate-->` (lỗi MDX)
+- **KHÔNG dùng** `:::info` directives (không support)
+- **KHÔNG dùng** JSX với `style={{}}` (syntax error)
+- **SỬA** `<button class="">` thành markdown link
+- **ĐỔI** đường dẫn `static/images/` thành `/images/`
 - **DÙNG** markdown chuẩn thay vì HTML/JSX
+- **YOUTUBE**: Dùng `<YouTubeEmbed videoId="..." />` với import statement
+- **PDF**: Dùng `<PDFEmbed driveId="..." />` với import statement
+- Nếu nội dung của người dùng không có hình ảnh nào thì đừng cố gắng thêm nhé. Tuyệt đối không được thêm nếu không có ảnh trong nội dung người dùng gửi.
 
-#### **Cấu trúc bài viết chuẩn:**- **YOUTUBE**: Dùng `<YouTubeEmbed videoId="..." />` với import statement
-
-```markdown- **PDF**: Dùng `<PDFEmbed driveId="..." />` với import statement
-
----- **DOWNLOAD LINKS**: Luôn thêm vào frontmatter `downloads` array, SAU ĐÓ XOÁ HOÀN TOÀN khỏi nội dung bài viết
-
-[FRONTMATTER - metadata only]- **HÌNH ẢNH**: Kiểm tra đường dẫn phải là `/images/decks/` cho preview images (không phải `/images/covers/`)
-
----- Nếu nội dung của người dùng không có hình ảnh nào thì đừng cố gắng thêm nhé. Tuyệt đối không được thêm nếu không có ảnh trong nội dung người dùng gửi.
-
-
-
-[100% NỘI DUNG GỐC CỦA TÁC GIẢ - KHÔNG THAY ĐỔI]#### **Cấu trúc bài viết chuẩn:**
-
-``````markdown
-
+#### **Cấu trúc bài viết chuẩn:**
+```markdown
+---
+[FRONTMATTER - metadata only]
 ---
 
-#### **Style guide:**[FRONTMATTER - metadata only]
+[100% NỘI DUNG GỐC CỦA TÁC GIẢ - KHÔNG THAY ĐỔI]
+```
 
-- **KHÔNG** thay đổi style gốc của tác giả---
-
-- **KHÔNG** thêm emoji nếu tác giả không dùng
-
-- **KHÔNG** format lại cấu trúc heading nếu tác giả đã có[100% NỘI DUNG GỐC CỦA TÁC GIẢ - KHÔNG THAY ĐỔI]
-
-- **CHỈ** đảm bảo Markdown syntax đúng```
-
-
-
-### 🔍 SEO Best Practices#### **Style guide:**
-
+#### **Style guide:**
 - **KHÔNG** thay đổi style gốc của tác giả
-
-#### **Title:**- **KHÔNG** thêm emoji nếu tác giả không dùng
-
-- Độ dài: 50-60 ký tự- **KHÔNG** format lại cấu trúc heading nếu tác giả đã có
-
-- Bao gồm từ khóa chính- **CHỈ** đảm bảo Markdown syntax đúng
-
-- Tránh từ khóa spam
+- **KHÔNG** thêm emoji nếu tác giả không dùng
+- **KHÔNG** format lại cấu trúc heading nếu tác giả đã có
+- **CHỈ** đảm bảo Markdown syntax đúng
 
 ### 🔍 SEO Best Practices
 
-#### **Tags:**
-
-- Sử dụng từ khóa người dùng hay tìm#### **Title:**
-
-- Cân bằng giữa general và specific tags- Độ dài: 50-60 ký tự
-
-- Kiểm tra tags đã có trong hệ thống- Bao gồm từ khóa chính
-
+#### **Title:**
+- Độ dài: 50-60 ký tự
+- Bao gồm từ khóa chính
 - Tránh từ khóa spam
 
-#### **Content:**
-
-- Heading hierarchy rõ ràng (H2, H3)#### **Tags:**
-
-- Sử dụng internal links- Sử dụng từ khóa người dùng hay tìm
-
-- Alt text cho tất cả hình ảnh- Cân bằng giữa general và specific tags
-
+#### **Tags:**
+- Sử dụng từ khóa người dùng hay tìm
+- Cân bằng giữa general và specific tags
 - Kiểm tra tags đã có trong hệ thống
 
----
-
 #### **Content:**
-
-## 🚀 Workflow Tạo Deck Mới- Heading hierarchy rõ ràng (H2, H3)
-
+- Heading hierarchy rõ ràng (H2, H3)
 - Sử dụng internal links
+- Alt text cho tất cả hình ảnh
 
-1. **Chuẩn bị nội dung:**- Alt text cho tất cả hình ảnh
-
-   - Xác định category/subcategory
-
-   - Chuẩn bị hình ảnh cover và preview---
-
-   - Upload files .apkg lên storage
+---
 
 ## 🚀 Workflow Tạo Deck Mới
 
+1. **Chuẩn bị nội dung:**
+   - Xác định category/subcategory
+   - Chuẩn bị hình ảnh cover và preview
+   - Upload files .apkg lên storage
+
 2. **Tạo file MDX:**
-
-   - Copy template này1. **Chuẩn bị nội dung:**
-
-   - Đặt tên file: `ten-bo-the.mdx` (slug sẽ tự động generate từ filename)   - Xác định category/subcategory
-
-   - Điền đầy đủ frontmatter theo schema   - Chuẩn bị hình ảnh cover và preview
-
-   - **COPY 100% nội dung gốc** của tác giả vào markdown body   - Upload files .apkg lên storage
-
-
-
-3. **Lưu file vào:**2. **Tạo file MDX:**
-
-   ```   - Copy template này
-
-   src/content/decks/ten-bo-the.mdx   - Đặt tên file: `ten-bo-the.mdx` (slug sẽ tự động generate từ filename)
-
-   ```   - Điền đầy đủ frontmatter theo schema
-
+   - Copy template này
+   - Đặt tên file: `ten-bo-the.mdx` (slug sẽ tự động generate từ filename)
+   - Điền đầy đủ frontmatter theo schema
    - **COPY 100% nội dung gốc** của tác giả vào markdown body
 
+3. **Lưu file vào:**
+   ```
+   src/content/decks/ten-bo-the.mdx
+   ```
+
 ### ⚠️ **CHECKLIST TRƯỚC KHI DEPLOY:**
-
-- [ ] Frontmatter đầy đủ và đúng schema3. **Lưu file vào:**
-
-- [ ] Nội dung gốc được giữ 100% không thay đổi   ```
-
-- [ ] **DOWNLOAD LINKS đã được XỬ LÝ ĐÚNG:**   src/content/decks/ten-bo-the.mdx
-
-  - [ ] Links gom chung ở cuối bài → Đã xoá khỏi nội dung   ```
-
-  - [ ] Links xuất hiện trong hướng dẫn từng bước → Đã giữ nguyên trong nội dung
-
-- [ ] **HÌNH ẢNH preview sử dụng đúng đường dẫn `/images/decks/`**### ⚠️ **CHECKLIST TRƯỚC KHI DEPLOY:**
-
-- [ ] Không có thông tin ngoài lề được thêm vào- [ ] Frontmatter đầy đủ và đúng schema
-
-- [ ] Markdown syntax đúng chuẩn- [ ] Nội dung gốc được giữ 100% không thay đổi
-
-- [ ] Download links đã test thành công- [ ] **DOWNLOAD LINKS đã được XOÁ HOÀN TOÀN khỏi nội dung bài viết** (quan trọng!)
-
-- [ ] Preview images hiển thị chính xác- [ ] **HÌNH ẢNH preview sử dụng đúng đường dẫn `/images/decks/`**
-
-- [ ] YouTube video (nếu có) sử dụng YouTubeEmbed component với import statement- [ ] Không có thông tin ngoài lề được thêm vào
-
-- [ ] PDF embed (nếu có) sử dụng PDFEmbed component với import statement- [ ] Markdown syntax đúng chuẩn
-
+- [ ] Frontmatter đầy đủ và đúng schema
+- [ ] Nội dung gốc được giữ 100% không thay đổi
+- [ ] Không có thông tin ngoài lề được thêm vào
+- [ ] Markdown syntax đúng chuẩn
 - [ ] Download links đã test thành công
-
-## ❓ Troubleshooting- [ ] Preview images hiển thị chính xác
-
+- [ ] Preview images hiển thị chính xác
 - [ ] YouTube video (nếu có) sử dụng YouTubeEmbed component với import statement
+- [ ] PDF embed (nếu có) sử dụng PDFEmbed component với import statement
 
-### **Lỗi thường gặp:**- [ ] PDF embed (nếu có) sử dụng PDFEmbed component với import statement
+## ❓ Troubleshooting
 
-
-
-1. **Build failed:**## ❓ Troubleshooting
-
-   - Kiểm tra format date (YYYY-MM-DD)
-
-   - Đảm bảo category/subCategory đúng enum### **Lỗi thường gặp:**
-
-   - Validate frontmatter syntax (đặc biệt YAML indentation)
+### **Lỗi thường gặp:**
 
 1. **Build failed:**
-
-2. **Hình ảnh không hiển thị:**   - Kiểm tra format date (YYYY-MM-DD)
-
-   - Kiểm tra đường dẫn file (phải bắt đầu bằng `/`)   - Đảm bảo category/subCategory đúng enum
-
-   - Đảm bảo file tồn tại trong `public/`   - Validate frontmatter syntax (đặc biệt YAML indentation)
-
-   - Verify image format (.webp khuyến nghị)
+   - Kiểm tra format date (YYYY-MM-DD)
+   - Đảm bảo category/subCategory đúng enum
+   - Validate frontmatter syntax (đặc biệt YAML indentation)
 
 2. **Hình ảnh không hiển thị:**
-
-3. **Download link lỗi:**   - Kiểm tra đường dẫn file (phải bắt đầu bằng `/`)
-
-   - Test tất cả links thủ công   - Đảm bảo file tồn tại trong `public/`
-
-   - Đảm bảo links trả về file .apkg   - Verify image format (.webp khuyến nghị)
-
-   - Kiểm tra CORS headers
+   - Kiểm tra đường dẫn file (phải bắt đầu bằng `/`)
+   - Đảm bảo file tồn tại trong `public/`
+   - Verify image format (.webp khuyến nghị)
 
 3. **Download link lỗi:**
-
-4. **Schema validation error:**   - Test tất cả links thủ công
-
-   - Kiểm tra required fields: `title`, `category`, `date`, `tags`, `downloads`   - Đảm bảo links trả về file .apkg
-
-   - Đảm bảo `downloads` object có ít nhất 1 link   - Kiểm tra CORS headers
-
-   - Validate URL format cho `authorLink` và các download links
+   - Test tất cả links thủ công
+   - Đảm bảo links trả về file .apkg
+   - Kiểm tra CORS headers
 
 4. **Schema validation error:**
+   - Kiểm tra required fields: `title`, `category`, `date`, `tags`, `downloads`
+   - Đảm bảo `downloads` object có ít nhất 1 link
+   - Validate URL format cho `authorLink` và các download links
 
-5. **MDX Syntax error:**   - Kiểm tra required fields: `title`, `category`, `date`, `tags`, `downloads`
-
-   - Loại bỏ `<!--truncate-->` comments (không hợp lệ trong MDX)   - Đảm bảo `downloads` object có ít nhất 1 link
-
-   - Thay `:::info` directives bằng markdown blockquote `>`   - Validate URL format cho `authorLink` và các download links
-
+5. **MDX Syntax error:**
+   - Loại bỏ `<!--truncate-->` comments (không hợp lệ trong MDX)
+   - Thay `:::info` directives bằng markdown blockquote `>`
    - Đổi JSX components thành markdown chuẩn
-
-   - Sửa đường dẫn hình ảnh từ `static/` thành `/`5. **MDX Syntax error:**
-
-   - Tránh dùng `style={{}}` inline styles   - Loại bỏ `<!--truncate-->` comments (không hợp lệ trong MDX)
-
-   - **YouTube**: Dùng `<YouTubeEmbed videoId="..." />` với import statement   - Thay `:::info` directives bằng markdown blockquote `>`
-
-   - **PDF**: Dùng `<PDFEmbed driveId="..." />` với import statement   - Đổi JSX components thành markdown chuẩn
-
    - Sửa đường dẫn hình ảnh từ `static/` thành `/`
-
-### **Support:**   - Tránh dùng `style={{}}` inline styles
-
-Nếu cần hỗ trợ, tạo issue trên GitHub hoặc liên hệ team AnkiVN.   - **YouTube**: Dùng `<YouTubeEmbed videoId="..." />` với import statement
-
+   - Tránh dùng `style={{}}` inline styles
+   - **YouTube**: Dùng `<YouTubeEmbed videoId="..." />` với import statement
    - **PDF**: Dùng `<PDFEmbed driveId="..." />` với import statement
 
-
-
-## 📄 Ví Dụ Thực Tế### **Support:**
-
+### **Support:**
 Nếu cần hỗ trợ, tạo issue trên GitHub hoặc liên hệ team AnkiVN.
+
+
+## 📄 Ví Dụ Thực Tế
 
 Dưới đây là ví dụ dựa trên deck hiện có trong hệ thống:
 
-
-
-```markdown## 📄 Ví Dụ Thực Tế
-
+```markdown
 ---
-
-title: "100 Really Learn Phrasal Verbs for Business"Dưới đây là ví dụ dựa trên deck hiện có trong hệ thống:
-
+title: "100 Really Learn Phrasal Verbs for Business"
 category: "Ngoại ngữ"
-
-subCategory: "Tiếng Anh"```markdown
-
-date: "2022-04-10"---
-
-author: "Góc Tối"title: "100 Really Learn Phrasal Verbs for Business"
-
-authorLink: "https://www.facebook.com/groups/ankivocabulary/posts/1141303989962590/"category: "Ngoại ngữ"
-
-tags: ["phrasal-verbs", "business", "vocabulary", "intermediate"]subCategory: "Tiếng Anh"
-
-cover: "/images/decks/100-Really-Learn-Phrasal-Verbs-for-Business-2.webp"date: "2022-04-10"
-
-downloads:author: "Góc Tối"
-
-  - name: "Tác giả gốc"authorLink: "https://www.facebook.com/groups/ankivocabulary/posts/1141303989962590/"
-
-    url: "https://ankiweb.net/shared/info/1383764229"tags: ["phrasal-verbs", "business", "vocabulary", "intermediate"]
-
-    type: "author"cover: "/images/decks/100-Really-Learn-Phrasal-Verbs-for-Business-2.webp"
-
-  - name: "AnkiVN"downloads:
-
-    url: "https://drive.google.com/file/d/1Bij8rAiNCBEXxug2Lt8gJEpaEb4v4K5B/view?usp=sharing"  - name: "Tác giả gốc"
-
-    type: "ankivn"    url: "https://ankiweb.net/shared/info/1383764229"
-
-previewImages:    type: "author"
-
-  - src: "/images/decks/100-Really-Learn-Phrasal-Verbs-for-Business-1.webp"  - name: "AnkiVN"
-
-    alt: "Mặt trước thẻ phrasal verbs - hiển thị cụm động từ"    url: "https://drive.google.com/file/d/1Bij8rAiNCBEXxug2Lt8gJEpaEb4v4K5B/view?usp=sharing"
-
-  - src: "/images/decks/100-Really-Learn-Phrasal-Verbs-for-Business-2.webp"    type: "ankivn"
-
-    alt: "Mặt sau thẻ với nghĩa tiếng Việt và ví dụ"previewImages:
-
-  - src: "/images/decks/100-Really-Learn-Phrasal-Verbs-for-Business-3.webp"  - src: "/images/decks/100-Really-Learn-Phrasal-Verbs-for-Business-1.webp"
-
-    alt: "Thẻ điền chỗ trống - luyện tập giới từ"    alt: "Mặt trước thẻ phrasal verbs - hiển thị cụm động từ"
-
----  - src: "/images/decks/100-Really-Learn-Phrasal-Verbs-for-Business-2.webp"
-
+subCategory: "Tiếng Anh"
+date: "2022-04-10"
+author: "Góc Tối"
+authorLink: "https://www.facebook.com/groups/ankivocabulary/posts/1141303989962590/"
+tags: ["phrasal-verbs", "business", "vocabulary", "intermediate"]
+cover: "/images/decks/100-Really-Learn-Phrasal-Verbs-for-Business-2.webp"
+downloads:
+  - name: "Tác giả gốc"
+    url: "https://ankiweb.net/shared/info/1383764229"
+    type: "author"
+  - name: "AnkiVN"
+    url: "https://drive.google.com/file/d/1Bij8rAiNCBEXxug2Lt8gJEpaEb4v4K5B/view?usp=sharing"
+    type: "ankivn"
+previewImages:
+  - src: "/images/decks/100-Really-Learn-Phrasal-Verbs-for-Business-1.webp"
+    alt: "Mặt trước thẻ phrasal verbs - hiển thị cụm động từ"
+  - src: "/images/decks/100-Really-Learn-Phrasal-Verbs-for-Business-2.webp"
     alt: "Mặt sau thẻ với nghĩa tiếng Việt và ví dụ"
-
-Bộ deck này gồm **100 phrasal verbs thông dụng trong tiếng Anh thương mại**, được chia thành 2 phần:  - src: "/images/decks/100-Really-Learn-Phrasal-Verbs-for-Business-3.webp"
-
+  - src: "/images/decks/100-Really-Learn-Phrasal-Verbs-for-Business-3.webp"
     alt: "Thẻ điền chỗ trống - luyện tập giới từ"
-
-### **Phần 1**: Nhìn cụm động từ và đoán nghĩa---
-
-### **Phần 2**: Điền vào chỗ trống giới từ phù hợp
+---
 
 Bộ deck này gồm **100 phrasal verbs thông dụng trong tiếng Anh thương mại**, được chia thành 2 phần:
 
+### **Phần 1**: Nhìn cụm động từ và đoán nghĩa
+### **Phần 2**: Điền vào chỗ trống giới từ phù hợp
+
 Xin cảm ơn admin Lê Hoàng Phúc đã nhiệt tình hỗ trợ thu âm audio cho các câu ví dụ.
 
-### **Phần 1**: Nhìn cụm động từ và đoán nghĩa
-
-Mong rằng bộ deck này sẽ giúp các bạn học phrasal verbs một cách hiệu quả.### **Phần 2**: Điền vào chỗ trống giới từ phù hợp
-
-
-
-Mọi góp ý đều được hoan nghênh để cải thiện chất lượng các bộ deck tiếp theo.Xin cảm ơn admin Lê Hoàng Phúc đã nhiệt tình hỗ trợ thu âm audio cho các câu ví dụ.
-
-```
 Mong rằng bộ deck này sẽ giúp các bạn học phrasal verbs một cách hiệu quả.
 
 Mọi góp ý đều được hoan nghênh để cải thiện chất lượng các bộ deck tiếp theo.

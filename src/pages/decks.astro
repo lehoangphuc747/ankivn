@@ -202,7 +202,13 @@ const decks = await getCollection('decks');
 
   <script>
     // View toggle functionality
+    let allGridItems = [];
+    let allListItems = [];
+    
     document.addEventListener('DOMContentLoaded', () => {
+      allGridItems = Array.from(document.getElementById('deck-grid')?.querySelectorAll('[data-deck-item]') || []);
+      allListItems = Array.from(document.getElementById('deck-list')?.querySelectorAll('[data-deck-item]') || []);
+      
       const gridViewBtn = document.getElementById('grid-view-btn');
       const listViewBtn = document.getElementById('list-view-btn');
       const deckGrid = document.getElementById('deck-grid');
@@ -244,29 +250,17 @@ const decks = await getCollection('decks');
       
       if (!deckGrid || !deckList) return;
       
-      const gridItems = deckGrid.querySelectorAll('[data-deck-item]');
-      const listItems = deckList.querySelectorAll('[data-deck-item]');
+      // Clear current order
+      deckGrid.innerHTML = '';
+      deckList.innerHTML = '';
       
-      // Hide all items first
-      gridItems.forEach(item => {
-        (item as HTMLElement).style.display = 'none';
-      });
-      listItems.forEach(item => {
-        (item as HTMLElement).style.display = 'none';
-      });
-      
-      // Show and reorder filtered items
+      // Add items in sorted order
       if (filtered.length > 0) {
-        // Clear current order
-        deckGrid.innerHTML = '';
-        deckList.innerHTML = '';
-        
-        // Add items in sorted order
         filtered.forEach((deck: any) => {
-          const gridItem = Array.from(gridItems).find(item => 
+          const gridItem = allGridItems.find(item => 
             item.getAttribute('data-title') === deck.data.title.toLowerCase()
           );
-          const listItem = Array.from(listItems).find(item => 
+          const listItem = allListItems.find(item => 
             item.getAttribute('data-title') === deck.data.title.toLowerCase()
           );
           
