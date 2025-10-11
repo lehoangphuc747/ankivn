@@ -23,7 +23,9 @@ const {
 const viewerId = `pdf-viewer-${Math.random().toString(36).substr(2, 9)}`;
 ---
 
-<div class={`pdf-embed-container ${className}`}>
+<div class={`pdf-embed-container not-prose ${className}`}>
+
+<div class={`pdf-embed-container not-prose ${className}`}>
   <!-- PDF Header -->
   <div class="pdf-header bg-gray-100 border border-gray-300 rounded-t-lg p-3 flex items-center justify-between">
     <div class="flex items-center">
@@ -38,7 +40,7 @@ const viewerId = `pdf-viewer-${Math.random().toString(36).substr(2, 9)}`;
         <a 
           href={src} 
           download 
-          class="text-sm text-blue-600 hover:text-blue-800 flex items-center"
+          class="pdf-download-link text-sm text-blue-600 hover:text-blue-800 flex items-center font-medium"
           title="Tải xuống PDF"
         >
           <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -50,7 +52,7 @@ const viewerId = `pdf-viewer-${Math.random().toString(36).substr(2, 9)}`;
       
       {allowFullscreen && (
         <button 
-          class="text-sm text-gray-600 hover:text-gray-800 flex items-center"
+          class="pdf-fullscreen-btn text-sm text-gray-600 hover:text-gray-800 flex items-center font-medium"
           onclick={`openPdfFullscreen('${src}', '${title}')`}
           title="Xem toàn màn hình"
         >
@@ -104,60 +106,74 @@ const viewerId = `pdf-viewer-${Math.random().toString(36).substr(2, 9)}`;
       <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
       <p class="text-sm text-gray-600">Đang tải PDF...</p>
     </div>
-  </div>
 </div>
 
-<script>
-  // Function to open PDF in fullscreen modal
-  function openPdfFullscreen(src, title) {
-    const modal = document.createElement('div');
-    modal.className = 'fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center p-4';
-    modal.innerHTML = `
-      <div class="bg-white rounded-lg max-w-7xl max-h-full w-full h-full flex flex-col">
-        <div class="flex items-center justify-between p-4 border-b">
-          <h3 class="text-lg font-semibold">${title}</h3>
-          <button onclick="this.closest('.fixed').remove()" class="text-gray-500 hover:text-gray-700">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-          </button>
-        </div>
-        <div class="flex-1 min-h-0">
-          <iframe 
-            src="${src}#view=FitH&toolbar=1&navpanes=1&scrollbar=1" 
-            class="w-full h-full"
-            title="${title}"
-          ></iframe>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
-    
-    // Close on escape key
-    const handleEscape = (e) => {
-      if (e.key === 'Escape') {
-        modal.remove();
-        document.removeEventListener('keydown', handleEscape);
-      }
-    };
-    document.addEventListener('keydown', handleEscape);
-  }
-
-  // Hide loading indicator when PDF loads
-  document.addEventListener('DOMContentLoaded', function() {
-    const iframes = document.querySelectorAll('.pdf-viewer-wrapper iframe');
-    iframes.forEach(iframe => {
-      iframe.addEventListener('load', function() {
-        const loadingDiv = document.getElementById(`${this.id}-loading`);
-        if (loadingDiv) {
-          loadingDiv.style.display = 'none';
-        }
-      });
-    });
-  });
-</script>
-
 <style>
+  /* PDF Embed specific styles - highest specificity */
+  .pdf-embed-container .pdf-download-link,
+  .pdf-embed-container .pdf-fullscreen-btn {
+    color: inherit !important;
+    text-decoration: none !important;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    font: inherit !important;
+  }
+  
+  .pdf-embed-container .pdf-download-link {
+    color: #2563eb !important;
+  }
+  
+  .pdf-embed-container .pdf-download-link:hover {
+    color: #1d4ed8 !important;
+    text-decoration: underline !important;
+  }
+  
+  .pdf-embed-container .pdf-fullscreen-btn {
+    color: #4b5563 !important;
+  }
+  
+  .pdf-embed-container .pdf-fullscreen-btn:hover {
+    color: #1f2937 !important;
+  }
+  
+  /* Reset any inherited link styles */
+  .pdf-embed-container a.pdf-download-link,
+  .pdf-embed-container button.pdf-fullscreen-btn {
+    all: unset !important;
+  }
+  
+  .pdf-embed-container a.pdf-download-link {
+    color: #2563eb !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+  }
+  
+  .pdf-embed-container a.pdf-download-link:hover {
+    color: #1d4ed8 !important;
+    text-decoration: underline !important;
+  }
+  
+  .pdf-embed-container button.pdf-fullscreen-btn {
+    color: #4b5563 !important;
+    background: none !important;
+    border: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+  }
+  
+  .pdf-embed-container button.pdf-fullscreen-btn:hover {
+    color: #1f2937 !important;
+  }
+  
   .pdf-embed-container {
     position: relative;
     margin: 1.5rem 0;

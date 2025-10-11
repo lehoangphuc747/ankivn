@@ -1,7 +1,7 @@
 import { z, defineCollection } from 'astro:content';
 
 const categoryEnum = z.enum([
-  'Tất cả','Ngoại ngữ','Giáo dục','Chuyên ngành','Mẫu thẻ','Add-ons','Khác'
+  'Tất cả','Ngoại ngữ','Giáo dục','Chuyên ngành','Y Dược','Mẫu thẻ','Add-ons','Khác'
 ]);
 
 const subCategoryEnum = z.enum([
@@ -10,7 +10,7 @@ const subCategoryEnum = z.enum([
   // Giáo dục
   'THCS','THPT','Đại học',
   // Chuyên ngành
-  'Y Dược','Công nghệ thông tin','Kinh tế'
+  'Công nghệ thông tin','Kinh tế'
 ]);
 
 const previewKindEnum = z.enum(['front','back','config','overview','other']);
