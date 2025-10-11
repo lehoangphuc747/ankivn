@@ -698,3 +698,18 @@ h6 {
   h5 { font-size: 1rem; }
   h6 { font-size: 0.875rem; }
 }
+
+/* Custom link styles for markdown content to prevent global overrides */
+.markdown-content a {
+  color: #2563eb !important;
+  text-decoration: underline !important;
+  font-weight: 500 !important;
+  transition: color 0.15s ease !important;
+}
+
+.markdown-content a:hover {
+  color: #1d4ed8 !important;
+  text-decoration: underline !important;
+  text-decoration-color: #3B82F6 !important;
+  text-decoration-thickness: 2px !important;
+}
