@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Đăng Ký Khóa Học Anki Cơ Bản" description="Đăng ký tham gia khóa học Anki cơ bản để học cách ghi nhớ hiệu quả.">
+  <style>
+    .container {
+      max-width: 500px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #4f46e5;
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #374151;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: #4f46e5;
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    .submit-btn:hover {
+      background: #4338ca;
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f8fafc;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .spinner {
+      border: 3px solid #f3f4f6;
+      border-top: 3px solid #4f46e5;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+
+  <div class="container">
+    <h1>🚀 Đăng Ký Khóa Học Anki Cơ Bản</h1>
+
+    <form id="registrationForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSd2jGXkLCS7tnQnSF7BkUogZepUQqd0_E8jELZnqflcQB-sqw/formResponse">
+      <div class="form-group">
+        <label for="name">Họ và tên *</label>
+        <input type="text" id="name" name="entry.1884849361" value="Lê Hoàng Phúc" required>
+      </div>
+
+      <div class="form-group">
+        <label for="facebook">Facebook *</label>
+        <input type="text" id="facebook" name="entry.491379967" value="fb.com/tuilaphuc747" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <input type="email" id="email" name="entry.1002519589" value="erk9308@gmail.com" required>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">
+        🚀 Đăng Ký Ngay
+      </button>
+    </form>
+
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <strong>Đang gửi đăng ký...</strong>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('registrationForm') as HTMLFormElement;
+      const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement;
+      const loading = document.getElementById('loading') as HTMLElement;
+
+      form.addEventListener('submit', function(e) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner"></span> Đang gửi...';
+        loading.style.display = 'block';
+        // Form will submit normally to Google Forms
+      });
+    });
+  </script>
+</BaseLayout>
