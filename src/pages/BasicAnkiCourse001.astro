@@ -78,6 +78,26 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       border: 1px solid #e2e8f0;
     }
 
+    .about {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: #f8fafc;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      color: #374151;
+      line-height: 1.6;
+    }
+
+    .about h2 {
+      margin: 0 0 0.5rem 0;
+      color: #111827;
+      font-size: 1.1rem;
+    }
+
+    .about ul {
+      margin: 0.5rem 0 0.5rem 1.25rem;
+    }
+
     .spinner {
       border: 3px solid #f3f4f6;
       border-top: 3px solid #4f46e5;
@@ -133,6 +153,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <div class="loading" id="loading">
       <div class="spinner"></div>
       <strong>Đang gửi đăng ký...</strong>
+    </div>
+
+    <div class="about" id="about">
+      <h2>✨ Về mình</h2>
+      <p>Với hơn 3 năm kinh nghiệm, mình đã trực tiếp hỗ trợ hơn 100 người Việt đang:</p>
+      <ul>
+        <li>Sinh sống tại nhiều quốc gia: Việt Nam, Nhật Bản, Hàn Quốc, Cộng hòa Czech, Mông Cổ, Úc, Mỹ, ….</li>
+        <li>Nhiều lĩnh vực và chuyên ngành: Học tiếng Anh, tiếng Trung, tiếng Hàn, tiếng Nhật (khó nhất); Cơ khí, hàng hải, kiểm toán, v.v...</li>
+      </ul>
+      <p>→ Dù bạn học ngoại ngữ hay chuyên ngành kỹ thuật, Anki đều có thể giúp bạn ghi nhớ hiệu quả hơn – nếu biết cách dùng đúng.</p>
     </div>
   </div>
 
