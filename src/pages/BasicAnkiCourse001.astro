@@ -110,22 +110,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       font-weight: 600;
     }
 
-    .content-wrapper {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: start;
-    }
-
     .about {
-      margin-top: 0;
+      margin: 2rem 0;
       padding: 0;
       color: #1e293b;
       line-height: 1.7;
     }
 
     .form-section {
-      margin-top: 0;
+      margin-top: 2rem;
     }
 
     .about h2 {
@@ -194,40 +187,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         max-width: none;
       }
 
-      .content-wrapper {
-        display: block;
-        gap: 0;
+      .about {
+        margin: 1.5rem 0;
       }
 
-      .advanced-topics {
-        margin-bottom: 2rem;
-        padding: 1.5rem;
-        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-        border-radius: 12px;
-        border: 2px solid #0ea5e9;
-        color: #0c4a6e;
-      }
-
-      .advanced-topics h3 {
-        margin: 0 0 1rem 0;
-        color: #0c4a6e;
-        font-size: 1.1rem;
-        font-weight: 700;
-      }
-
-      .advanced-topics ul {
-        margin: 0;
-        padding-left: 1.5rem;
-      }
-
-      .advanced-topics li {
-        margin-bottom: 0.75rem;
-        line-height: 1.5;
-        color: #374151;
-      }
-
-      .advanced-topics li:last-child {
-        margin-bottom: 0;
+      .form-section {
+        margin-top: 1.5rem;
       }
     }
   </style>
@@ -235,57 +200,58 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <div class="container">
     <h1>BUỔI HƯỚNG DẪN ANKI CƠ BẢN<br><small>(BASIC ANKI COURSE)</small></h1>
 
-    <div class="content-wrapper">
-      <div class="about" id="about">
-        <h2>✨ Về mình</h2>
-        <p>Với hơn 3 năm kinh nghiệm, mình đã trực tiếp hỗ trợ hơn 100 người Việt đang:</p>
-        <ul>
-          <li>Sinh sống tại nhiều quốc gia: Việt Nam, Nhật Bản, Hàn Quốc, Cộng hòa Czech, Mông Cổ, Úc, Mỹ, ….</li>
-          <li>Nhiều lĩnh vực và chuyên ngành: Học tiếng Anh, tiếng Trung, tiếng Hàn, tiếng Nhật (khó nhất); Cơ khí, hàng hải, kiểm toán, v.v...</li>
-        </ul>
-        <p>→ Dù bạn học ngoại ngữ hay chuyên ngành kỹ thuật, Anki đều có thể giúp bạn ghi nhớ hiệu quả hơn – nếu biết cách dùng đúng.</p>
-      </div>
+    <!-- Advanced Topics - Hook người dùng ngay từ đầu -->
+    <div class="advanced-topics">
+      <h3>🔓 CÁC CHỦ ĐỀ NÂNG CAO TIẾP THEO</h3>
+      <ul>
+        <li>🤖 Tạo thẻ hàng loạt với AI & Google Sheets</li>
+        <li>🎨 Tạo mẫu thẻ bằng AI (cho người không biết code)</li>
+        <li>💻 Anki Portable – học mọi lúc, mọi nơi, không cần cài lại</li>
+        <li>🧠 Hệ thống hóa kiến thức với Obsidian + Anki (phù hợp với người muốn xây dựng hệ thống học sâu và cá nhân hóa)</li>
+      </ul>
+    </div>
 
-      <div class="form-section">
-        <form id="registrationForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSd2jGXkLCS7tnQnSF7BkUogZepUQqd0_E8jELZnqflcQB-sqw/formResponse">
-          <div class="form-group">
-            <label for="name">Họ và tên *</label>
-            <input type="text" id="name" name="entry.1884849361" placeholder="Ví dụ: Lê Hoàng Phúc" required>
-            <div class="error-message">Vui lòng nhập họ và tên</div>
-          </div>
+    <!-- About Section - Xây dựng niềm tin -->
+    <div class="about" id="about">
+      <h2>✨ Về mình</h2>
+      <p>Với hơn 3 năm kinh nghiệm, mình đã trực tiếp hỗ trợ hơn 100 người Việt đang:</p>
+      <ul>
+        <li>Sinh sống tại nhiều quốc gia: Việt Nam, Nhật Bản, Hàn Quốc, Cộng hòa Czech, Mông Cổ, Úc, Mỹ, ….</li>
+        <li>Nhiều lĩnh vực và chuyên ngành: Học tiếng Anh, tiếng Trung, tiếng Hàn, tiếng Nhật (khó nhất); Cơ khí, hàng hải, kiểm toán, v.v...</li>
+      </ul>
+      <p>→ Dù bạn học ngoại ngữ hay chuyên ngành kỹ thuật, Anki đều có thể giúp bạn ghi nhớ hiệu quả hơn – nếu biết cách dùng đúng.</p>
+    </div>
 
-          <div class="form-group">
-            <label for="facebook">Facebook *</label>
-            <input type="text" id="facebook" name="entry.491379967" placeholder="Ví dụ: fb.com/tuilaphuc747" required>
-            <div class="error-message">Vui lòng nhập Facebook</div>
-          </div>
-
-          <div class="form-group">
-            <label for="email">Gmail *</label>
-            <input type="email" id="email" name="entry.1002519589" placeholder="Ví dụ: ankivn.official@gmail.com" required>
-            <small style="color: #6b7280; font-size: 0.875rem; margin-top: 0.25rem; display: block;">Nhập gmail để được cấp quyền truy cập vào buổi hướng dẫn</small>
-            <div class="error-message">Vui lòng nhập Gmail hợp lệ</div>
-          </div>
-
-          <button type="submit" class="submit-btn" id="submitBtn">
-            🚀 Đăng Ký Ngay
-          </button>
-        </form>
-
-        <div class="loading" id="loading">
-          <div class="spinner"></div>
-          <strong>Đang gửi đăng ký...</strong>
+    <!-- Registration Form - Convert action -->
+    <div class="form-section">
+      <form id="registrationForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSd2jGXkLCS7tnQnSF7BkUogZepUQqd0_E8jELZnqflcQB-sqw/formResponse">
+        <div class="form-group">
+          <label for="name">Họ và tên *</label>
+          <input type="text" id="name" name="entry.1884849361" placeholder="Ví dụ: Lê Hoàng Phúc" required>
+          <div class="error-message">Vui lòng nhập họ và tên</div>
         </div>
 
-        <div class="advanced-topics">
-          <h3>🔓 CÁC CHỦ ĐỀ NÂNG CAO TIẾP THEO</h3>
-          <ul>
-            <li>🤖 Tạo thẻ hàng loạt với AI & Google Sheets</li>
-            <li>🎨 Tạo mẫu thẻ bằng AI (cho người không biết code)</li>
-            <li>💻 Anki Portable – học mọi lúc, mọi nơi, không cần cài lại</li>
-            <li>🧠 Hệ thống hóa kiến thức với Obsidian + Anki (phù hợp với người muốn xây dựng hệ thống học sâu và cá nhân hóa)</li>
-          </ul>
+        <div class="form-group">
+          <label for="facebook">Facebook *</label>
+          <input type="text" id="facebook" name="entry.491379967" placeholder="Ví dụ: fb.com/tuilaphuc747" required>
+          <div class="error-message">Vui lòng nhập Facebook</div>
         </div>
+
+        <div class="form-group">
+          <label for="email">Gmail *</label>
+          <input type="email" id="email" name="entry.1002519589" placeholder="Ví dụ: ankivn.official@gmail.com" required>
+          <small style="color: #6b7280; font-size: 0.875rem; margin-top: 0.25rem; display: block;">Nhập gmail để được cấp quyền truy cập vào buổi hướng dẫn</small>
+          <div class="error-message">Vui lòng nhập Gmail hợp lệ</div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          🚀 Đăng Ký Ngay
+        </button>
+      </form>
+
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <strong>Đang gửi đăng ký...</strong>
       </div>
     </div>
   </div>
