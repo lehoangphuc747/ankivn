@@ -117,6 +117,57 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       line-height: 1.7;
     }
 
+    .session-info {
+      margin: 2rem 0;
+      padding: 2rem;
+      background: linear-gradient(135deg, #fef7ff 0%, #fdf4ff 100%);
+      border-radius: 12px;
+      border: 2px solid #c084fc;
+      color: #1e293b;
+    }
+
+    .session-info h2 {
+      margin: 0 0 1.5rem 0;
+      color: #7c3aed;
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .info-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .info-content {
+      line-height: 1.5;
+      color: #374151;
+    }
+
+    .info-note {
+      margin: 0;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 8px;
+      border-left: 4px solid #c084fc;
+      font-style: italic;
+      color: #4b5563;
+      line-height: 1.6;
+    }
+
     .form-section {
       margin-top: 2rem;
     }
@@ -191,6 +242,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         margin: 1.5rem 0;
       }
 
+      .session-info {
+        margin: 1.5rem 0;
+        padding: 1.5rem;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
       .form-section {
         margin-top: 1.5rem;
       }
@@ -201,15 +262,49 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <h1>BUỔI HƯỚNG DẪN ANKI CƠ BẢN<br><small>(BASIC ANKI COURSE)</small></h1>
 
     <!-- About Section - Xây dựng niềm tin -->
-    <div class="about" id="about">
-      <h2>✨ Về mình</h2>
-      <p>Với hơn 3 năm kinh nghiệm, mình đã trực tiếp hỗ trợ hơn 100 người Việt đang:</p>
-      <ul>
-        <li>Sinh sống tại nhiều quốc gia: Việt Nam, Nhật Bản, Hàn Quốc, Cộng hòa Czech, Mông Cổ, Úc, Mỹ, ….</li>
-        <li>Nhiều lĩnh vực và chuyên ngành: Học tiếng Anh, tiếng Trung, tiếng Hàn, tiếng Nhật (khó nhất); Cơ khí, hàng hải, kiểm toán, v.v...</li>
-      </ul>
-      <p>→ Dù bạn học ngoại ngữ hay chuyên ngành kỹ thuật, Anki đều có thể giúp bạn ghi nhớ hiệu quả hơn – nếu biết cách dùng đúng.</p>
-    </div>
+    <section class="about-section">
+      <div class="about" id="about">
+        <h2>✨ Về mình</h2>
+        <p>Với hơn 3 năm kinh nghiệm, mình đã trực tiếp hỗ trợ hơn 100 người Việt đang:</p>
+        <ul>
+          <li>Sinh sống tại nhiều quốc gia: Việt Nam, Nhật Bản, Hàn Quốc, Cộng hòa Czech, Mông Cổ, Úc, Mỹ, ….</li>
+          <li>Nhiều lĩnh vực và chuyên ngành: Học tiếng Anh, tiếng Trung, tiếng Hàn, tiếng Nhật (khó nhất); Cơ khí, hàng hải, kiểm toán, v.v...</li>
+        </ul>
+        <p>→ Dù bạn học ngoại ngữ hay chuyên ngành kỹ thuật, Anki đều có thể giúp bạn ghi nhớ hiệu quả hơn – nếu biết cách dùng đúng.</p>
+      </div>
+    </section>
+
+    <!-- Session Info Section -->
+    <section class="session-info">
+      <h2>ℹ️ THÔNG TIN BUỔI HƯỚNG DẪN</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-icon">⏰</span>
+          <div class="info-content">
+            <strong>Thời gian:</strong> 19:30, Chủ Nhật
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">⏳</span>
+          <div class="info-content">
+            <strong>Thời lượng:</strong> ~90 phút
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">📍</span>
+          <div class="info-content">
+            <strong>Hình thức:</strong> Online (Link tham gia sẽ gửi về email đã đăng ký)
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">💰</span>
+          <div class="info-content">
+            <strong>Phí:</strong> tuỳ tâm, hổng gửi cũng được :)))
+          </div>
+        </div>
+      </div>
+      <p class="info-note">Video về quá trình học sẽ được chỉnh sửa và đăng lại lên trang Anki Việt Nam để kiến thức có thể được chia sẻ lại.</p>
+    </section>
 
     <!-- Registration Form - Convert action -->
     <div class="form-section">
