@@ -35,11 +35,11 @@ tags: ["vocabulary", "A1", "A2"]          # REQUIRED - Mảng tags (tối thiể
 # ===== HÌNH ẢNH =====
 cover: "/images/decks/deck-name.webp"     # OPTIONAL - Cover cho deck card (khuyến nghị nếu có thì mới thêm, chứ đừng cố :)))))
 previewImages:                             # OPTIONAL - Ảnh preview trong trang chi tiết
-  - src: "/images/decks/deck-name/front-01.webp"
+  - src: "/images/decks/deck-name-front-01.webp"
     alt: "Mặt trước thẻ từ vựng"
-  - src: "/images/decks/deck-name/back-01.webp"
+  - src: "/images/decks/deck-name-back-01.webp"
     alt: "Mặt sau thẻ với nghĩa tiếng Việt"
-  - src: "/images/decks/deck-name/overview.webp"
+  - src: "/images/decks/deck-name-overview.webp"
     alt: "Tổng quan giao diện deck"
 
 # ===== DOWNLOAD LINKS =====
@@ -188,6 +188,7 @@ return decks.map((d) => ({
 - **Kích thước**: Tối thiểu 800px chiều rộng
 - **Số lượng**: Không giới hạn, khuyến nghị 3-5 ảnh
 - **Đường dẫn**: `/images/decks/deck-name/`
+- **Đường dẫn**: `/images/decks/`
 
 #### **Cấu trúc thư mục:**
 ```
