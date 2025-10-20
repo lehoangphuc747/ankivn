@@ -74,7 +74,8 @@ const blog = defineCollection({
     author: z.string().optional(),
     tags: z.array(z.string()).default([]),
     summary: z.string().optional(),
-    cover: z.string().optional()
+    cover: z.string().optional(),
+    source: z.string().optional()
   })
 });
 

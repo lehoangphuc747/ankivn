@@ -28,6 +28,7 @@ const {
 
 // Safe defaults
 const safeTags = tags || [];
+const safeSource = source || null;
 const formattedDate = publishDate ? new Date(publishDate).toLocaleDateString('vi-VN', {
   year: 'numeric',
   month: 'long',
@@ -102,14 +103,25 @@ const getCategoryColor = (cat?: string) => {
                   <div>
                     <p class="text-sm text-gray-500">Tác giả</p>
                     <p class="text-lg font-semibold text-gray-800">{author}</p>
+                    {authorBio && (
+                      <p class="text-sm text-gray-600 mt-1">{authorBio}</p>
+                    )}
                   </div>
                 </div>
-                {source && (
-                  <a href={source} target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium flex-shrink-0">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                    MỞ NGUỒN
-                  </a>
-                )}
+
+                <div class="flex items-center gap-3">
+                  {safeSource ? (
+                    <a href={safeSource} target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium flex-shrink-0 shadow-md hover:shadow-lg transform hover:-translate-y-0.5" title="Mở nguồn bài viết trong tab mới">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                      Mở nguồn bài viết
+                    </a>
+                  ) : (
+                    <button class="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-500 rounded-lg text-sm font-medium flex-shrink-0 cursor-not-allowed" aria-disabled="true" title="Bài viết không có nguồn tham khảo">
+                      <svg class="w-4 h-4 mr-2 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                      Không có nguồn
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           )}
