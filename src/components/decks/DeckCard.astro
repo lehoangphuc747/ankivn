@@ -1,4 +1,4 @@
-﻿---
+﻿﻿---
 interface Props {
   title: string;
   cover?: string;
@@ -7,9 +7,10 @@ interface Props {
   subCategory?: string;
   href: string;
   tags?: string[];
+  type?: 'BÁN' | 'CHIA SẺ';
 }
 
-const { title, cover, date, category, subCategory, href, tags = [] } = Astro.props;
+const { title, cover, date, category, subCategory, href, tags = [], type } = Astro.props;
 const slug = href.split('/').pop();
 const displayCover = cover ?? '/default-thumbnail.webp';
 ---
@@ -34,6 +35,14 @@ const displayCover = cover ?? '/default-thumbnail.webp';
   }
 </style>
 
+<style>
+  .deck-card-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+</style>
+
 <article class="group relative bg-white/80 backdrop-blur-sm rounded-3xl border-2 border-gray-200/60 overflow-hidden hover:border-blue-300/40 transition-all duration-200">
   <a href={href} target="_blank" rel="noopener noreferrer" class="block">
     <!-- Cover Image with Overlay -->
@@ -49,6 +58,13 @@ const displayCover = cover ?? '/default-thumbnail.webp';
 
       <!-- Gradient overlay on hover -->
       <div class="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 transition-opacity duration-150"></div>
+
+      <!-- Type Badge -->
+      {type === 'BÁN' && (
+        <div class="deck-card-badge">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-white bg-gradient-to-r from-red-500 to-orange-500 shadow-lg">BÁN</span>
+        </div>
+      )}
     </div>
 
     <!-- Content -->

@@ -31,6 +31,7 @@ date: "2024-09-01"                         # REQUIRED - Ngày tạo (YYYY-MM-DD)
 author: "AnkiVN"                           # OPTIONAL - Tác giả
 authorLink: "https://ankivn.com/about"     # OPTIONAL - Link đến trang tác giả
 tags: ["vocabulary", "A1", "A2"]          # REQUIRED - Mảng tags (tối thiểu 1)
+type: "CHIA SẺ"                           # OPTIONAL - Loại nội dung ("CHIA SẺ" hoặc "BÁN")
 
 # ===== HÌNH ẢNH =====
 cover: "/images/decks/deck-name.webp"     # OPTIONAL - Cover cho deck card (khuyến nghị nếu có thì mới thêm, chứ đừng cố :)))))

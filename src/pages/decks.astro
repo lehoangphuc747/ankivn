@@ -113,6 +113,7 @@ const decks = await getCollection('decks');
              data-category={d.data.category || ''} 
              data-subcategory={d.data.subCategory || ''} 
              data-tags={(d.data.tags || []).map(t => t.toLowerCase()).join(',')}
+             data-type={d.data.type || 'CHIA SẺ'}
              data-date={d.data.date || ''}>
           <DeckCard
             title={d.data.title}
@@ -120,6 +121,7 @@ const decks = await getCollection('decks');
             date={d.data.date}
             category={d.data.category}
             subCategory={d.data.subCategory}
+            type={d.data.type}
             href={`/decks/${d.slug}`}
           />
         </div>
@@ -134,8 +136,9 @@ const decks = await getCollection('decks');
              data-category={d.data.category || ''} 
              data-subcategory={d.data.subCategory || ''} 
              data-tags={(d.data.tags || []).map(t => t.toLowerCase()).join(',')}
+             data-type={d.data.type || 'CHIA SẺ'}
              data-date={d.data.date || ''}>
-          <article class="bg-white/80 backdrop-blur-sm rounded-2xl border-2 border-gray-200/60 overflow-hidden hover:border-blue-300/40 transition-all duration-200 px-4 py-3">
+          <article class="relative bg-white/80 backdrop-blur-sm rounded-2xl border-2 border-gray-200/60 overflow-hidden hover:border-blue-300/40 transition-all duration-200 px-4 py-3">
             <a href={`/decks/${d.slug}`} target="_blank" rel="noopener noreferrer" class="flex gap-4">
               <!-- Cover Image -->
               <div class="flex-shrink-0 w-20 h-20 bg-gradient-to-br from-blue-50 to-emerald-50 rounded-xl overflow-hidden">
@@ -185,6 +188,13 @@ const decks = await getCollection('decks');
                 )}
               </div>
             </a>
+
+            <!-- Type Badge for List View -->
+            {d.data.type === 'BÁN' && (
+              <div class="absolute top-3 right-3">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-red-500 to-orange-500">BÁN</span>
+              </div>
+            )}
           </article>
         </div>
       ))}

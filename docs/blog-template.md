@@ -20,6 +20,7 @@ author: "Tên tác giả" # Mặc định là "AnkiVN Team" nếu bỏ trống
 authorBio: "Một đoạn giới thiệu ngắn về tác giả. Nếu bỏ trống, sẽ dùng bio mặc định của AnkiVN Team."
 category: "review" # Phân loại bài viết (vd: review, tutorial, tips, news)
 source: "https://example.com/source-link" # OPTIONAL - Link đến bài viết gốc
+type: "CHIA SẺ" # OPTIONAL - Loại nội dung ("CHIA SẺ" hoặc "BÁN")
 tags: ["tag1", "tag2", "tag3"] # Mảng các tags, viết thường, không dấu, nối bằng gạch ngang
 cover: "/images/blog/ten-bai-viet/cover.webp" # Ảnh bìa hiển thị ở đầu bài viết và trên card
 ---
@@ -38,6 +39,7 @@ cover: "/images/blog/ten-bai-viet/cover.webp" # Ảnh bìa hiển thị ở đ�
 -   **`author` (Tùy chọn):** Tên tác giả. Nếu có, một khung giới thiệu tác giả sẽ xuất hiện ở cuối bài viết.
 -   **`authorBio` (Tùy chọn):** Tiểu sử của tác giả. Hữu ích cho các tác giả khách không thuộc AnkiVN Team.
 -   **`source` (Tùy chọn):** Đường link đến bài viết gốc (ví dụ: Facebook, blog cá nhân).
+-   **`type` (Tùy chọn):** Phân loại nội dung là "CHIA SẺ" (mặc định) hoặc "BÁN".
 -   **`category` (Tùy chọn):** Giúp phân loại bài viết. Ví dụ: `review`, `tutorial`, `tips`, `news`.
 -   **`tags` (Tùy chọn):** Giúp người dùng tìm kiếm và lọc bài viết.
 -   **`cover` (Tùy chọn):** Đường dẫn đến ảnh bìa. Nếu có, ảnh sẽ hiển thị rất nổi bật.

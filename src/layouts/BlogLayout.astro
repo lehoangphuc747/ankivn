@@ -28,7 +28,7 @@ const {
 
 // Safe defaults
 const safeTags = tags || [];
-const safeSource = source || null;
+const safeSource = source;
 const formattedDate = publishDate ? new Date(publishDate).toLocaleDateString('vi-VN', {
   year: 'numeric',
   month: 'long',
