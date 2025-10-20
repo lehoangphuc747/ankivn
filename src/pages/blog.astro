@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import BlogCard from '@/components/blog/BlogCard.astro';
+import BlogSearch from '@/components/blog/BlogSearch.jsx';
 const posts = await getCollection('blog');
 ---
 <BaseLayout title="Blog">
@@ -47,41 +47,8 @@ const posts = await getCollection('blog');
 
   <!-- Blog Content -->
   <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <!-- Stats -->
-    <div class="text-center mb-8">
-      <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-2xl px-6 py-3 border border-white/20 shadow-lg">
-        <svg class="h-5 w-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-        </svg>
-        <span class="font-bold text-purple-600">{posts.length}</span>
-        <span class="text-gray-600">bài viết</span>
-      </div>
-    </div>
-
-    <!-- Blog Grid -->
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 fade-in-scroll">
-      {posts.map((post) => (
-        <BlogCard
-          title={post.data.title}
-          summary={post.data.summary}
-          cover={post.data.cover}
-          date={post.data.date}
-          tags={post.data.tags}
-          href={`/blog/${post.slug}`}
-        />
-      ))}
-    </div>
-
-    <!-- Empty State -->
-    {posts.length === 0 && (
-      <div class="text-center py-12">
-        <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-        </svg>
-        <h2 class="text-xl font-bold text-gray-900 mb-2">Nội dung blog</h2>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">Chưa có bài viết nào</h3>
-        <p class="text-gray-500">Hãy quay lại sau để đọc những bài viết mới nhất.</p>
-      </div>
-    )}
+    <!-- Blog Search Component -->
+    {/* This component handles search input, filtering, and displaying results. */}
+    <BlogSearch client:load items={posts} />
   </section>
 </BaseLayout>
