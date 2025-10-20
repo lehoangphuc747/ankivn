@@ -35,6 +35,7 @@ export interface Props {
       };
     };
   };
+  mainContent?: any; // This prop is no longer used, but kept for safety. We will use slot instead.
   gradients?: Partial<CourseGradients>;
   prerequisiteSection?: {
     show: boolean;
@@ -46,7 +47,7 @@ export interface Props {
   };
 }
 
-const { course, theme, gradients, prerequisiteSection, nextCourseSection } = Astro.props;
+const { course, theme, gradients, prerequisiteSection, nextCourseSection, mainContent } = Astro.props;
 const courseGradients = mergeGradients(gradients, defaultGradients);
 const heroGradientClass = buildGradientClass(courseGradients.hero!);
 const moduleHeaderGradientClass = buildGradientClass(courseGradients.moduleHeader!);
@@ -71,11 +72,11 @@ import BaseLayout from './BaseLayout.astro';
           <!-- Course Stats -->
           <div class="flex flex-wrap justify-center gap-8 mb-8">
             <div class="text-center">
-              <div class={`text-2xl font-bold text-${theme.colors.primary}-600`}>{course.modules.length}</div>
+              <div class={`text-2xl font-bold text-${theme.colors.primary}-600`}>{course.modules?.length || 0}</div>
               <div class="text-gray-600">Modules</div>
             </div>
             <div class="text-center">
-              <div class={`text-2xl font-bold text-${theme.colors.secondary}-600`}>{course.modules.reduce((acc, module) => acc + module.lessons.length, 0)}</div>
+              <div class={`text-2xl font-bold text-${theme.colors.secondary}-600`}>{course.modules?.reduce((acc, module) => acc + (module.lessons?.length || 0), 0) || 0}</div>
               <div class="text-gray-600">Bài học</div>
             </div>
             <div class="text-center">
@@ -119,6 +120,14 @@ import BaseLayout from './BaseLayout.astro';
       </section>
     )}
 
+    <!-- Main Content from MDX file -->
+    {mainContent ? (
+      <section class="py-12"><div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"><Fragment set:html={mainContent} /></div></section>
+    ) : (
+      <section class="py-12"><div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"><slot /></div></section>
+    )}
+
+
     <!-- Course Content -->
     <section id="modules" class="py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -127,7 +136,7 @@ import BaseLayout from './BaseLayout.astro';
             Nội dung khóa học
           </h2>
           <p class="text-gray-600">
-            {course.modules.length} modules • {course.modules.reduce((acc, module) => acc + module.lessons.length, 0)} bài học • {course.duration} tổng thời lượng
+            {course.modules?.length || 0} modules • {course.modules?.reduce((acc, module) => acc + (module.lessons?.length || 0), 0) || 0} bài học • {course.duration} tổng thời lượng
           </p>
         </div>
 

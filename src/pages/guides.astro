@@ -17,11 +17,17 @@ const totalLessons = allValidGuides.reduce((acc, guide) => {
   return acc + (guide.data.modules?.reduce((lessonAcc, module) => lessonAcc + module.lessons.length, 0) || 1);
 }, 0);
 
+// Improved duration calculation to handle 'giờ' and 'phút'
 const totalDuration = allValidGuides.reduce((acc, guide) => {
   const duration = (guide.data as any).duration || "30 phút";
-  const hours = parseFloat(duration.match(/(\d+\.?\d*)/)?.[1] || "0.5");
-  return acc + hours;
-}, 0);
+  const value = parseFloat(duration.match(/(\d+\.?\d*)/)?.[1] || "0");
+  if (duration.includes('giờ')) {
+    return acc + value;
+  } else if (duration.includes('phút')) {
+    return acc + value / 60;
+  }
+  return acc + value; // Assume hours if no unit
+}, 0).toFixed(0);
 ---
 
 <BaseLayout title="Anki Academy - Học viện Anki trực tuyến">
@@ -47,6 +53,29 @@ const totalDuration = allValidGuides.reduce((acc, guide) => {
       </div>
     </section>
 
+    <!-- Stats Section -->
+    <section class="relative -mt-16 z-10">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-white/40 shadow-xl">
+          <div class="text-center">
+            <div class="text-4xl font-black bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">{totalCourses}</div>
+            <div class="text-lg text-gray-600 font-medium">Khóa học</div>
+          </div>
+          <div class="text-center">
+            <div class="text-4xl font-black bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">{totalLessons}</div>
+            <div class="text-lg text-gray-600 font-medium">Bài học</div>
+          </div>
+          <div class="text-center">
+            <div class="text-4xl font-black bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+              {totalDuration}
+              <span class="text-2xl text-gray-500">+</span>
+            </div>
+            <div class="text-lg text-gray-600 font-medium">Giờ học</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Learning Paths with Enhanced Cards -->
     <section class="relative">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -66,7 +95,10 @@ const totalDuration = allValidGuides.reduce((acc, guide) => {
                 <span class="text-3xl">🌱</span>
               </div>
               <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 group-hover:text-green-600 transition-colors duration-300">Cơ bản</h3>
-              <p class="text-lg text-gray-600 leading-relaxed font-medium">Bắt đầu từ con số 0, học các khái niệm cơ bản.</p>
+              <p class="text-lg text-gray-600 leading-relaxed font-medium mb-4">Bắt đầu từ con số 0, học các khái niệm cơ bản.</p>
+              <div class="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 text-sm font-semibold rounded-full">
+                {guidesByType['Cơ bản'].length} khóa học
+              </div>
             </div>
           </a>
 

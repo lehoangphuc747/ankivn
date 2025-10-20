@@ -1,70 +1,25 @@
 ---
 import CourseLayout from '../../layouts/CourseLayout.astro';
 import { getCollection } from 'astro:content';
-import { getGradientTheme } from '../../utils/gradients';
 
-// Get all guides
-const allGuides = await getCollection('guides');
+// Get the main course data from the content collection
+const courseGuide = await getCollection('guides', ({ slug }) => slug === 'co-ban');
+if (!courseGuide || courseGuide.length === 0) {
+  throw new Error("Course guide 'co-ban' not found in src/content/guides/");
+}
+const guideData = courseGuide[0].data;
+const { Content } = await courseGuide[0].render();
 
-// Filter basic level guides
-const basicGuides = allGuides.filter(guide => 
-  guide.data.level === 'Cơ bản' || 
-  guide.data.category === 'basic' ||
-  guide.slug.includes('basic') ||
-  guide.slug.includes('co-ban') ||
-  ['anki-la-gi', 'anki-basic-features', 'tao-the-hieu-qua', 'xu-ly-quen-the'].includes(guide.slug)
-);
-
-// Course data for basic level
+// Transform guide data to course structure expected by CourseLayout
 const basicCourse = {
   id: 'co-ban',
-  title: 'Khóa học Anki Cơ bản',
-  level: 'Cơ bản',
-  description: 'Học cách sử dụng Anki từ những bước đầu tiên. Khóa học này sẽ giúp bạn nắm vững các tính năng cơ bản và bắt đầu hành trình học tập hiệu quả.',
-  duration: '6 giờ',
-  students: 5420,
-  rating: 4.8,
-  modules: [
-    {
-      id: 'module-1',
-      title: 'Module 1: Nền móng Anki',
-      duration: '45 phút',
-      description: 'Hiểu bản chất ghi nhớ và tại sao Anki hiệu quả',
-      lessons: [
-        {
-          title: 'Lesson 1.1: Nền móng Anki - Hiểu bản chất của việc ghi nhớ',
-          slug: 'nen-mong-anki',
-          duration: '45 phút'
-        }
-      ]
-    },
-    {
-      id: 'module-2', 
-      title: 'Module 2: Làm quen với Anki',
-      duration: '60 phút',
-      description: 'Từ tải về đến tạo deck và thẻ đầu tiên',
-      lessons: [
-        {
-          title: 'Lesson 2.1: Làm quen với Anki',
-          slug: 'lam-quen-anki',
-          duration: '60 phút'
-        }
-      ]
-    },
-    {
-      id: 'module-3',
-      title: 'Module 3: Tạo thẻ hiệu quả cơ bản',
-      duration: '75 phút',
-      description: 'Nguyên tắc vàng và kỹ thuật tạo thẻ chất lượng',
-      lessons: [
-        {
-          title: 'Lesson 3.1: Tạo thẻ hiệu quả cơ bản',
-          slug: 'tao-the-hieu-qua-co-ban',
-          duration: '75 phút'
-        }
-      ]
-    }
-  ]
+  title: guideData.title,
+  level: guideData.level || 'Cơ bản',
+  description: guideData.description || '',
+  duration: guideData.duration || '',
+  students: guideData.students || 0,
+  rating: guideData.rating || 0,
+  modules: guideData.modules || []
 };
 
 // Theme configuration for basic course
@@ -80,8 +35,6 @@ const basicTheme = {
     }
   }
 };
-
-// No custom gradients - use default layout without gradients
 
 // Prerequisite section content
 const prerequisiteContent = `
@@ -146,4 +99,6 @@ const nextCourseContent = `
     show: true,
     content: nextCourseContent
   }}
-/>
+>
+  <Content />
+</CourseLayout>

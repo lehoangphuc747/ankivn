@@ -62,7 +62,20 @@ const guides = defineCollection({
     tags: z.array(z.string()).default([]),
     thumbnail: z.string().optional(),
     guideType: z.enum(['Cơ bản','Nâng cao','Tips']).optional(),
-    cover: z.string().optional()
+    cover: z.string().optional(),
+    students: z.number().optional(),
+    rating: z.number().optional(),
+    modules: z.array(z.object({
+      id: z.string(),
+      title: z.string(),
+      duration: z.string(),
+      description: z.string(),
+      lessons: z.array(z.object({
+        title: z.string(),
+        slug: z.string(),
+        duration: z.string()
+      }))
+    })).optional()
   })
 });
 
