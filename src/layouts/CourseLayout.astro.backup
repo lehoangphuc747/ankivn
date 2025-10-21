@@ -157,7 +157,7 @@ import BaseLayout from './BaseLayout.astro';
                   </div>
                   <div class="divide-y divide-gray-200/80">
                     {module.lessons.map((lesson, lessonIndex) => (
-                      <a href={`/guides/${course.id}/${lesson.slug}`} class="block p-5 hover:bg-green-50 hover:shadow-sm transition-all duration-200 group">
+                      <a href={`/guides/${course.id}/${lesson.slug}`} class="block p-5 hover:bg-white transition-colors group">
                         <div class="flex items-center gap-4">
                           <span class={`flex-shrink-0 w-8 h-8 bg-${theme.colors.primary}-100 text-${theme.colors.primary}-700 rounded-full flex items-center justify-center text-sm font-bold group-hover:bg-${theme.colors.primary}-200 transition-colors`}>
                             {lessonIndex + 1}
@@ -221,29 +221,39 @@ import BaseLayout from './BaseLayout.astro';
   }
 
   document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 DOMContentLoaded - initializing modules');
     const moduleContents = document.querySelectorAll('.module-content');
+    console.log('📋 Found module contents:', moduleContents.length);
 
     moduleContents.forEach((content, index) => {
       const contentElement = content as HTMLElement;
       const moduleId = content.id.replace('content-', '');
       const arrow = document.getElementById(`arrow-${moduleId}`) as HTMLElement;
+      console.log(`🔄 Processing module ${index + 1}:`, moduleId, 'Content:', contentElement, 'Arrow:', arrow);
 
       if (index === 0) {
         contentElement.style.maxHeight = contentElement.scrollHeight + 'px';
         if (arrow) arrow.style.transform = 'rotate(180deg)';
+        console.log('✅ Expanded first module:', moduleId);
       } else {
         contentElement.style.maxHeight = '0px';
         if (arrow) arrow.style.transform = 'rotate(0deg)';
+        console.log('❌ Collapsed module:', moduleId);
       }
     });
 
     const toggleButtons = document.querySelectorAll('.module-toggle');
-    toggleButtons.forEach(button => {
+    console.log('🔘 Found toggle buttons:', toggleButtons.length);
+    toggleButtons.forEach((button, index) => {
+      console.log(`🔗 Attaching listener to button ${index + 1}:`, button);
       button.addEventListener('click', function(this: HTMLElement, event) {
         event.preventDefault();
         const moduleId = this.getAttribute('data-module-id');
+        console.log('🖱️ Button clicked, moduleId:', moduleId, 'Button element:', this);
         if (moduleId) {
           toggleModule(moduleId);
+        } else {
+          console.log('❌ No moduleId found on button');
         }
       });
     });
@@ -274,3 +284,164 @@ import BaseLayout from './BaseLayout.astro';
   }
 </style>
         <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">
+            Nội dung khóa học
+          </h2>
+          <p class="text-gray-600">
+            {course.modules?.length || 0} modules • {course.modules?.reduce((acc, module) => acc + (module.lessons?.length || 0), 0) || 0} bài học • {course.duration} tổng thời lượng
+          </p>
+        </div>
+
+        <div class="max-w-4xl mx-auto">
+          <div class="space-y-6">
+            {course.modules.map((module, index) => (
+              <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                <!-- Module Header - Collapsible -->
+                <button 
+                  class={`module-toggle w-full ${moduleHeaderGradientClass} text-white p-6 text-left hover:opacity-95 transition-all duration-300`}
+                  data-module-id={module.id}
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                      <span class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-lg font-bold mr-4">
+                        {index + 1}
+                      </span>
+                      <div>
+                        <h3 class="text-xl font-bold !text-white">{module.title}</h3>
+                        <p class="text-white/90 mt-1">{module.duration} • {module.lessons.length} bài học</p>
+                      </div>
+                    </div>
+                    <!-- Collapse Icon -->
+                    <svg 
+                      id={`arrow-${module.id}`}
+                      class="w-6 h-6 transform transition-transform duration-300" 
+                      fill="none"
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </button>
+                
+                <!-- Module Content - Collapsible -->
+                <div id={`content-${module.id}`} class="module-content bg-gray-50/50">
+                  <div class="p-6 border-b border-gray-200">
+                    <p class="text-gray-600 leading-relaxed mb-4">
+                      {module.description}
+                    </p>
+                  </div>
+                  
+                  <!-- Lessons List -->
+                  <div class="divide-y divide-gray-100">
+                    {module.lessons.map((lesson, lessonIndex) => (
+                      <a 
+                        href={`/guides/${course.id}/${lesson.slug}`}
+                        class="block p-5 hover:bg-white transition-colors group cursor-pointer"
+                      >
+                        <div class="flex items-center">
+                          <span class={`w-8 h-8 bg-${theme.colors.primary}-100 text-${theme.colors.primary}-600 rounded-full flex items-center justify-center text-sm font-bold mr-4 group-hover:bg-${theme.colors.primary}-200 transition-colors`}>
+                            {lessonIndex + 1}
+                          </span>
+                          <div class="flex-1 flex items-center">
+                            <h4 class={`font-semibold text-gray-800 group-hover:text-${theme.colors.primary}-600 transition-colors`}>{lesson.title}</h4>
+                          </div>
+                          <svg class="w-5 h-5 text-gray-400 group-hover:text-${theme.colors.primary}-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Next Course Section (Optional) -->
+    {nextCourseSection?.show && (
+      <section class="py-16 bg-gray-50">
+        <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+          <Fragment set:html={nextCourseSection.content} />
+        </div>
+      </section>
+    )}
+  </main>
+</BaseLayout>
+
+<script>
+  function toggleModule(moduleId: string) {
+    const content = document.getElementById(`content-${moduleId}`) as HTMLElement;
+    const arrow = document.getElementById(`arrow-${moduleId}`) as HTMLElement;
+
+    if (content && arrow) {
+      if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+        content.style.maxHeight = '0px';
+        arrow.style.transform = 'rotate(0deg)';
+      } else {
+        content.style.maxHeight = content.scrollHeight + 'px';
+        arrow.style.transform = 'rotate(180deg)';
+      }
+    }
+  }
+
+  // Initialize modules and add event listeners
+  document.addEventListener('DOMContentLoaded', function() {
+    const moduleContents = document.querySelectorAll('.module-content');
+
+    // Collapse all modules except the first one
+    moduleContents.forEach((content, index) => {
+      const contentElement = content as HTMLElement;
+      const moduleId = content.id.replace('content-', '');
+      const arrow = document.getElementById(`arrow-${moduleId}`) as HTMLElement;
+
+      if (index === 0) {
+        contentElement.style.maxHeight = contentElement.scrollHeight + 'px';
+        if (arrow) arrow.style.transform = 'rotate(180deg)';
+      } else {
+        contentElement.style.maxHeight = '0px';
+        if (arrow) arrow.style.transform = 'rotate(0deg)';
+      }
+    });
+
+    // Add click event listeners to module toggle buttons
+    const toggleButtons = document.querySelectorAll('.module-toggle');
+    toggleButtons.forEach(button => {
+      button.addEventListener('click', (event) => {
+        const target = event.currentTarget as HTMLElement;
+        const moduleId = target.getAttribute('data-module-id');
+        if (moduleId) {
+          toggleModule(moduleId);
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .module-content {
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+  }
+  
+  /* Custom gradient for co-ban page (green) */
+  .custom-gradient.bg-gradient-to-br {
+    background: linear-gradient(to bottom right, #00f260, #0575e6);
+  }
+  
+  .custom-gradient.bg-gradient-to-r {
+    background: linear-gradient(to right, #00f260, #0575e6);
+  }
+  
+  /* Custom gradient for nang-cao page (blue-purple) */
+  .custom-gradient-advanced.bg-gradient-to-br {
+    background: linear-gradient(to bottom right, #667eea, #764ba2);
+  }
+  
+  .custom-gradient-advanced.bg-gradient-to-r {
+    background: linear-gradient(to right, #667eea, #764ba2);
+  }
+</style>

@@ -1,7 +1,7 @@
 # PDFEmbed Component Documentation
 
 ## Overview
-Component `PDFEmbed` cho phép embed file PDF trực tiếp vào trong nội dung MDX với nhiều tính năng tương tác.
+Component `PDFEmbed` cho phép embed file PDF trực tiếp vào trong nội dung Astro pages với nhiều tính năng tương tác.
 
 ## Features
 - ✅ **Responsive design** - Tự động điều chỉnh trên mobile
@@ -11,21 +11,25 @@ Component `PDFEmbed` cho phép embed file PDF trực tiếp vào trong nội dun
 - ✅ **Fallback support** - Hỗ trợ trình duyệt không tương thích
 - ✅ **Accessibility** - Hỗ trợ screen reader
 
-## Usage in MDX
+## Usage in Astro
 
 ### Basic Usage
-```mdx
-import { PDFEmbed } from '../../components/mdx';
+```astro
+---
+import { PDFEmbed } from '../components/common/PDFEmbed.astro';
+---
 
-<PDFEmbed 
-  src="/documents/anki-guide.pdf" 
+<PDFEmbed
+  src="/documents/anki-guide.pdf"
   title="Hướng dẫn sử dụng Anki"
 />
 ```
 
 ### Advanced Usage
-```mdx
-import { PDFEmbed } from '../../components/mdx';
+```astro
+---
+import { PDFEmbed } from '../components/common/PDFEmbed.astro';
+---
 
 <PDFEmbed 
   src="/documents/lesson-1.pdf"

@@ -291,7 +291,7 @@ const levelColors: Record<string, string> = {
                 shadow-sm hover:shadow-md: Elevation tăng khi hover
               -->
               <a 
-                href={`/guides/${prevLesson.slug}`}
+                href={`/guides/${prevLesson.slug.startsWith('co-ban/') ? prevLesson.slug : 'co-ban/' + prevLesson.slug}`}
                 class="group block w-full p-4 border-2 border-blue-200 rounded-xl bg-white hover:bg-blue-50 hover:border-blue-300 transition-all duration-200 shadow-sm hover:shadow-md"
               >
                 <!-- 
@@ -427,7 +427,7 @@ const levelColors: Record<string, string> = {
                 transform hover:scale-[1.02]: Scale up nhẹ khi hover để tạo emphasis
               -->
               <a 
-                href={`/guides/${nextLesson.slug}`}
+                href={`/guides/${nextLesson.slug.startsWith('co-ban/') ? nextLesson.slug : 'co-ban/' + nextLesson.slug}`}
                 class="group block w-full p-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
               >
                 <!-- 

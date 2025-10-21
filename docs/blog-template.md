@@ -110,7 +110,7 @@ Tương tự, bạn có thể nhúng file PDF để người đọc xem trực t
 ---
 [...frontmatter...]
 ---
-import PDFEmbed from '@/components/mdx/PDFEmbed.astro';
+import PDFEmbed from '../components/common/PDFEmbed.astro';
 
 ### Tài liệu tham khảo
 

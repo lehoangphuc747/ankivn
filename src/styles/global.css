@@ -242,6 +242,10 @@ body {
   font-family: inherit !important;
 }
 
+.content-article .markdown-content h3:not(.module-header-title) {
+  color: #4b5563;
+}
+
 .content-article .markdown-content h4 {
   font-size: 1.25rem !important;
   font-weight: 700 !important;
@@ -633,7 +637,6 @@ li a:hover {
 p {
   line-height: 1.6;
   margin: 1rem 0;
-  text-indent: 1em;
 }
 
 /* Heading styling for Markdown */
@@ -661,13 +664,16 @@ h3 {
   line-height: 1.4;
 }
 
+h3:not(.module-header-title) {
+  color: #4b5563;
+}
+
 h4 {
   font-size: 1.25rem;
   font-weight: 500;
   color: #6b7280;
   margin: 1rem 0 0.5rem;
   line-height: 1.4;
-  font-style: italic;
 }
 
 h5 {

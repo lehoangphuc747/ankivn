@@ -1,23 +1,32 @@
 # AnkiVN — Website chia sẻ deck Anki
 
-Astro + Tailwind + MDX. Nội dung qua `astro:content` (decks/guides/blog). Triển khai Cloudflare Pages (tạm thời dùng `*.pages.dev`).
+Astro + Tailwind CSS. Hệ thống static pages với TypeScript. Triển khai Cloudflare Pages (tạm thời dùng `*.pages.dev`).
 
 ## 🧞 Lệnh
 
 | Lệnh | Tác dụng |
 | --- | --- |
 | `npm install` | Cài phụ thuộc |
-| `npm run dev` | Chạy dev tại http://localhost:4321 |
+| `npm run dev` | Chạy dev tại http://localhost:4326 |
 | `npm run build` | Build ra `dist/` |
 | `npm run preview` | Xem thử bản build |
 
-## 📦 Collections
+## � Cấu trúc nội dung
 
-- `src/content/decks/*.mdx`
-- `src/content/guides/*.mdx`
-- `src/content/blog/*.mdx`
+### Pages
+- `src/pages/decks/*.astro` - Các trang deck Anki
+- `src/pages/guides/*.astro` - Hệ thống khóa học và bài học
+- `src/pages/blog/*.astro` - Bài viết blog
 
-Xem schema tại `src/content/config.ts`.
+### Components
+- `src/components/` - Các component Astro tái sử dụng
+- `src/layouts/` - Layout components (BaseLayout, CourseLayout, etc.)
+
+### Data
+- `src/lib/course-data/` - Dữ liệu khóa học tập trung
+- `src/utils/` - Utilities và helpers
+
+Xem chi tiết tại `docs/guide-template.md`.
 
 ## ☁️ Deploy Cloudflare Pages
 

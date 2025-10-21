@@ -96,9 +96,9 @@ import YouTubeEmbed from '@/components/common/YouTubeEmbed.astro';
 
 **💡 Nếu có PDF từ Google Drive, thêm như sau:**
 ```markdown
-import PDFEmbed from '../../components/mdx/PDFEmbed.astro';
+import PDFEmbed from '../components/common/PDFEmbed.astro';
 
-<PDFEmbed 
+<PDFEmbed
   driveId="GOOGLE_DRIVE_FILE_ID"
   title="Tiêu đề PDF"
   description="Mô tả ngắn về PDF"
@@ -254,9 +254,9 @@ import YouTubeEmbed from '@/components/common/YouTubeEmbed.astro';
 [frontmatter metadata]
 ---
 
-import PDFEmbed from '../../components/mdx/PDFEmbed.astro';
+import PDFEmbed from '../components/common/PDFEmbed.astro';
 
-<PDFEmbed 
+<PDFEmbed
   driveId="GOOGLE_DRIVE_FILE_ID"
   title="Tiêu đề PDF"
   description="Mô tả ngắn về PDF"
