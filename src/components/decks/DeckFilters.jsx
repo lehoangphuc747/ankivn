@@ -193,44 +193,6 @@ export default function DeckFilters({ items }) {
 
   return (
     <div className="space-y-6">
-      {/* Search Bar */}
-      <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-          <svg className="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
-        <input
-          type="text"
-          placeholder="Gõ từ rời: 4000 co ban, tieng anh, toeic..."
-          className="block w-full pl-12 pr-4 py-4 border-2 rounded-2xl bg-white/95 backdrop-blur-md text-gray-900 placeholder-gray-600 transition-all duration-200 shadow-xl text-lg border-gray-300/60"
-          style={{
-            borderColor: '#6FA4AF',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.06)',
-          }}
-          onFocus={(e) => {
-            e.target.style.borderColor = '#D97D55';
-            e.target.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(217, 125, 85, 0.1)';
-          }}
-          onBlur={(e) => {
-            e.target.style.borderColor = '#6FA4AF';
-            e.target.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.06)';
-          }}
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-        />
-        {q && (
-          <button
-            onClick={() => setQ('')}
-            className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-500 hover:text-gray-700 transition-colors duration-200"
-          >
-            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        )}
-      </div>
-
       {/* Filters Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Category Filter */}
@@ -321,6 +283,44 @@ export default function DeckFilters({ items }) {
           </svg>
           <span>Xóa bộ lọc</span>
         </button>
+      </div>
+
+      {/* Search Bar */}
+      <div className="relative">
+        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+          <svg className="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+        <input
+          type="text"
+          placeholder="Gõ từ rời: 4000 co ban, tieng anh, toeic..."
+          className="block w-full pl-12 pr-4 py-4 border-2 rounded-2xl bg-white/95 backdrop-blur-md text-gray-900 placeholder-gray-600 transition-all duration-200 shadow-xl text-lg border-gray-300/60"
+          style={{
+            borderColor: '#6FA4AF',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.06)',
+          }}
+          onFocus={(e) => {
+            e.target.style.borderColor = '#D97D55';
+            e.target.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(217, 125, 85, 0.1)';
+          }}
+          onBlur={(e) => {
+            e.target.style.borderColor = '#6FA4AF';
+            e.target.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.06)';
+          }}
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+        />
+        {q && (
+          <button
+            onClick={() => setQ('')}
+            className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-500 hover:text-gray-700 transition-colors duration-200"
+          >
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
       </div>
 
       {/* Results Summary */}
