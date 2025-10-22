@@ -1,5 +1,113 @@
 import { useEffect, useMemo, useState } from 'react';
 
+// Utility function to normalize text (remove diacritics, lowercase)
+function normalizeText(text) {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+    .replace(/[^\w\s]/g, ' ') // Replace punctuation with spaces
+    .replace(/\s+/g, ' ') // Normalize whitespace
+    .trim();
+}
+
+// Advanced loose word search function
+function looseWordSearch(query, title, tags = []) {
+  if (!query.trim()) return { matches: true, score: 0, highlights: [] };
+
+  const normalizedQuery = normalizeText(query);
+  const normalizedTitle = normalizeText(title);
+  const queryWords = normalizedQuery.split(/\s+/).filter(word => word.length > 0);
+
+  // Filter out very short words (1-2 chars) unless they're numbers or special chars
+  const filteredQueryWords = queryWords.filter(word =>
+    word.length > 2 || /^\d+$/.test(word) || /[^\w\s]/.test(word)
+  );
+
+  if (filteredQueryWords.length === 0) return { matches: false, score: 0, highlights: [] };
+
+  let totalScore = 0;
+  let allWordsMatched = true;
+  const highlights = [];
+
+  // Check each query word against title
+  for (const queryWord of filteredQueryWords) {
+    let wordMatched = false;
+    let bestScore = 0;
+    let bestMatch = '';
+
+    // Split title into words for matching
+    const titleWords = normalizedTitle.split(/\s+/);
+
+    for (const titleWord of titleWords) {
+      if (titleWord.includes(queryWord)) {
+        wordMatched = true;
+
+        // Calculate match score
+        let score = 1; // Base score for partial match
+
+        if (titleWord === queryWord) {
+          score = 10; // Exact match
+        } else if (titleWord.startsWith(queryWord)) {
+          score = 5; // Starts with match
+        } else if (queryWord.length >= 3) {
+          score = 2; // Contains match for longer words
+        }
+
+        if (score > bestScore) {
+          bestScore = score;
+          bestMatch = titleWord;
+        }
+      }
+    }
+
+    // Also check tags
+    for (const tag of tags) {
+      const normalizedTag = normalizeText(tag);
+      if (normalizedTag.includes(queryWord)) {
+        wordMatched = true;
+        let score = 1;
+
+        if (normalizedTag === queryWord) {
+          score = 8; // Exact match in tag
+        } else if (normalizedTag.startsWith(queryWord)) {
+          score = 4; // Starts with match in tag
+        }
+
+        if (score > bestScore) {
+          bestScore = score;
+          bestMatch = normalizedTag;
+        }
+      }
+    }
+
+    if (wordMatched) {
+      totalScore += bestScore;
+      highlights.push(bestMatch);
+    } else {
+      allWordsMatched = false;
+    }
+  }
+
+  // Bonus for consecutive words in title
+  const queryPhrase = filteredQueryWords.join(' ');
+  if (normalizedTitle.includes(queryPhrase)) {
+    totalScore += 15; // Significant bonus for consecutive matches
+  }
+
+  // Bonus for shorter titles (more relevant)
+  const titleLength = title.split(/\s+/).length;
+  if (titleLength <= 10) {
+    totalScore += 2;
+  }
+
+  return {
+    matches: allWordsMatched,
+    score: totalScore,
+    highlights
+  };
+}
+
 export default function DeckFilters({ items }) {
   const [q, setQ] = useState('');
   const [category, setCategory] = useState('');
@@ -30,17 +138,37 @@ export default function DeckFilters({ items }) {
   }, [q, category, sub, sort]);
 
   const filtered = useMemo(() => {
-    let arr = items;
+    let arr = items.map(item => ({
+      ...item,
+      searchResult: q ? looseWordSearch(q, item.data.title, item.data.tags) : { matches: true, score: 0, highlights: [] }
+    }));
+
+    // Filter by search query
     if (q) {
-      const qq = q.toLowerCase();
-      arr = arr.filter((d) =>
-        d.data.title.toLowerCase().includes(qq) || (d.data.tags || []).some((t) => t.toLowerCase().includes(qq))
-      );
+      arr = arr.filter(item => item.searchResult.matches);
     }
+
+    // Filter by category and subcategory
     if (category) arr = arr.filter((d) => d.data.category === category);
     if (sub) arr = arr.filter((d) => d.data.subCategory === sub);
-    if (sort === 'date') arr = [...arr].sort((a, b) => (b.data.date || '').localeCompare(a.data.date || ''));
-    if (sort === 'date-asc') arr = [...arr].sort((a, b) => (a.data.date || '').localeCompare(b.data.date || ''));
+
+    // Sort by relevance score first, then by date
+    arr = [...arr].sort((a, b) => {
+      // Primary sort: search relevance score (descending)
+      if (q && a.searchResult.score !== b.searchResult.score) {
+        return b.searchResult.score - a.searchResult.score;
+      }
+
+      // Secondary sort: date (descending for newest first)
+      if (sort === 'date') {
+        return (b.data.date || '').localeCompare(a.data.date || '');
+      } else if (sort === 'date-asc') {
+        return (a.data.date || '').localeCompare(b.data.date || '');
+      }
+
+      return 0;
+    });
+
     return arr;
   }, [items, q, category, sub, sort]);
 
@@ -71,7 +199,7 @@ export default function DeckFilters({ items }) {
         </div>
         <input
           type="text"
-          placeholder="Tìm kiếm deck theo tên hoặc tag..."
+          placeholder="Gõ từ rời: 4000 co ban, tieng anh, toeic..."
           className="block w-full pl-12 pr-4 py-4 border-2 rounded-2xl bg-white/95 backdrop-blur-md text-gray-900 placeholder-gray-600 transition-all duration-200 shadow-xl text-lg border-gray-300/60"
           style={{
             borderColor: '#6FA4AF',
@@ -202,7 +330,7 @@ export default function DeckFilters({ items }) {
             Hiển thị <span className="text-blue-600 font-bold">{filtered.length}</span> trong số <span className="text-blue-600 font-bold">{items.length}</span> deck
           </span>
         </div>
-        
+
         {(q || category || sub) && (
           <div className="flex items-center gap-1 text-xs">
             <span className="text-gray-500">Đã lọc:</span>
@@ -212,6 +340,45 @@ export default function DeckFilters({ items }) {
           </div>
         )}
       </div>
+
+      {/* No Results Suggestions */}
+      {q && filtered.length === 0 && (
+        <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mt-4">
+          <div className="flex items-start gap-3">
+            <svg className="h-5 w-5 text-yellow-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            </svg>
+            <div>
+              <h3 className="text-sm font-medium text-yellow-800 mb-1">
+                Không tìm thấy kết quả phù hợp
+              </h3>
+              <p className="text-sm text-yellow-700 mb-2">
+                Thử tìm kiếm với từ khóa khác hoặc gõ từ rời không cần đúng thứ tự:
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setQ('4000 co ban')}
+                  className="text-xs bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-1 rounded-md transition-colors"
+                >
+                  "4000 co ban"
+                </button>
+                <button
+                  onClick={() => setQ('tieng anh')}
+                  className="text-xs bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-1 rounded-md transition-colors"
+                >
+                  "tieng anh"
+                </button>
+                <button
+                  onClick={() => setQ('toeic')}
+                  className="text-xs bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-1 rounded-md transition-colors"
+                >
+                  "toeic"
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -8,11 +8,49 @@ interface Props {
   href: string;
   tags?: string[];
   type?: 'BÁN' | 'CHIA SẺ';
+  searchHighlights?: string[];
 }
 
-const { title, cover, date, category, subCategory, href, tags = [], type } = Astro.props;
+const { title, cover, date, category, subCategory, href, tags = [], type, searchHighlights = [] } = Astro.props;
 const slug = href.split('/').pop();
 const displayCover = cover ?? '/default-thumbnail.webp';
+
+// Function to highlight matching parts in title
+function highlightTitle(title: string, highlights: string[]): string {
+  if (!highlights.length) return title;
+
+  let highlightedTitle = title;
+  const normalizedTitle = title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+  // Sort highlights by length (longest first) to avoid conflicts
+  const sortedHighlights = [...highlights].sort((a, b) => b.length - a.length);
+
+  for (const highlight of sortedHighlights) {
+    const normalizedHighlight = highlight.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const regex = new RegExp(`(${normalizedHighlight})`, 'gi');
+
+    // Find matches in the original title
+    const matches = [];
+    let match;
+    while ((match = regex.exec(normalizedTitle)) !== null) {
+      const originalMatch = title.substr(match.index, match[0].length);
+      matches.push({
+        text: originalMatch,
+        index: match.index,
+        length: match[0].length
+      });
+    }
+
+    // Apply highlights (work backwards to maintain indices)
+    matches.reverse().forEach(({ text, index }) => {
+      const before = highlightedTitle.substring(0, index);
+      const after = highlightedTitle.substring(index + text.length);
+      highlightedTitle = `${before}<mark class="bg-yellow-200 px-0.5 rounded">${text}</mark>${after}`;
+    });
+  }
+
+  return highlightedTitle;
+}
 ---
 
 <style>
@@ -87,7 +125,11 @@ const displayCover = cover ?? '/default-thumbnail.webp';
 
       <!-- Title - Có thể điều chỉnh font size theo ý muốn: text-xs, text-sm, text-base, text-lg, text-xl, etc. -->
       <div class="deck-title">
-        {title}
+        {searchHighlights.length > 0 ? (
+          <span set:html={highlightTitle(title, searchHighlights)} />
+        ) : (
+          title
+        )}
       </div>
 
       <!-- Tags -->
