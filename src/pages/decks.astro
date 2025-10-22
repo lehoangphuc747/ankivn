@@ -314,7 +314,6 @@ const decks = await getCollection('decks');
       if (!searchQuery || !searchQuery.trim()) return text;
 
       let highlightedText = text;
-      const normalizedText = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
       const queryWords = searchQuery.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(/\s+/).filter(word => word.length > 0);
 
       // Filter out very short words
@@ -324,10 +323,10 @@ const decks = await getCollection('decks');
       for (const queryWord of filteredQueryWords) {
         const regex = new RegExp(`(${escapeRegExp(queryWord)})`, 'gi');
 
-        // Find all matches in the normalized text
+        // Find all matches in the original text
         const matches = [];
         let match;
-        while ((match = regex.exec(normalizedText)) !== null) {
+        while ((match = regex.exec(highlightedText.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))) !== null) {
           matches.push({
             start: match.index,
             end: match.index + match[0].length,
