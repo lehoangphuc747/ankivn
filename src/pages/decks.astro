@@ -84,7 +84,7 @@ const decks = await getCollection('decks');
 
     <!-- Filters -->
     <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-6 border border-white/20 shadow-xl mb-8 fade-in-scroll">
-      <DeckFilters client:only="react" items={decks} />
+      <DeckFilters client:load items={decks} />
     </div>
 
     <!-- View Toggle - Positioned between filters and content -->
@@ -107,8 +107,9 @@ const decks = await getCollection('decks');
 
     <!-- Decks Grid View -->
     <div id="deck-grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 fade-in-scroll" style="animation-delay: 300ms;">
-      {decks.slice(0, 12).map((d) => (
+      {decks.map((d) => (
         <div data-deck-item 
+             data-slug={d.slug}
              data-title={d.data.title.toLowerCase()} 
              data-category={d.data.category || ''} 
              data-subcategory={d.data.subCategory || ''} 
@@ -128,22 +129,11 @@ const decks = await getCollection('decks');
       ))}
     </div>
 
-    <!-- Loading indicator -->
-    <div id="loading-indicator" class="flex justify-center py-8 hidden">
-      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-    </div>
-
-    <!-- Load More Button (fallback) -->
-    <div id="load-more-container" class="flex justify-center py-8">
-      <button id="load-more-btn" class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
-        Tải thêm deck
-      </button>
-    </div>
-
     <!-- Decks List View -->
     <div id="deck-list" class="hidden space-y-4 fade-in-scroll" style="animation-delay: 300ms;">
-      {decks.slice(0, 12).map((d) => (
+      {decks.map((d) => (
         <div data-deck-item 
+             data-slug={d.slug}
              data-title={d.data.title.toLowerCase()} 
              data-category={d.data.category || ''} 
              data-subcategory={d.data.subCategory || ''} 
@@ -227,13 +217,77 @@ const decks = await getCollection('decks');
     let allGridItems = [];
     let allListItems = [];
     let currentView = 'grid';
-    let loadedCount = 12;
-    const loadIncrement = 10;
-    let isLoading = false;
     
-    document.addEventListener('DOMContentLoaded', () => {
+    // Initialize items immediately
+    function initializeItems() {
       allGridItems = Array.from(document.getElementById('deck-grid')?.querySelectorAll('[data-deck-item]') || []);
       allListItems = Array.from(document.getElementById('deck-list')?.querySelectorAll('[data-deck-item]') || []);
+    }
+    
+    // Listen for filter events from DeckFilters component (set up immediately)
+    window.addEventListener('deckFiltersChanged', (event) => {
+      console.log('deckFiltersChanged event received:', event.detail);
+
+      // Always initialize items before processing
+      initializeItems();
+
+      const { filtered, query } = event.detail;
+      const deckGrid = document.getElementById('deck-grid');
+      const deckList = document.getElementById('deck-list');
+      const emptyState = document.getElementById('empty-state');
+
+      if (!deckGrid || !deckList) return;
+
+      // Get all deck items
+      const allItems = [...allGridItems, ...allListItems];
+
+      console.log('Total items found:', allItems.length);
+      console.log('Filtered items:', filtered.length);
+
+      // Create a set of slugs that should be visible
+      const visibleSlugs = new Set(filtered.map(deck => deck.slug));
+
+      // Show/hide items based on filter
+      allItems.forEach(item => {
+        const slug = item.getAttribute('data-slug');
+        if (visibleSlugs.has(slug)) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      // For sorting: reorder items in the DOM to match filtered order
+      if (filtered.length > 0 && allItems.length > 0) {
+        const itemMap = new Map();
+        allItems.forEach(item => {
+          const slug = item.getAttribute('data-slug');
+          itemMap.set(slug, item);
+        });
+
+        // Clear and re-append in filtered order for current view
+        const currentContainer = currentView === 'grid' ? deckGrid : deckList;
+        if (currentContainer) {
+          currentContainer.innerHTML = '';
+          filtered.forEach(deck => {
+            const item = itemMap.get(deck.slug);
+            if (item) {
+              currentContainer.appendChild(item.cloneNode(true));
+            }
+          });
+        }
+      }
+
+      // Update empty state
+      if (filtered.length > 0) {
+        emptyState?.classList.add('hidden');
+      } else {
+        emptyState?.classList.remove('hidden');
+      }
+    });
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeItems();
       
       const gridViewBtn = document.getElementById('grid-view-btn');
       const listViewBtn = document.getElementById('list-view-btn');
@@ -267,73 +321,7 @@ const decks = await getCollection('decks');
 
       // Start with grid view active
       switchToGridView();
-
-      // Setup infinite scroll
-      setupInfiniteScroll();
     });
-
-    // Infinite scroll setup
-    function setupInfiniteScroll() {
-      const loadMoreBtn = document.getElementById('load-more-btn');
-      const loadingIndicator = document.getElementById('loading-indicator');
-      const loadMoreContainer = document.getElementById('load-more-container');
-
-      // Show load more button if there are more decks to load
-      if (loadedCount < allDecks.length) {
-        loadMoreContainer?.classList.remove('hidden');
-      }
-
-      // Load more button click
-      loadMoreBtn?.addEventListener('click', () => {
-        loadMoreDecks();
-      });
-
-      // Scroll detection for infinite scroll
-      window.addEventListener('scroll', () => {
-        if (isLoading || loadedCount >= allDecks.length) return;
-
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const windowHeight = window.innerHeight;
-        const documentHeight = document.documentElement.scrollHeight;
-
-        // Load more when user is within 200px of bottom
-        if (scrollTop + windowHeight >= documentHeight - 200) {
-          loadMoreDecks();
-        }
-      });
-    }
-
-    // Load more decks function
-    function loadMoreDecks() {
-      if (isLoading) return;
-
-      isLoading = true;
-      const loadingIndicator = document.getElementById('loading-indicator');
-      const loadMoreContainer = document.getElementById('load-more-container');
-
-      // Show loading indicator
-      loadingIndicator?.classList.remove('hidden');
-      loadMoreContainer?.classList.add('hidden');
-
-      // Simulate loading delay (remove in production)
-      setTimeout(() => {
-        loadedCount = Math.min(loadedCount + loadIncrement, allDecks.length);
-
-        // Trigger a re-filter to show more items
-        const filterEvent = new CustomEvent('requestMoreItems', { detail: { loadedCount } });
-        window.dispatchEvent(filterEvent);
-
-        isLoading = false;
-
-        // Hide loading indicator
-        loadingIndicator?.classList.add('hidden');
-
-        // Show load more button if there are more decks
-        if (loadedCount < allDecks.length) {
-          loadMoreContainer?.classList.remove('hidden');
-        }
-      }, 500); // 500ms delay for smooth UX
-    }
 
     // Create grid deck item
     function createDeckGridItem(deck) {
@@ -410,76 +398,6 @@ const decks = await getCollection('decks');
 
       return item;
     }
-
-    // Listen for filter events from DeckFilters component
-    window.addEventListener('deckFiltersChanged', (event: any) => {
-      const { filtered, query } = event.detail;
-      const deckGrid = document.getElementById('deck-grid');
-      const deckList = document.getElementById('deck-list');
-      const emptyState = document.getElementById('empty-state');
-      const loadMoreContainer = document.getElementById('load-more-container');
-
-      if (!deckGrid || !deckList) return;
-
-      // Hide load more button during filtering
-      loadMoreContainer?.classList.add('hidden');
-
-      // Clear current order
-      deckGrid.innerHTML = '';
-      deckList.innerHTML = '';
-
-      // Add items in sorted order
-      if (filtered.length > 0) {
-        // Show only up to loadedCount items, or all filtered items if less than loadedCount
-        const itemsToShow = Math.min(filtered.length, loadedCount);
-
-        filtered.slice(0, itemsToShow).forEach((deck: any) => {
-          const gridItem = allGridItems.find(item =>
-            item.getAttribute('data-title') === deck.data.title.toLowerCase()
-          );
-          const listItem = allListItems.find(item =>
-            item.getAttribute('data-title') === deck.data.title.toLowerCase()
-          );
-
-          if (gridItem) {
-            // Apply highlights to grid view title
-            const titleElement = gridItem.querySelector('.deck-title');
-            if (titleElement && query) {
-              const highlightedTitle = highlightText(deck.data.title, deck.searchResult?.highlights || [], query);
-              titleElement.innerHTML = highlightedTitle;
-            } else if (titleElement) {
-              titleElement.textContent = deck.data.title;
-            }
-
-            deckGrid.appendChild(gridItem);
-            (gridItem as HTMLElement).style.display = 'block';
-          }
-
-          if (listItem) {
-            // Apply highlights to list view title
-            const titleElement = listItem.querySelector('.font-bold.text-lg.text-gray-900');
-            if (titleElement && query) {
-              const highlightedTitle = highlightText(deck.data.title, deck.searchResult?.highlights || [], query);
-              titleElement.innerHTML = highlightedTitle;
-            } else if (titleElement) {
-              titleElement.textContent = deck.data.title;
-            }
-
-            deckList.appendChild(listItem);
-            (listItem as HTMLElement).style.display = 'block';
-          }
-        });
-
-        // Show load more button if there are more filtered items to show
-        if (filtered.length > loadedCount) {
-          loadMoreContainer?.classList.remove('hidden');
-        }
-
-        emptyState?.classList.add('hidden');
-      } else {
-        emptyState?.classList.remove('hidden');
-      }
-    });
 
     // Function to highlight matching text
     function highlightText(text, highlights, searchQuery) {

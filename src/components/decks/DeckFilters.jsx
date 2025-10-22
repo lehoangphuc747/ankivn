@@ -16,16 +16,19 @@ function normalizeText(text) {
 
 // Advanced loose word search function
 function looseWordSearch(query, title, tags = []) {
+  console.log('looseWordSearch called with query:', query, 'title:', title, 'tags:', tags);
   if (!query.trim()) return { matches: true, score: 0, highlights: [] };
 
   const normalizedQuery = normalizeText(query);
   const normalizedTitle = normalizeText(title);
   const queryWords = normalizedQuery.split(/\s+/).filter(word => word.length > 0);
 
-  // Filter out very short words (1-2 chars) unless they're numbers or special chars
+  // Filter out very short words (1 char) unless they're numbers or special chars
   const filteredQueryWords = queryWords.filter(word =>
-    word.length > 2 || /^\d+$/.test(word) || /[^\w\s]/.test(word)
+    word.length > 1 || /^\d+$/.test(word) || /[^\w\s]/.test(word)
   );
+
+  console.log('filteredQueryWords:', filteredQueryWords);
 
   if (filteredQueryWords.length === 0) return { matches: false, score: 0, highlights: [] };
 
@@ -33,66 +36,68 @@ function looseWordSearch(query, title, tags = []) {
   let allWordsMatched = true;
   const highlights = [];
 
-    // Check each query word against title
-    for (const queryWord of filteredQueryWords) {
-      let wordMatched = false;
-      let bestScore = 0;
-      let bestMatch = '';
+  // Check each query word against title and tags
+  for (const queryWord of filteredQueryWords) {
+    let wordMatched = false;
+    let bestScore = 0;
+    let bestMatch = '';
 
-      // Split title into words for matching
-      const titleWords = normalizedTitle.split(/\s+/);
+    // Split title into words for matching
+    const titleWords = normalizedTitle.split(/\s+/);
 
-      for (const titleWord of titleWords) {
-        if (titleWord.includes(queryWord)) {
-          wordMatched = true;
+    for (const titleWord of titleWords) {
+      if (titleWord.includes(queryWord)) {
+        wordMatched = true;
 
-          // Calculate match score
-          let score = 1; // Base score for partial match
+        // Calculate match score
+        let score = 1; // Base score for partial match
 
-          if (titleWord === queryWord) {
-            score = 10; // Exact match
-          } else if (titleWord.startsWith(queryWord)) {
-            score = 5; // Starts with match
-          } else if (queryWord.length >= 3) {
-            score = 2; // Contains match for longer words
-          }
+        if (titleWord === queryWord) {
+          score = 10; // Exact match
+        } else if (titleWord.startsWith(queryWord)) {
+          score = 5; // Starts with match
+        } else if (queryWord.length >= 3) {
+          score = 2; // Contains match for longer words
+        }
 
-          if (score > bestScore) {
-            bestScore = score;
-            // Store the original word from title, not normalized
-            const originalIndex = normalizedTitle.indexOf(titleWord);
-            bestMatch = title.split(/\s+/)[titleWords.indexOf(titleWord)];
-          }
+        if (score > bestScore) {
+          bestScore = score;
+          // Store the original word from title, not normalized
+          const originalIndex = normalizedTitle.indexOf(titleWord);
+          bestMatch = title.split(/\s+/)[titleWords.indexOf(titleWord)];
         }
       }
+    }
 
-      // Also check tags
-      for (const tag of tags) {
-        const normalizedTag = normalizeText(tag);
-        if (normalizedTag.includes(queryWord)) {
-          wordMatched = true;
-          let score = 1;
+    // Also check tags
+    for (const tag of tags) {
+      const normalizedTag = normalizeText(tag);
+      if (normalizedTag.includes(queryWord)) {
+        wordMatched = true;
+        let score = 1;
 
-          if (normalizedTag === queryWord) {
-            score = 8; // Exact match in tag
-          } else if (normalizedTag.startsWith(queryWord)) {
-            score = 4; // Starts with match in tag
-          }
+        if (normalizedTag === queryWord) {
+          score = 8; // Exact match in tag
+        } else if (normalizedTag.startsWith(queryWord)) {
+          score = 4; // Starts with match in tag
+        }
 
-          if (score > bestScore) {
-            bestScore = score;
-            bestMatch = tag; // Use original tag text
-          }
+        if (score > bestScore) {
+          bestScore = score;
+          bestMatch = tag; // Use original tag text
         }
       }
+    }
 
-      if (wordMatched) {
-        totalScore += bestScore;
-        highlights.push(bestMatch);
-      } else {
-        allWordsMatched = false;
-      }
-    }  // Bonus for consecutive words in title
+    if (wordMatched) {
+      totalScore += bestScore;
+      highlights.push(bestMatch);
+    } else {
+      allWordsMatched = false;
+    }
+  }
+
+  // Bonus for consecutive words in title
   const queryPhrase = filteredQueryWords.join(' ');
   if (normalizedTitle.includes(queryPhrase)) {
     totalScore += 15; // Significant bonus for consecutive matches
@@ -104,11 +109,13 @@ function looseWordSearch(query, title, tags = []) {
     totalScore += 2;
   }
 
-  return {
+  const result = {
     matches: allWordsMatched,
     score: totalScore,
     highlights
   };
+  console.log('looseWordSearch result:', result);
+  return result;
 }
 
 export default function DeckFilters({ items }) {
@@ -116,7 +123,6 @@ export default function DeckFilters({ items }) {
   const [category, setCategory] = useState('');
   const [sub, setSub] = useState('');
   const [sort, setSort] = useState('date');
-  const [maxItemsToShow, setMaxItemsToShow] = useState(12);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -141,23 +147,8 @@ export default function DeckFilters({ items }) {
     }
   }, [q, category, sub, sort]);
 
-  // Listen for requestMoreItems event from infinite scroll
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const handleRequestMoreItems = (event) => {
-      const { loadedCount } = event.detail;
-      setMaxItemsToShow(loadedCount);
-    };
-
-    window.addEventListener('requestMoreItems', handleRequestMoreItems);
-
-    return () => {
-      window.removeEventListener('requestMoreItems', handleRequestMoreItems);
-    };
-  }, []);
-
   const filtered = useMemo(() => {
+    console.log('Filtering with q:', q, 'items length:', items.length);
     let arr = items.map(item => ({
       ...item,
       searchResult: q ? looseWordSearch(q, item.data.title, item.data.tags) : { matches: true, score: 0, highlights: [] }
@@ -165,43 +156,37 @@ export default function DeckFilters({ items }) {
 
     // Filter by search query
     if (q) {
+      console.log('Before search filter:', arr.length);
       arr = arr.filter(item => item.searchResult.matches);
+      console.log('After search filter:', arr.length);
     }
 
     // Filter by category and subcategory
     if (category) arr = arr.filter((d) => d.data.category === category);
     if (sub) arr = arr.filter((d) => d.data.subCategory === sub);
 
-    // Sort by relevance score first, then by date
-    arr = [...arr].sort((a, b) => {
-      // Primary sort: search relevance score (descending)
-      if (q && a.searchResult.score !== b.searchResult.score) {
-        return b.searchResult.score - a.searchResult.score;
-      }
+    // Sort by date
+    if (sort === 'date') {
+      // Newest first (descending)
+      arr = arr.sort((a, b) => new Date(b.data.date || '1970-01-01') - new Date(a.data.date || '1970-01-01'));
+    } else if (sort === 'date-asc') {
+      // Oldest first (ascending)
+      arr = arr.sort((a, b) => new Date(a.data.date || '1970-01-01') - new Date(b.data.date || '1970-01-01'));
+    }
 
-      // Secondary sort: date (descending for newest first)
-      if (sort === 'date') {
-        return (b.data.date || '').localeCompare(a.data.date || '');
-      } else if (sort === 'date-asc') {
-        return (a.data.date || '').localeCompare(b.data.date || '');
-      }
-
-      return 0;
-    });
-
+    console.log('Final filtered length:', arr.length, 'sort:', sort);
     return arr;
   }, [items, q, category, sub, sort]);
 
   // Dispatch filter change event for client-side filtering
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      // Only send items up to maxItemsToShow for infinite scroll
-      const itemsToShow = filtered.slice(0, maxItemsToShow);
+      console.log('Dispatching deckFiltersChanged event with filtered length:', filtered.length, 'query:', q);
       window.dispatchEvent(new CustomEvent('deckFiltersChanged', {
-        detail: { filtered: itemsToShow, query: q }
+        detail: { filtered, query: q }
       }));
     }
-  }, [filtered, q, maxItemsToShow]);
+  }, [filtered, q]);
 
   // Derive unique categories/subs
   const categories = useMemo(() => Array.from(new Set(items.map((d) => d.data.category).filter(Boolean))), [items]);
@@ -328,7 +313,10 @@ export default function DeckFilters({ items }) {
             e.target.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.06)';
           }}
           value={q}
-          onChange={(e) => setQ(e.target.value)}
+          onChange={(e) => {
+            console.log('Search input changed:', e.target.value);
+            setQ(e.target.value);
+          }}
         />
         {q && (
           <button
