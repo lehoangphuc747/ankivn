@@ -58,7 +58,7 @@ function looseWordSearch(query, title, tags = []) {
             bestScore = score;
             // Store the original word from title, not normalized
             const originalIndex = normalizedTitle.indexOf(titleWord);
-            bestMatch = text.split(/\s+/)[titleWords.indexOf(titleWord)];
+            bestMatch = title.split(/\s+/)[titleWords.indexOf(titleWord)];
           }
         }
       }
