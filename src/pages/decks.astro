@@ -253,7 +253,7 @@ const decks = await getCollection('decks');
 
     // Listen for filter events from DeckFilters component
     window.addEventListener('deckFiltersChanged', (event: any) => {
-      const { filtered } = event.detail;
+      const { filtered, query } = event.detail;
       const deckGrid = document.getElementById('deck-grid');
       const deckList = document.getElementById('deck-list');
       const emptyState = document.getElementById('empty-state');
@@ -277,8 +277,8 @@ const decks = await getCollection('decks');
           if (gridItem) {
             // Apply highlights to grid view title
             const titleElement = gridItem.querySelector('.deck-title');
-            if (titleElement && deck.searchResult?.highlights?.length > 0) {
-              const highlightedTitle = highlightText(deck.data.title, deck.searchResult.highlights);
+            if (titleElement && query) {
+              const highlightedTitle = highlightText(deck.data.title, deck.searchResult?.highlights || [], query);
               titleElement.innerHTML = highlightedTitle;
             } else if (titleElement) {
               titleElement.textContent = deck.data.title;
@@ -291,8 +291,8 @@ const decks = await getCollection('decks');
           if (listItem) {
             // Apply highlights to list view title
             const titleElement = listItem.querySelector('.font-bold.text-lg.text-gray-900');
-            if (titleElement && deck.searchResult?.highlights?.length > 0) {
-              const highlightedTitle = highlightText(deck.data.title, deck.searchResult.highlights);
+            if (titleElement && query) {
+              const highlightedTitle = highlightText(deck.data.title, deck.searchResult?.highlights || [], query);
               titleElement.innerHTML = highlightedTitle;
             } else if (titleElement) {
               titleElement.textContent = deck.data.title;
@@ -310,40 +310,46 @@ const decks = await getCollection('decks');
     });
 
     // Function to highlight matching text
-    function highlightText(text, highlights) {
-      if (!highlights || highlights.length === 0) return text;
+    function highlightText(text, highlights, searchQuery) {
+      if (!searchQuery || !searchQuery.trim()) return text;
 
       let highlightedText = text;
       const normalizedText = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      const queryWords = searchQuery.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(/\s+/).filter(word => word.length > 0);
 
-      // Sort highlights by length (longest first) to avoid conflicts
-      const sortedHighlights = [...highlights].sort((a, b) => b.length - a.length);
+      // Filter out very short words
+      const filteredQueryWords = queryWords.filter(word => word.length > 2 || /^\d+$/.test(word) || /[^\w\s]/.test(word));
 
-      for (const highlight of sortedHighlights) {
-        const normalizedHighlight = highlight.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-        const regex = new RegExp(`(${normalizedHighlight})`, 'gi');
+      // Process each query word
+      for (const queryWord of filteredQueryWords) {
+        const regex = new RegExp(`(${escapeRegExp(queryWord)})`, 'gi');
 
-        // Find matches in the original text
+        // Find all matches in the normalized text
         const matches = [];
         let match;
         while ((match = regex.exec(normalizedText)) !== null) {
-          const originalMatch = text.substr(match.index, match[0].length);
           matches.push({
-            text: originalMatch,
-            index: match.index,
+            start: match.index,
+            end: match.index + match[0].length,
             length: match[0].length
           });
         }
 
         // Apply highlights (work backwards to maintain indices)
-        matches.reverse().forEach(({ text: matchText, index }) => {
-          const before = highlightedText.substring(0, index);
-          const after = highlightedText.substring(index + matchText.length);
+        matches.reverse().forEach(({ start, end }) => {
+          const before = highlightedText.substring(0, start);
+          const matchText = highlightedText.substring(start, end);
+          const after = highlightedText.substring(end);
           highlightedText = `${before}<mark class="bg-yellow-200 px-0.5 rounded">${matchText}</mark>${after}`;
         });
       }
 
       return highlightedText;
+    }
+
+    // Helper function to escape regex special characters
+    function escapeRegExp(string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
   </script>
 </BaseLayout>

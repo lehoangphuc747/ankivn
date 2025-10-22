@@ -30,66 +30,66 @@ function looseWordSearch(query, title, tags = []) {
   let allWordsMatched = true;
   const highlights = [];
 
-  // Check each query word against title
-  for (const queryWord of filteredQueryWords) {
-    let wordMatched = false;
-    let bestScore = 0;
-    let bestMatch = '';
+    // Check each query word against title
+    for (const queryWord of filteredQueryWords) {
+      let wordMatched = false;
+      let bestScore = 0;
+      let bestMatch = '';
 
-    // Split title into words for matching
-    const titleWords = normalizedTitle.split(/\s+/);
+      // Split title into words for matching
+      const titleWords = normalizedTitle.split(/\s+/);
 
-    for (const titleWord of titleWords) {
-      if (titleWord.includes(queryWord)) {
-        wordMatched = true;
+      for (const titleWord of titleWords) {
+        if (titleWord.includes(queryWord)) {
+          wordMatched = true;
 
-        // Calculate match score
-        let score = 1; // Base score for partial match
+          // Calculate match score
+          let score = 1; // Base score for partial match
 
-        if (titleWord === queryWord) {
-          score = 10; // Exact match
-        } else if (titleWord.startsWith(queryWord)) {
-          score = 5; // Starts with match
-        } else if (queryWord.length >= 3) {
-          score = 2; // Contains match for longer words
-        }
+          if (titleWord === queryWord) {
+            score = 10; // Exact match
+          } else if (titleWord.startsWith(queryWord)) {
+            score = 5; // Starts with match
+          } else if (queryWord.length >= 3) {
+            score = 2; // Contains match for longer words
+          }
 
-        if (score > bestScore) {
-          bestScore = score;
-          bestMatch = titleWord;
-        }
-      }
-    }
-
-    // Also check tags
-    for (const tag of tags) {
-      const normalizedTag = normalizeText(tag);
-      if (normalizedTag.includes(queryWord)) {
-        wordMatched = true;
-        let score = 1;
-
-        if (normalizedTag === queryWord) {
-          score = 8; // Exact match in tag
-        } else if (normalizedTag.startsWith(queryWord)) {
-          score = 4; // Starts with match in tag
-        }
-
-        if (score > bestScore) {
-          bestScore = score;
-          bestMatch = normalizedTag;
+          if (score > bestScore) {
+            bestScore = score;
+            // Store the original word from title, not normalized
+            const originalIndex = normalizedTitle.indexOf(titleWord);
+            bestMatch = text.split(/\s+/)[titleWords.indexOf(titleWord)];
+          }
         }
       }
-    }
 
-    if (wordMatched) {
-      totalScore += bestScore;
-      highlights.push(bestMatch);
-    } else {
-      allWordsMatched = false;
-    }
-  }
+      // Also check tags
+      for (const tag of tags) {
+        const normalizedTag = normalizeText(tag);
+        if (normalizedTag.includes(queryWord)) {
+          wordMatched = true;
+          let score = 1;
 
-  // Bonus for consecutive words in title
+          if (normalizedTag === queryWord) {
+            score = 8; // Exact match in tag
+          } else if (normalizedTag.startsWith(queryWord)) {
+            score = 4; // Starts with match in tag
+          }
+
+          if (score > bestScore) {
+            bestScore = score;
+            bestMatch = tag; // Use original tag text
+          }
+        }
+      }
+
+      if (wordMatched) {
+        totalScore += bestScore;
+        highlights.push(bestMatch);
+      } else {
+        allWordsMatched = false;
+      }
+    }  // Bonus for consecutive words in title
   const queryPhrase = filteredQueryWords.join(' ');
   if (normalizedTitle.includes(queryPhrase)) {
     totalScore += 15; // Significant bonus for consecutive matches
@@ -176,10 +176,10 @@ export default function DeckFilters({ items }) {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('deckFiltersChanged', {
-        detail: { filtered }
+        detail: { filtered, query: q }
       }));
     }
-  }, [filtered]);
+  }, [filtered, q]);
 
   // Derive unique categories/subs
   const categories = useMemo(() => Array.from(new Set(items.map((d) => d.data.category).filter(Boolean))), [items]);
