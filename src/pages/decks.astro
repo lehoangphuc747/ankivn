@@ -107,7 +107,7 @@ const decks = await getCollection('decks');
 
     <!-- Decks Grid View -->
     <div id="deck-grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 fade-in-scroll" style="animation-delay: 300ms;">
-      {decks.slice(0, 10).map((d) => (
+      {decks.slice(0, 12).map((d) => (
         <div data-deck-item 
              data-title={d.data.title.toLowerCase()} 
              data-category={d.data.category || ''} 
@@ -142,7 +142,7 @@ const decks = await getCollection('decks');
 
     <!-- Decks List View -->
     <div id="deck-list" class="hidden space-y-4 fade-in-scroll" style="animation-delay: 300ms;">
-      {decks.slice(0, 10).map((d) => (
+      {decks.slice(0, 12).map((d) => (
         <div data-deck-item 
              data-title={d.data.title.toLowerCase()} 
              data-category={d.data.category || ''} 
@@ -227,7 +227,7 @@ const decks = await getCollection('decks');
     let allGridItems = [];
     let allListItems = [];
     let currentView = 'grid';
-    let loadedCount = 10;
+    let loadedCount = 12;
     const loadIncrement = 10;
     let isLoading = false;
     
