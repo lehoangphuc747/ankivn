@@ -116,6 +116,7 @@ export default function DeckFilters({ items }) {
   const [category, setCategory] = useState('');
   const [sub, setSub] = useState('');
   const [sort, setSort] = useState('date');
+  const [maxItemsToShow, setMaxItemsToShow] = useState(12);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -139,6 +140,22 @@ export default function DeckFilters({ items }) {
       window.history.replaceState(null, '', qs ? `?${qs}` : path);
     }
   }, [q, category, sub, sort]);
+
+  // Listen for requestMoreItems event from infinite scroll
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const handleRequestMoreItems = (event) => {
+      const { loadedCount } = event.detail;
+      setMaxItemsToShow(loadedCount);
+    };
+
+    window.addEventListener('requestMoreItems', handleRequestMoreItems);
+
+    return () => {
+      window.removeEventListener('requestMoreItems', handleRequestMoreItems);
+    };
+  }, []);
 
   const filtered = useMemo(() => {
     let arr = items.map(item => ({
@@ -178,11 +195,13 @@ export default function DeckFilters({ items }) {
   // Dispatch filter change event for client-side filtering
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      // Only send items up to maxItemsToShow for infinite scroll
+      const itemsToShow = filtered.slice(0, maxItemsToShow);
       window.dispatchEvent(new CustomEvent('deckFiltersChanged', {
-        detail: { filtered, query: q }
+        detail: { filtered: itemsToShow, query: q }
       }));
     }
-  }, [filtered, q]);
+  }, [filtered, q, maxItemsToShow]);
 
   // Derive unique categories/subs
   const categories = useMemo(() => Array.from(new Set(items.map((d) => d.data.category).filter(Boolean))), [items]);
