@@ -190,98 +190,6 @@ export default function DeckFilters({ items }) {
 
   return (
     <div className="space-y-6">
-      {/* Filters Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Category Filter */}
-        <div className="relative">
-          <select
-            id="category"
-            className="block w-full px-4 py-3 border-2 rounded-xl bg-white/95 backdrop-blur-md focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200 shadow-xl text-gray-900 font-medium appearance-none cursor-pointer border-gray-300/60"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            <option value="">🌟 Tất cả chủ đề</option>
-            {categories.map((c) => (
-              <option key={c} value={c}>
-                📚 {c}
-              </option>
-            ))}
-          </select>
-          <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <svg className="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </div>
-        </div>
-
-        {/* SubCategory Filter */}
-        <div className="relative">
-          <select
-            id="subcategory"
-            className="block w-full px-4 py-3 border-2 rounded-xl bg-white/95 backdrop-blur-md focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200 shadow-xl text-gray-900 font-medium appearance-none cursor-pointer border-gray-300/60"
-            value={sub}
-            onChange={(e) => {
-              const selectedSub = e.target.value;
-              setSub(selectedSub);
-
-              // Auto-select category when subcategory is selected
-              if (selectedSub) {
-                const deckWithSub = items.find(d => d.data.subCategory === selectedSub);
-                if (deckWithSub && deckWithSub.data.category) {
-                  setCategory(deckWithSub.data.category);
-                }
-              }
-            }}
-          >
-            <option value="">🎯 Tất cả phân nhóm</option>
-            {subs.map((s) => (
-              <option key={s} value={s}>
-                📖 {s}
-              </option>
-            ))}
-          </select>
-          <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <svg className="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </div>
-        </div>
-
-        {/* Sort Filter */}
-        <div className="relative">
-          <select
-            id="sort"
-            className="block w-full px-4 py-3 border-2 rounded-xl bg-white/95 backdrop-blur-md focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200 shadow-xl text-gray-900 font-medium appearance-none cursor-pointer border-gray-300/60"
-            value={sort}
-            onChange={(e) => setSort(e.target.value)}
-          >
-            <option value="date">📅 Mới nhất</option>
-            <option value="date-asc">📅 Cũ nhất</option>
-          </select>
-          <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <svg className="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </div>
-        </div>
-
-        {/* Clear Filters */}
-        <button
-          onClick={() => {
-            setQ('');
-            setCategory('');
-            setSub('');
-            setSort('date');
-          }}
-          className="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-medium rounded-xl hover:from-gray-600 hover:to-gray-700 focus:ring-2 focus:ring-gray-500 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105"
-        >
-          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          </svg>
-          <span>Xóa bộ lọc</span>
-        </button>
-      </div>
-
       {/* Search Bar */}
       <div className="relative">
         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -316,8 +224,100 @@ export default function DeckFilters({ items }) {
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
-            </button>
+          </button>
         )}
+      </div>
+
+      {/* Filters Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Category Filter */}
+        <div className="relative">
+          <select 
+            id="category"
+            className="block w-full px-4 py-3 border-2 rounded-xl bg-white/95 backdrop-blur-md focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200 shadow-xl text-gray-900 font-medium appearance-none cursor-pointer border-gray-300/60"
+            value={category} 
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="">🌟 Tất cả chủ đề</option>
+            {categories.map((c) => (
+              <option key={c} value={c}>
+                📚 {c}
+              </option>
+            ))}
+          </select>
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <svg className="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+
+        {/* SubCategory Filter */}
+        <div className="relative">
+          <select 
+            id="subcategory"
+            className="block w-full px-4 py-3 border-2 rounded-xl bg-white/95 backdrop-blur-md focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200 shadow-xl text-gray-900 font-medium appearance-none cursor-pointer border-gray-300/60"
+            value={sub} 
+            onChange={(e) => {
+              const selectedSub = e.target.value;
+              setSub(selectedSub);
+              
+              // Auto-select category when subcategory is selected
+              if (selectedSub) {
+                const deckWithSub = items.find(d => d.data.subCategory === selectedSub);
+                if (deckWithSub && deckWithSub.data.category) {
+                  setCategory(deckWithSub.data.category);
+                }
+              }
+            }}
+          >
+            <option value="">🎯 Tất cả phân nhóm</option>
+            {subs.map((s) => (
+              <option key={s} value={s}>
+                📖 {s}
+              </option>
+            ))}
+          </select>
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <svg className="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Sort Filter */}
+        <div className="relative">
+          <select 
+            id="sort"
+            className="block w-full px-4 py-3 border-2 rounded-xl bg-white/95 backdrop-blur-md focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200 shadow-xl text-gray-900 font-medium appearance-none cursor-pointer border-gray-300/60"
+            value={sort} 
+            onChange={(e) => setSort(e.target.value)}
+          >
+            <option value="date">📅 Mới nhất</option>
+            <option value="date-asc">📅 Cũ nhất</option>
+          </select>
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <svg className="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Clear Filters */}
+        <button
+          onClick={() => {
+            setQ('');
+            setCategory('');
+            setSub('');
+            setSort('date');
+          }}
+          className="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-medium rounded-xl hover:from-gray-600 hover:to-gray-700 focus:ring-2 focus:ring-gray-500 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105"
+        >
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          <span>Xóa bộ lọc</span>
+        </button>
       </div>
 
       {/* Results Summary */}
