@@ -94,20 +94,20 @@ const decks = await getCollection('decks');
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
           </svg>
-          Grid
+          Lưới
         </button>
         <button id="list-view-btn" class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-gray-600">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
           </svg>
-          List
+          Danh sách
         </button>
       </div>
     </div>
 
     <!-- Decks Grid View -->
     <div id="deck-grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 fade-in-scroll" style="animation-delay: 300ms;">
-      {decks.map((d) => (
+      {decks.slice(0, 10).map((d) => (
         <div data-deck-item 
              data-title={d.data.title.toLowerCase()} 
              data-category={d.data.category || ''} 
@@ -128,9 +128,21 @@ const decks = await getCollection('decks');
       ))}
     </div>
 
+    <!-- Loading indicator -->
+    <div id="loading-indicator" class="flex justify-center py-8 hidden">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+    </div>
+
+    <!-- Load More Button (fallback) -->
+    <div id="load-more-container" class="flex justify-center py-8 hidden">
+      <button id="load-more-btn" class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+        Tải thêm deck
+      </button>
+    </div>
+
     <!-- Decks List View -->
     <div id="deck-list" class="hidden space-y-4 fade-in-scroll" style="animation-delay: 300ms;">
-      {decks.map((d) => (
+      {decks.slice(0, 10).map((d) => (
         <div data-deck-item 
              data-title={d.data.title.toLowerCase()} 
              data-category={d.data.category || ''} 
@@ -210,10 +222,14 @@ const decks = await getCollection('decks');
     </div>
   </section>
 
-  <script>
+  <script define:vars={{ allDecks: decks }}>
     // View toggle functionality
     let allGridItems = [];
     let allListItems = [];
+    let currentView = 'grid';
+    let loadedCount = 10;
+    const loadIncrement = 10;
+    let isLoading = false;
     
     document.addEventListener('DOMContentLoaded', () => {
       allGridItems = Array.from(document.getElementById('deck-grid')?.querySelectorAll('[data-deck-item]') || []);
@@ -225,6 +241,7 @@ const decks = await getCollection('decks');
       const deckList = document.getElementById('deck-list');
 
       function switchToGridView() {
+        currentView = 'grid';
         gridViewBtn?.classList.add('bg-white', 'text-gray-900', 'shadow-sm');
         gridViewBtn?.classList.remove('text-gray-600');
         listViewBtn?.classList.remove('bg-white', 'text-gray-900', 'shadow-sm');
@@ -235,6 +252,7 @@ const decks = await getCollection('decks');
       }
 
       function switchToListView() {
+        currentView = 'list';
         listViewBtn?.classList.add('bg-white', 'text-gray-900', 'shadow-sm');
         listViewBtn?.classList.remove('text-gray-600');
         gridViewBtn?.classList.remove('bg-white', 'text-gray-900', 'shadow-sm');
@@ -249,7 +267,149 @@ const decks = await getCollection('decks');
 
       // Start with grid view active
       switchToGridView();
+
+      // Setup infinite scroll
+      setupInfiniteScroll();
     });
+
+    // Infinite scroll setup
+    function setupInfiniteScroll() {
+      const loadMoreBtn = document.getElementById('load-more-btn');
+      const loadingIndicator = document.getElementById('loading-indicator');
+      const loadMoreContainer = document.getElementById('load-more-container');
+
+      // Show load more button if there are more decks to load
+      if (loadedCount < allDecks.length) {
+        loadMoreContainer?.classList.remove('hidden');
+      }
+
+      // Load more button click
+      loadMoreBtn?.addEventListener('click', () => {
+        loadMoreDecks();
+      });
+
+      // Scroll detection for infinite scroll
+      window.addEventListener('scroll', () => {
+        if (isLoading || loadedCount >= allDecks.length) return;
+
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+
+        // Load more when user is within 200px of bottom
+        if (scrollTop + windowHeight >= documentHeight - 200) {
+          loadMoreDecks();
+        }
+      });
+    }
+
+    // Load more decks function
+    function loadMoreDecks() {
+      if (isLoading) return;
+
+      isLoading = true;
+      const loadingIndicator = document.getElementById('loading-indicator');
+      const loadMoreContainer = document.getElementById('load-more-container');
+
+      // Show loading indicator
+      loadingIndicator?.classList.remove('hidden');
+      loadMoreContainer?.classList.add('hidden');
+
+      // Simulate loading delay (remove in production)
+      setTimeout(() => {
+        loadedCount = Math.min(loadedCount + loadIncrement, allDecks.length);
+
+        // Trigger a re-filter to show more items
+        const filterEvent = new CustomEvent('requestMoreItems', { detail: { loadedCount } });
+        window.dispatchEvent(filterEvent);
+
+        isLoading = false;
+
+        // Hide loading indicator
+        loadingIndicator?.classList.add('hidden');
+
+        // Show load more button if there are more decks
+        if (loadedCount < allDecks.length) {
+          loadMoreContainer?.classList.remove('hidden');
+        }
+      }, 500); // 500ms delay for smooth UX
+    }
+
+    // Create grid deck item
+    function createDeckGridItem(deck) {
+      const item = document.createElement('div');
+      item.setAttribute('data-deck-item', '');
+      item.setAttribute('data-title', deck.data.title.toLowerCase());
+      item.setAttribute('data-category', deck.data.category || '');
+      item.setAttribute('data-subcategory', deck.data.subCategory || '');
+      item.setAttribute('data-tags', (deck.data.tags || []).map(t => t.toLowerCase()).join(','));
+      item.setAttribute('data-type', deck.data.type || 'CHIA SẺ');
+      item.setAttribute('data-date', deck.data.date || '');
+
+      item.innerHTML = `
+        <deck-card
+          title="${deck.data.title.replace(/"/g, '&quot;')}"
+          cover="${deck.data.cover || ''}"
+          date="${deck.data.date || ''}"
+          category="${deck.data.category || ''}"
+          sub-category="${deck.data.subCategory || ''}"
+          type="${deck.data.type || ''}"
+          href="/decks/${deck.slug}"
+        ></deck-card>
+      `;
+
+      return item;
+    }
+
+    // Create list deck item
+    function createDeckListItem(deck) {
+      const item = document.createElement('div');
+      item.setAttribute('data-deck-item', '');
+      item.setAttribute('data-title', deck.data.title.toLowerCase());
+      item.setAttribute('data-category', deck.data.category || '');
+      item.setAttribute('data-subcategory', deck.data.subCategory || '');
+      item.setAttribute('data-tags', (deck.data.tags || []).map(t => t.toLowerCase()).join(','));
+      item.setAttribute('data-type', deck.data.type || 'CHIA SẺ');
+      item.setAttribute('data-date', deck.data.date || '');
+
+      const categoryHtml = (deck.data.category || deck.data.subCategory) ? `
+        <div class="flex flex-wrap gap-2 mb-1">
+          ${deck.data.category ? `<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-800">${deck.data.category}</span>` : ''}
+          ${deck.data.subCategory ? `<span class="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-md">${deck.data.subCategory}</span>` : ''}
+        </div>
+      ` : '';
+
+      const tagsHtml = (deck.data.tags && deck.data.tags.length > 0) ? `
+        <div class="flex flex-wrap gap-1">
+          ${deck.data.tags.slice(0, 4).map(tag => `<span class="inline-flex items-center px-2 py-1 rounded-md text-xs bg-gray-100 text-gray-600">#${tag}</span>`).join('')}
+          ${deck.data.tags.length > 4 ? `<span class="text-xs text-gray-400 px-2 py-1">+${deck.data.tags.length - 4} khác</span>` : ''}
+        </div>
+      ` : '';
+
+      const typeBadge = deck.data.type === 'BÁN' ? `
+        <div class="absolute top-3 right-3">
+          <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-red-500 to-orange-500">BÁN</span>
+        </div>
+      ` : '';
+
+      item.innerHTML = `
+        <article class="relative bg-white/80 backdrop-blur-sm rounded-2xl border-2 border-gray-200/60 overflow-hidden hover:border-blue-300/40 transition-all duration-200 px-4 py-3">
+          <a href="/decks/${deck.slug}" target="_blank" rel="noopener noreferrer" class="flex gap-4">
+            <div class="flex-shrink-0 w-20 h-20 bg-gradient-to-br from-blue-50 to-emerald-50 rounded-xl overflow-hidden">
+              <img src="${deck.data.cover || '/default-thumbnail.webp'}" alt="${deck.data.title}" class="w-full h-full object-cover" loading="lazy" />
+            </div>
+            <div class="flex-1 min-w-0">
+              ${categoryHtml}
+              <div class="font-bold text-lg text-gray-900 mt-3 mb-3 line-clamp-2 leading-tight">${deck.data.title}</div>
+              ${tagsHtml}
+            </div>
+          </a>
+          ${typeBadge}
+        </article>
+      `;
+
+      return item;
+    }
 
     // Listen for filter events from DeckFilters component
     window.addEventListener('deckFiltersChanged', (event: any) => {
@@ -257,8 +417,12 @@ const decks = await getCollection('decks');
       const deckGrid = document.getElementById('deck-grid');
       const deckList = document.getElementById('deck-list');
       const emptyState = document.getElementById('empty-state');
+      const loadMoreContainer = document.getElementById('load-more-container');
 
       if (!deckGrid || !deckList) return;
+
+      // Hide load more button during filtering
+      loadMoreContainer?.classList.add('hidden');
 
       // Clear current order
       deckGrid.innerHTML = '';
@@ -266,7 +430,10 @@ const decks = await getCollection('decks');
 
       // Add items in sorted order
       if (filtered.length > 0) {
-        filtered.forEach((deck: any) => {
+        // Show only up to loadedCount items, or all filtered items if less than loadedCount
+        const itemsToShow = Math.min(filtered.length, loadedCount);
+
+        filtered.slice(0, itemsToShow).forEach((deck: any) => {
           const gridItem = allGridItems.find(item =>
             item.getAttribute('data-title') === deck.data.title.toLowerCase()
           );
@@ -302,6 +469,11 @@ const decks = await getCollection('decks');
             (listItem as HTMLElement).style.display = 'block';
           }
         });
+
+        // Show load more button if there are more filtered items to show
+        if (filtered.length > loadedCount) {
+          loadMoreContainer?.classList.remove('hidden');
+        }
 
         emptyState?.classList.add('hidden');
       } else {

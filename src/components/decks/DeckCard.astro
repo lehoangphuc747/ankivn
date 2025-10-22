@@ -15,6 +15,9 @@ const { title, cover, date, category, subCategory, href, tags = [], type, search
 const slug = href.split('/').pop();
 const displayCover = cover ?? '/default-thumbnail.webp';
 
+// Import emoji utilities
+import { getCategoryEmoji, getSubCategoryEmoji } from '@/lib/utils';
+
 // Function to highlight matching parts in title
 function highlightTitle(title: string, highlights: string[]): string {
   if (!highlights.length) return title;
@@ -112,12 +115,12 @@ function highlightTitle(title: string, highlights: string[]): string {
         <div class="mb-3 flex flex-wrap gap-2">
           {category && (
             <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-800">
-              {category}
+              {getCategoryEmoji(category)} {category}
             </span>
           )}
           {subCategory && (
             <span class="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-md">
-              {subCategory}
+              {getSubCategoryEmoji(subCategory)} {subCategory}
             </span>
           )}
         </div>

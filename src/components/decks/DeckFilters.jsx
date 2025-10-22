@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 
+// Import emoji utilities
+import { getCategoryEmoji, getSubCategoryEmoji } from '@/lib/utils';
+
 // Utility function to normalize text (remove diacritics, lowercase)
 function normalizeText(text) {
   return text
@@ -232,16 +235,16 @@ export default function DeckFilters({ items }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Category Filter */}
         <div className="relative">
-          <select 
+          <select
             id="category"
             className="block w-full px-4 py-3 border-2 rounded-xl bg-white/95 backdrop-blur-md focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200 shadow-xl text-gray-900 font-medium appearance-none cursor-pointer border-gray-300/60"
-            value={category} 
+            value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
             <option value="">🌟 Tất cả chủ đề</option>
             {categories.map((c) => (
               <option key={c} value={c}>
-                📚 {c}
+                {getCategoryEmoji(c)} {c}
               </option>
             ))}
           </select>
@@ -254,14 +257,14 @@ export default function DeckFilters({ items }) {
 
         {/* SubCategory Filter */}
         <div className="relative">
-          <select 
+          <select
             id="subcategory"
             className="block w-full px-4 py-3 border-2 rounded-xl bg-white/95 backdrop-blur-md focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200 shadow-xl text-gray-900 font-medium appearance-none cursor-pointer border-gray-300/60"
-            value={sub} 
+            value={sub}
             onChange={(e) => {
               const selectedSub = e.target.value;
               setSub(selectedSub);
-              
+
               // Auto-select category when subcategory is selected
               if (selectedSub) {
                 const deckWithSub = items.find(d => d.data.subCategory === selectedSub);
@@ -274,7 +277,7 @@ export default function DeckFilters({ items }) {
             <option value="">🎯 Tất cả phân nhóm</option>
             {subs.map((s) => (
               <option key={s} value={s}>
-                📖 {s}
+                {getSubCategoryEmoji(s)} {s}
               </option>
             ))}
           </select>
@@ -287,10 +290,10 @@ export default function DeckFilters({ items }) {
 
         {/* Sort Filter */}
         <div className="relative">
-          <select 
+          <select
             id="sort"
             className="block w-full px-4 py-3 border-2 rounded-xl bg-white/95 backdrop-blur-md focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200 shadow-xl text-gray-900 font-medium appearance-none cursor-pointer border-gray-300/60"
-            value={sort} 
+            value={sort}
             onChange={(e) => setSort(e.target.value)}
           >
             <option value="date">📅 Mới nhất</option>
@@ -350,23 +353,23 @@ export default function DeckFilters({ items }) {
             </svg>
             <div>
               <h3 className="text-sm font-medium text-yellow-800 mb-1">
-                Không tìm thấy kết quả phù hợp
+                Không tìm thấy bộ thẻ nào phù hợp
               </h3>
               <p className="text-sm text-yellow-700 mb-2">
-                Thử tìm kiếm với từ khóa khác hoặc gõ từ rời không cần đúng thứ tự:
+                Hãy thử các gợi ý sau để tìm kiếm tốt hơn:
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 mb-3">
                 <button
-                  onClick={() => setQ('4000 co ban')}
+                  onClick={() => setQ('4000 từ cơ bản')}
                   className="text-xs bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-1 rounded-md transition-colors"
                 >
-                  "4000 co ban"
+                  "4000 từ cơ bản"
                 </button>
                 <button
-                  onClick={() => setQ('tieng anh')}
+                  onClick={() => setQ('tiếng anh')}
                   className="text-xs bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-1 rounded-md transition-colors"
                 >
-                  "tieng anh"
+                  "tiếng anh"
                 </button>
                 <button
                   onClick={() => setQ('toeic')}
@@ -374,7 +377,22 @@ export default function DeckFilters({ items }) {
                 >
                   "toeic"
                 </button>
+                <button
+                  onClick={() => setQ('jlpt')}
+                  className="text-xs bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-1 rounded-md transition-colors"
+                >
+                  "jlpt"
+                </button>
+                <button
+                  onClick={() => setQ('ngữ pháp')}
+                  className="text-xs bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-1 rounded-md transition-colors"
+                >
+                  "ngữ pháp"
+                </button>
               </div>
+              <p className="text-sm text-yellow-700">
+                💡 <strong>Mẹo:</strong> Chọn <strong>Chủ đề</strong> và <strong>Danh mục</strong> ở trên để lọc kết quả, hoặc thử tìm với từ khóa ngắn hơn.
+              </p>
             </div>
           </div>
         </div>
