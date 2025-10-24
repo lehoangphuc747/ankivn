@@ -3,7 +3,55 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import DeckFilters from '@/components/decks/DeckFilters.jsx';
 import DeckCard from '@/components/decks/DeckCard.astro';
 import { getCollection } from 'astro:content';
+
 const decks = await getCollection('decks');
+
+// Function to fetch view counts from Cloudflare Worker
+async function fetchViewCounts(deckSlugs: string[]) {
+  const viewCounts: { [key: string]: number } = {};
+
+  try {
+    // Fetch view counts for all decks in parallel
+    const fetchPromises = deckSlugs.map(async (slug) => {
+      try {
+        const response = await fetch(`https://view-counter.lphc664.workers.dev/decks/${slug}`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          return { slug, views: data.views || 0 };
+        }
+        return { slug, views: 0 };
+      } catch (error) {
+        console.error(`Error fetching view count for ${slug}:`, error);
+        return { slug, views: 0 };
+      }
+    });
+
+    const results = await Promise.all(fetchPromises);
+
+    // Convert results to object
+    results.forEach(({ slug, views }) => {
+      viewCounts[slug] = views;
+    });
+  } catch (error) {
+    console.error('Error fetching view counts:', error);
+  }
+
+  return viewCounts;
+}
+
+// Get view counts for all decks
+const deckSlugs = decks.map(d => d.slug);
+const viewCounts = await fetchViewCounts(deckSlugs);
+
+// Attach view counts to deck objects
+const decksWithViews = decks.map(deck => ({
+  ...deck,
+  viewCount: viewCounts[deck.slug] || 0
+}));
 ---
 <BaseLayout title="Bộ thẻ">
   <!-- Hero Header -->
@@ -84,7 +132,7 @@ const decks = await getCollection('decks');
 
     <!-- Filters -->
     <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-6 border border-white/20 shadow-xl mb-8 fade-in-scroll">
-      <DeckFilters client:load items={decks} />
+      <DeckFilters client:load items={decksWithViews} />
     </div>
 
     <!-- View Toggle - Positioned between filters and content -->
@@ -124,6 +172,7 @@ const decks = await getCollection('decks');
             subCategory={d.data.subCategory}
             type={d.data.type}
             href={`/decks/${d.slug}`}
+            viewCount={viewCounts[d.slug] || 0}
           />
         </div>
       ))}
@@ -140,64 +189,17 @@ const decks = await getCollection('decks');
              data-tags={(d.data.tags || []).map(t => t.toLowerCase()).join(',')}
              data-type={d.data.type || 'CHIA SẺ'}
              data-date={d.data.date || ''}>
-          <article class="relative bg-white/80 backdrop-blur-sm rounded-2xl border-2 border-gray-200/60 overflow-hidden hover:border-blue-300/40 transition-all duration-200 px-4 py-3">
-            <a href={`/decks/${d.slug}`} target="_blank" rel="noopener noreferrer" class="flex gap-4">
-              <!-- Cover Image -->
-              <div class="flex-shrink-0 w-20 h-20 bg-gradient-to-br from-blue-50 to-emerald-50 rounded-xl overflow-hidden">
-                <img
-                  src={d.data.cover || '/default-thumbnail.webp'}
-                  alt={d.data.title}
-                  class="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-
-              <!-- Content -->
-              <div class="flex-1 min-w-0">
-                <!-- Categories -->
-                {(d.data.category || d.data.subCategory) && (
-                  <div class="flex flex-wrap gap-2 mb-1">
-                    {d.data.category && (
-                      <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-800">
-                        {d.data.category}
-                      </span>
-                    )}
-                    {d.data.subCategory && (
-                      <span class="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-md">
-                        {d.data.subCategory}
-                      </span>
-                    )}
-                  </div>
-                )}
-
-                <!-- Title -->
-                <div class="font-bold text-lg text-gray-900 mt-3 mb-3 line-clamp-2 leading-tight">
-                  {d.data.title}
-                </div>
-
-                <!-- Tags -->
-                {d.data.tags && d.data.tags.length > 0 && (
-                  <div class="flex flex-wrap gap-1">
-                    {d.data.tags.slice(0, 4).map(tag => (
-                      <span class="inline-flex items-center px-2 py-1 rounded-md text-xs bg-gray-100 text-gray-600">
-                        #{tag}
-                      </span>
-                    ))}
-                    {d.data.tags.length > 4 && (
-                      <span class="text-xs text-gray-400 px-2 py-1">+{d.data.tags.length - 4} khác</span>
-                    )}
-                  </div>
-                )}
-              </div>
-            </a>
-
-            <!-- Type Badge for List View -->
-            {d.data.type === 'BÁN' && (
-              <div class="absolute top-3 right-3">
-                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-red-500 to-orange-500">BÁN</span>
-              </div>
-            )}
-          </article>
+          <DeckCard
+            title={d.data.title}
+            cover={d.data.cover}
+            date={d.data.date}
+            category={d.data.category}
+            subCategory={d.data.subCategory}
+            type={d.data.type}
+            href={`/decks/${d.slug}`}
+            view="list"
+            viewCount={viewCounts[d.slug] || 0}
+          />
         </div>
       ))}
     </div>
@@ -217,6 +219,7 @@ const decks = await getCollection('decks');
     let allGridItems = [];
     let allListItems = [];
     let currentView = 'grid';
+    let currentFilterState = { filtered: [], query: '' };
     
     // Initialize items immediately
     function initializeItems() {
@@ -224,66 +227,62 @@ const decks = await getCollection('decks');
       allListItems = Array.from(document.getElementById('deck-list')?.querySelectorAll('[data-deck-item]') || []);
     }
     
-    // Listen for filter events from DeckFilters component (set up immediately)
-    window.addEventListener('deckFiltersChanged', (event) => {
-      console.log('deckFiltersChanged event received:', event.detail);
-
-      // Always initialize items before processing
-      initializeItems();
-
-      const { filtered, query } = event.detail;
+    // Function to apply current filter to current view
+    function applyCurrentFilter() {
+      const { filtered, query } = currentFilterState;
       const deckGrid = document.getElementById('deck-grid');
       const deckList = document.getElementById('deck-list');
       const emptyState = document.getElementById('empty-state');
 
-      if (!deckGrid || !deckList) return;
+      if (!deckGrid || !deckList || !emptyState) return;
 
-      // Get all deck items
-      const allItems = [...allGridItems, ...allListItems];
+      // 1. Lấy container và danh sách master (gốc) chính xác
+      const currentContainer = currentView === 'grid' ? deckGrid : deckList;
+      const masterItems = currentView === 'grid' ? allGridItems : allListItems;
 
-      console.log('Total items found:', allItems.length);
-      console.log('Filtered items:', filtered.length);
+      console.log(`Applying filter to ${currentView} view:`, masterItems.length, 'items,', filtered.length, 'filtered');
 
-      // Create a set of slugs that should be visible
-      const visibleSlugs = new Set(filtered.map(deck => deck.slug));
-
-      // Show/hide items based on filter
-      allItems.forEach(item => {
+      // 2. Tạo Map để tra cứu item gốc (lấy từ danh sách master)
+      const itemMap = new Map();
+      masterItems.forEach(item => {
         const slug = item.getAttribute('data-slug');
-        if (visibleSlugs.has(slug)) {
-          item.style.display = '';
-        } else {
-          item.style.display = 'none';
-        }
+        itemMap.set(slug, item);
       });
 
-      // For sorting: reorder items in the DOM to match filtered order
-      if (filtered.length > 0 && allItems.length > 0) {
-        const itemMap = new Map();
-        allItems.forEach(item => {
-          const slug = item.getAttribute('data-slug');
-          itemMap.set(slug, item);
-        });
+      // 3. LUÔN LUÔN dọn dẹp container trước
+      currentContainer.innerHTML = '';
 
-        // Clear and re-append in filtered order for current view
-        const currentContainer = currentView === 'grid' ? deckGrid : deckList;
-        if (currentContainer) {
-          currentContainer.innerHTML = '';
-          filtered.forEach(deck => {
-            const item = itemMap.get(deck.slug);
-            if (item) {
-              currentContainer.appendChild(item.cloneNode(true));
-            }
-          });
-        }
-      }
-
-      // Update empty state
+      // 4. Kiểm tra kết quả và vẽ lại DOM
       if (filtered.length > 0) {
-        emptyState?.classList.add('hidden');
+        // Có kết quả: Vẽ lại các deck đã lọc
+        filtered.forEach(deck => {
+          const item = itemMap.get(deck.slug);
+          if (item) {
+            // Phải cloneNode(true) để lấy bản sao mới từ danh sách gốc
+            currentContainer.appendChild(item.cloneNode(true));
+          }
+        });
+        
+        // Ẩn thông báo rỗng
+        emptyState.classList.add('hidden');
       } else {
-        emptyState?.classList.remove('hidden');
+        // Không có kết quả: Hiển thị thông báo rỗng
+        emptyState.classList.remove('hidden');
       }
+    }
+    
+    // Listen for filter events from DeckFilters component (set up immediately)
+    window.addEventListener('deckFiltersChanged', (event) => {
+      console.log('deckFiltersChanged event received:', event.detail);
+
+      // DO NOT initialize items here. The master list is already set.
+      // initializeItems(); // <--- REMOVED: Don't reinitialize on every filter change
+
+      // Store current filter state
+      currentFilterState = event.detail;
+
+      // Apply the filter to current view
+      applyCurrentFilter();
     });
     
     document.addEventListener('DOMContentLoaded', () => {
@@ -303,6 +302,9 @@ const decks = await getCollection('decks');
         
         deckGrid?.classList.remove('hidden');
         deckList?.classList.add('hidden');
+        
+        // Reapply current filter to the new view
+        applyCurrentFilter();
       }
 
       function switchToListView() {
@@ -314,6 +316,9 @@ const decks = await getCollection('decks');
         
         deckList?.classList.remove('hidden');
         deckGrid?.classList.add('hidden');
+        
+        // Reapply current filter to the new view
+        applyCurrentFilter();
       }
 
       gridViewBtn?.addEventListener('click', switchToGridView);
@@ -322,82 +327,6 @@ const decks = await getCollection('decks');
       // Start with grid view active
       switchToGridView();
     });
-
-    // Create grid deck item
-    function createDeckGridItem(deck) {
-      const item = document.createElement('div');
-      item.setAttribute('data-deck-item', '');
-      item.setAttribute('data-title', deck.data.title.toLowerCase());
-      item.setAttribute('data-category', deck.data.category || '');
-      item.setAttribute('data-subcategory', deck.data.subCategory || '');
-      item.setAttribute('data-tags', (deck.data.tags || []).map(t => t.toLowerCase()).join(','));
-      item.setAttribute('data-type', deck.data.type || 'CHIA SẺ');
-      item.setAttribute('data-date', deck.data.date || '');
-
-      item.innerHTML = `
-        <deck-card
-          title="${deck.data.title.replace(/"/g, '&quot;')}"
-          cover="${deck.data.cover || ''}"
-          date="${deck.data.date || ''}"
-          category="${deck.data.category || ''}"
-          sub-category="${deck.data.subCategory || ''}"
-          type="${deck.data.type || ''}"
-          href="/decks/${deck.slug}"
-        ></deck-card>
-      `;
-
-      return item;
-    }
-
-    // Create list deck item
-    function createDeckListItem(deck) {
-      const item = document.createElement('div');
-      item.setAttribute('data-deck-item', '');
-      item.setAttribute('data-title', deck.data.title.toLowerCase());
-      item.setAttribute('data-category', deck.data.category || '');
-      item.setAttribute('data-subcategory', deck.data.subCategory || '');
-      item.setAttribute('data-tags', (deck.data.tags || []).map(t => t.toLowerCase()).join(','));
-      item.setAttribute('data-type', deck.data.type || 'CHIA SẺ');
-      item.setAttribute('data-date', deck.data.date || '');
-
-      const categoryHtml = (deck.data.category || deck.data.subCategory) ? `
-        <div class="flex flex-wrap gap-2 mb-1">
-          ${deck.data.category ? `<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-800">${deck.data.category}</span>` : ''}
-          ${deck.data.subCategory ? `<span class="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-md">${deck.data.subCategory}</span>` : ''}
-        </div>
-      ` : '';
-
-      const tagsHtml = (deck.data.tags && deck.data.tags.length > 0) ? `
-        <div class="flex flex-wrap gap-1">
-          ${deck.data.tags.slice(0, 4).map(tag => `<span class="inline-flex items-center px-2 py-1 rounded-md text-xs bg-gray-100 text-gray-600">#${tag}</span>`).join('')}
-          ${deck.data.tags.length > 4 ? `<span class="text-xs text-gray-400 px-2 py-1">+${deck.data.tags.length - 4} khác</span>` : ''}
-        </div>
-      ` : '';
-
-      const typeBadge = deck.data.type === 'BÁN' ? `
-        <div class="absolute top-3 right-3">
-          <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-red-500 to-orange-500">BÁN</span>
-        </div>
-      ` : '';
-
-      item.innerHTML = `
-        <article class="relative bg-white/80 backdrop-blur-sm rounded-2xl border-2 border-gray-200/60 overflow-hidden hover:border-blue-300/40 transition-all duration-200 px-4 py-3">
-          <a href="/decks/${deck.slug}" target="_blank" rel="noopener noreferrer" class="flex gap-4">
-            <div class="flex-shrink-0 w-20 h-20 bg-gradient-to-br from-blue-50 to-emerald-50 rounded-xl overflow-hidden">
-              <img src="${deck.data.cover || '/default-thumbnail.webp'}" alt="${deck.data.title}" class="w-full h-full object-cover" loading="lazy" />
-            </div>
-            <div class="flex-1 min-w-0">
-              ${categoryHtml}
-              <div class="font-bold text-lg text-gray-900 mt-3 mb-3 line-clamp-2 leading-tight">${deck.data.title}</div>
-              ${tagsHtml}
-            </div>
-          </a>
-          ${typeBadge}
-        </article>
-      `;
-
-      return item;
-    }
 
     // Function to highlight matching text
     function highlightText(text, highlights, searchQuery) {
