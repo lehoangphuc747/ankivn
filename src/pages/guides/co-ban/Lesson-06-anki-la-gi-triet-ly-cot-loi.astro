@@ -1,0 +1,52 @@
+---
+import SimpleLessonLayout from '../../../layouts/SimpleLessonLayout.astro';
+
+const lessonData = {
+  title: "Anki là gì? Triết lý cốt lõi",
+  description: "Giới thiệu Anki và triết lý thiết kế.",
+  level: "Cơ bản",
+  duration: "20 phút",
+  author: "AnkiVN Team",
+  publishDate: "2024-01-15",
+  tags: ["anki", "giới thiệu", "triết lý"]
+};
+
+const courseStructure = {
+  modules: [
+    {
+      id: 'module-3',
+      title: 'Module 3: Anki - Phòng Tập Gym Tối Ưu cho Trí Nhớ',
+      lessons: [
+        { title: 'Anki là gì? Triết lý cốt lõi', slug: 'Lesson-06-anki-la-gi-triet-ly-cot-loi' },
+        { title: 'Tại sao Anki là lựa chọn cho người học chuyên sâu?', slug: 'Lesson-07-tai-sao-anki-la-lua-chon-cho-nguoi-hoc-chuyen-sau' },
+        { title: 'So sánh Anki với các lựa chọn khác (Quizlet, Memrise)', slug: 'Lesson-08-so-sanh-anki-voi-cac-lua-chon-khac-quizlet-memrise' }
+      ]
+    }
+  ]
+};
+
+const allLessons = courseStructure.modules.flatMap(m => m.lessons);
+const currentIndex = allLessons.findIndex(l => l.slug === 'Lesson-06-anki-la-gi-triet-ly-cot-loi');
+let prevLesson, nextLesson;
+if (currentIndex !== -1) {
+  if (currentIndex > 0) prevLesson = allLessons[currentIndex - 1];
+  if (currentIndex < allLessons.length - 1) nextLesson = allLessons[currentIndex + 1];
+}
+---
+
+<SimpleLessonLayout
+  title={lessonData.title}
+  description={lessonData.description}
+  author={lessonData.author}
+  date={lessonData.publishDate}
+  duration={lessonData.duration}
+  level={lessonData.level}
+  tags={lessonData.tags}
+  prevLesson={prevLesson}
+  nextLesson={nextLesson}
+>
+  <div class="prose prose-lg max-w-none">
+    <h2>Anki là gì?</h2>
+    <p>Anki là một chương trình flashcard mã nguồn mở, miễn phí, được xây dựng xung quanh một hệ thống lặp lại ngắt quãng (SRS) mạnh mẽ và có khả năng tùy biến cao. Triết lý cốt lõi của Anki khác biệt hoàn toàn so với nhiều ứng dụng học tập thương mại khác. Thay vì cung cấp một trải nghiệm đóng gói, hấp dẫn ngay từ đầu, Anki trao toàn bộ quyền kiểm soát vào tay người dùng. Nó giống như một bộ công cụ chuyên nghiệp hơn là một sản phẩm tiêu dùng. Người dùng có thể tùy chỉnh mọi thứ, từ nội dung và hình thức của từng thẻ ghi nhớ cho đến các thông số chi tiết của thuật toán lặp lại.</p>
+  </div>
+</SimpleLessonLayout>

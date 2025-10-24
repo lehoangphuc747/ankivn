@@ -1,0 +1,63 @@
+---
+import SimpleLessonLayout from '../../../layouts/SimpleLessonLayout.astro';
+
+const lessonData = {
+  title: "Tại sao Anki là lựa chọn cho người học chuyên sâu?",
+  description: "Lý do Anki phù hợp cho học tập chuyên sâu.",
+  level: "Cơ bản",
+  duration: "25 phút",
+  author: "AnkiVN Team",
+  publishDate: "2024-01-15",
+  tags: ["anki", "chuyên sâu", "lựa chọn"]
+};
+
+const courseStructure = {
+  modules: [
+    {
+      id: 'module-3',
+      title: 'Module 3: Anki - Phòng Tập Gym Tối Ưu cho Trí Nhớ',
+      lessons: [
+        { title: 'Anki là gì? Triết lý cốt lõi', slug: 'Lesson-06-anki-la-gi-triet-ly-cot-loi' },
+        { title: 'Tại sao Anki là lựa chọn cho người học chuyên sâu?', slug: 'Lesson-07-tai-sao-anki-la-lua-chon-cho-nguoi-hoc-chuyen-sau' },
+        { title: 'So sánh Anki với các lựa chọn khác (Quizlet, Memrise)', slug: 'Lesson-08-so-sanh-anki-voi-cac-lua-chon-khac-quizlet-memrise' }
+      ]
+    }
+  ]
+};
+
+const allLessons = courseStructure.modules.flatMap(m => m.lessons);
+const currentIndex = allLessons.findIndex(l => l.slug === 'Lesson-07-tai-sao-anki-la-lua-chon-cho-nguoi-hoc-chuyen-sau');
+let prevLesson, nextLesson;
+if (currentIndex !== -1) {
+  if (currentIndex > 0) prevLesson = allLessons[currentIndex - 1];
+  if (currentIndex < allLessons.length - 1) nextLesson = allLessons[currentIndex + 1];
+}
+---
+
+<SimpleLessonLayout
+  title={lessonData.title}
+  description={lessonData.description}
+  author={lessonData.author}
+  date={lessonData.publishDate}
+  duration={lessonData.duration}
+  level={lessonData.level}
+  tags={lessonData.tags}
+  prevLesson={prevLesson}
+  nextLesson={nextLesson}
+>
+  <div class="prose prose-lg max-w-none">
+    <h2>Lý do chọn Anki</h2>
+    <p>Những người học nghiêm túc, đặc biệt là trong các lĩnh vực đòi hỏi khối lượng kiến thức khổng lồ như y khoa, luật, hay kỹ thuật, thường lựa chọn Anki vì những lý do sau:</p>
+    <ol>
+      <li><strong>SRS thực thụ và có thể tùy chỉnh:</strong> Không giống như nhiều ứng dụng khác chỉ cung cấp một tính năng "ôn tập" cơ bản, Anki được xây dựng từ gốc rễ dựa trên một thuật toán SRS thực sự, đã được kiểm chứng. Quan trọng hơn, người dùng có thể tinh chỉnh hàng chục thông số để thuật toán hoạt động chính xác theo cách họ muốn, phù hợp với loại tài liệu và khả năng ghi nhớ của cá nhân.</li>
+      <li><strong>Hỗ trợ các loại thẻ nâng cao:</strong> Anki vượt xa các flashcard "mặt trước - mặt sau" đơn giản. Hai loại thẻ đặc biệt quan trọng là:
+        <ul>
+          <li><strong>Cloze Deletion (Điền vào chỗ trống):</strong> Tính năng này cho phép bạn tạo ra các thẻ dạng "... là thủ đô của Pháp." thay vì "Thủ đô của Pháp là gì?". Học theo cách này giúp ghi nhớ thông tin trong ngữ cảnh, một phương pháp hiệu quả hơn nhiều so với việc học các sự thật rời rạc. Đây là một tính năng mà nhiều đối thủ cạnh tranh không có hoặc thực hiện rất kém.</li>
+          <li><strong>Image Occlusion (Che lấp hình ảnh):</strong> Thông qua một add-on cực kỳ phổ biến, người dùng có thể dễ dàng tạo ra các flashcard từ hình ảnh. Ví dụ, bạn có thể che đi các nhãn trên một sơ đồ giải phẫu hoặc một biểu đồ kỹ thuật và tự kiểm tra. Đây là một công cụ không thể thiếu cho các ngành học có tính trực quan cao.</li>
+        </ul>
+      </li>
+      <li><strong>Hệ sinh thái Add-on khổng lồ:</strong> Vì Anki là mã nguồn mở, một cộng đồng người dùng và nhà phát triển sôi nổi đã tạo ra hàng trăm add-on (tiện ích mở rộng). Các add-on này có thể làm mọi thứ, từ việc thay đổi giao diện, cung cấp các biểu đồ thống kê chi tiết hơn, tích hợp từ điển, cho đến việc tự động hóa quá trình tạo thẻ. Hệ sinh thái này cho phép mỗi người dùng biến Anki thành công cụ học tập độc nhất, phù hợp hoàn hảo với quy trình làm việc của họ.</li>
+      <li><strong>Mã nguồn mở và Miễn phí:</strong> Anki hoàn toàn miễn phí trên máy tính (Windows, Mac, Linux) và Android. Phiên bản iOS có một khoản phí một lần để hỗ trợ phát triển, nhưng không có phí đăng ký hàng tháng. Bản chất mã nguồn mở của nó đảm bảo rằng dữ liệu học tập của bạn—kết quả của hàng trăm, hàng ngàn giờ nỗ lực—sẽ không bao giờ bị "khóa" trong một hệ sinh thái độc quyền hoặc biến mất nếu công ty phát triển ngừng hoạt động.</li>
+    </ol>
+  </div>
+</SimpleLessonLayout>

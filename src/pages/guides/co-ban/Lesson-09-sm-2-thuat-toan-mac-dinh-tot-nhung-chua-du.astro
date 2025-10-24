@@ -1,0 +1,59 @@
+---
+import SimpleLessonLayout from '../../../layouts/SimpleLessonLayout.astro';
+
+const lessonData = {
+  title: "SM-2: Thuật toán Mặc định 'Tốt nhưng Chưa Đủ'",
+  description: "Hiểu thuật toán SM-2 và hạn chế của nó.",
+  level: "Cơ bản",
+  duration: "20 phút",
+  author: "AnkiVN Team",
+  publishDate: "2024-01-15",
+  tags: ["anki", "sm-2", "thuật toán"]
+};
+
+const courseStructure = {
+  modules: [
+    {
+      id: 'module-4',
+      title: 'Module 4: FSRS - Bộ Não Thông Minh Đằng Sau Anki',
+      lessons: [
+        { title: 'SM-2: Thuật toán Mặc định "Tốt nhưng Chưa Đủ"', slug: 'Lesson-09-sm-2-thuat-toan-mac-dinh-tot-nhung-chua-du' },
+        { title: 'FSRS (Free Spaced Repetition Scheduler) - Một Cuộc Cách Mạng', slug: 'Lesson-10-fsrs-free-spaced-repetition-scheduler-mot-cuoc-cach-mang' },
+        { title: 'So sánh trực tiếp FSRS vs. SM-2', slug: 'Lesson-11-so-sanh-truc-tiep-fsrs-vs-sm-2' }
+      ]
+    }
+  ]
+};
+
+const allLessons = courseStructure.modules.flatMap(m => m.lessons);
+const currentIndex = allLessons.findIndex(l => l.slug === 'Lesson-09-sm-2-thuat-toan-mac-dinh-tot-nhung-chua-du');
+let prevLesson, nextLesson;
+if (currentIndex !== -1) {
+  if (currentIndex > 0) prevLesson = allLessons[currentIndex - 1];
+  if (currentIndex < allLessons.length - 1) nextLesson = allLessons[currentIndex + 1];
+}
+---
+
+<SimpleLessonLayout
+  title={lessonData.title}
+  description={lessonData.description}
+  author={lessonData.author}
+  date={lessonData.publishDate}
+  duration={lessonData.duration}
+  level={lessonData.level}
+  tags={lessonData.tags}
+  prevLesson={prevLesson}
+  nextLesson={nextLesson}
+>
+  <div class="prose prose-lg max-w-none">
+    <h2>Thuật toán SM-2</h2>
+    <p>Trước FSRS, thuật toán mặc định của Anki là SM-2, một biến thể của thuật toán được phát triển bởi tác giả của SuperMemo vào những năm 1980. SM-2 là một bước tiến lớn so với việc không sử dụng SRS, nhưng nó hoạt động dựa trên một quy tắc tương đối đơn giản: khoảng thời gian mới = khoảng thời gian cũ * hệ số dễ (ease factor).</p>
+    <p>Mặc dù hiệu quả, SM-2 có những hạn chế cố hữu khiến nó bị coi là "quá đơn giản hóa" (oversimplified):</p>
+    <ol>
+      <li><strong>Gộp các khái niệm khác nhau:</strong> Nó gộp hai khái niệm hoàn toàn riêng biệt—"độ khó" cố hữu của một thẻ và "độ ổn định" (tốc độ bạn quên) của ký ức đó—vào một biến duy nhất là "ease factor". Điều này giống như việc sử dụng cùng một chỉ số để đo cả cân nặng và chiều cao của một người.</li>
+      <li><strong>Thiếu bộ nhớ dài hạn:</strong> SM-2 chủ yếu dựa vào kết quả của lần đánh giá cuối cùng để quyết định lịch trình tiếp theo, gần như bỏ qua toàn bộ lịch sử ôn tập trước đó của thẻ đó và của người dùng nói chung.</li>
+      <li><strong>Mô hình tăng trưởng không thực tế:</strong> Nó giả định rằng trí nhớ tăng trưởng theo cấp số nhân, điều này đã được chứng minh là không hoàn toàn chính xác. Trong thực tế, việc củng cố một ký ức đã rất ổn định sẽ khó hơn là củng cố một ký ức mới.</li>
+      <li><strong>"Ease Hell" (Địa ngục Độ dễ):</strong> Một hệ quả tiêu cực là những thẻ khó, khi bị trả lời sai nhiều lần, có thể bị giảm "ease factor" xuống rất thấp, khiến chúng bị lặp lại quá thường xuyên một cách không cần thiết và gây khó chịu cho người dùng.</li>
+    </ol>
+  </div>
+</SimpleLessonLayout>

@@ -1,0 +1,55 @@
+---
+import SimpleLessonLayout from '../../../layouts/SimpleLessonLayout.astro';
+
+const lessonData = {
+  title: "Định nghĩa Active Recall - Sự khác biệt giữa Nhận dạng và Gợi nhớ",
+  description: "Hiểu Active Recall và sự khác biệt với học thụ động.",
+  level: "Cơ bản",
+  duration: "20 phút",
+  author: "AnkiVN Team",
+  publishDate: "2024-01-15",
+  tags: ["anki", "active recall", "học tập"]
+};
+
+const courseStructure = {
+  modules: [
+    {
+      id: 'module-2',
+      title: 'Module 2: Kích Hoạt Sức Mạnh Não Bộ',
+      lessons: [
+        { title: 'Định nghĩa Active Recall - Sự khác biệt giữa Nhận dạng và Gợi nhớ', slug: 'Lesson-03-dinh-nghia-active-recall-su-khac-biet-giua-nhan-dang-va-goi-nho' },
+        { title: 'Cơ sở Khoa học: "Testing Effect" và "Generation Effect"', slug: 'Lesson-04-co-so-khoa-hoc-testing-effect-va-generation-effect' },
+        { title: 'Các Kỹ thuật Active Recall Thực tế', slug: 'Lesson-05-cac-ky-thuat-active-recall-thuc-te' }
+      ]
+    }
+    // Add other modules
+  ]
+};
+
+const allLessons = courseStructure.modules.flatMap(m => m.lessons);
+const currentIndex = allLessons.findIndex(l => l.slug === 'Lesson-03-dinh-nghia-active-recall-su-khac-biet-giua-nhan-dang-va-goi-nho');
+let prevLesson, nextLesson;
+if (currentIndex !== -1) {
+  if (currentIndex > 0) prevLesson = allLessons[currentIndex - 1];
+  if (currentIndex < allLessons.length - 1) nextLesson = allLessons[currentIndex + 1];
+}
+---
+
+<SimpleLessonLayout
+  title={lessonData.title}
+  description={lessonData.description}
+  author={lessonData.author}
+  date={lessonData.publishDate}
+  duration={lessonData.duration}
+  level={lessonData.level}
+  tags={lessonData.tags}
+  prevLesson={prevLesson}
+  nextLesson={nextLesson}
+>
+  <div class="prose prose-lg max-w-none">
+    <h2>Active Recall là gì?</h2>
+    <p>Hầu hết các phương pháp học tập truyền thống đều rơi vào loại hình học thụ động (Passive Review). Các hoạt động như đọc lại ghi chú, tô highlight, hay xem lại bài giảng video đều thuộc nhóm này. Khi thực hiện những hành động này, não bộ của chúng ta chỉ đang thực hiện một nhiệm vụ ở cấp độ thấp: <em>nhận dạng</em> (recognition). Nó chỉ cần xác nhận một cách đơn giản rằng, "À, tôi đã thấy thông tin này trước đây rồi". Quá trình này tốn rất ít nỗ lực và do đó, tạo ra rất ít sự củng cố cho ký ức.</p>
+    <p>Ngược lại, Active Recall là một quá trình học chủ động. Nó bao gồm bất kỳ hành động nào buộc bạn phải cố gắng <em>gợi nhớ</em> (retrieval/recall) thông tin từ bộ nhớ mà không có sự trợ giúp của tài liệu. Các hoạt động như tự kiểm tra bằng flashcard, trả lời câu hỏi thực hành, hay cố gắng giải thích một khái niệm bằng lời của chính mình đều là các hình thức của Active Recall.</p>
+    <p>Hãy sử dụng một phép ẩn dụ để làm rõ sự khác biệt này: học thụ động giống như việc bạn đi theo một con đường mòn đã được vạch sẵn trong rừng. Bạn có thể nhận ra con đường, nhưng bạn không thực sự học được cách tự mình tìm đường. Active Recall, mặt khác, giống như việc bạn được thả vào khu rừng đó và phải tự mình tìm và vạch ra con đường. Mỗi lần bạn phải nỗ lực tìm đường, con đường đó sẽ trở nên rõ ràng hơn, sâu sắc hơn trong tâm trí bạn, và lần sau việc tìm lại nó sẽ trở nên dễ dàng hơn rất nhiều.</p>
+  </div>
+</SimpleLessonLayout>

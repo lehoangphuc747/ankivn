@@ -1,0 +1,57 @@
+---
+import SimpleLessonLayout from '../../../layouts/SimpleLessonLayout.astro';
+
+const lessonData = {
+  title: "Cơ sở Khoa học: 'Testing Effect' và 'Generation Effect'",
+  description: "Khám phá bằng chứng khoa học cho Active Recall.",
+  level: "Cơ bản",
+  duration: "25 phút",
+  author: "AnkiVN Team",
+  publishDate: "2024-01-15",
+  tags: ["anki", "testing effect", "generation effect"]
+};
+
+const courseStructure = {
+  modules: [
+    {
+      id: 'module-2',
+      title: 'Module 2: Kích Hoạt Sức Mạnh Não Bộ',
+      lessons: [
+        { title: 'Định nghĩa Active Recall - Sự khác biệt giữa Nhận dạng và Gợi nhớ', slug: 'Lesson-03-dinh-nghia-active-recall-su-khac-biet-giua-nhan-dang-va-goi-nho' },
+        { title: 'Cơ sở Khoa học: "Testing Effect" và "Generation Effect"', slug: 'Lesson-04-co-so-khoa-hoc-testing-effect-va-generation-effect' },
+        { title: 'Các Kỹ thuật Active Recall Thực tế', slug: 'Lesson-05-cac-ky-thuat-active-recall-thuc-te' }
+      ]
+    }
+  ]
+};
+
+const allLessons = courseStructure.modules.flatMap(m => m.lessons);
+const currentIndex = allLessons.findIndex(l => l.slug === 'Lesson-04-co-so-khoa-hoc-testing-effect-va-generation-effect');
+let prevLesson, nextLesson;
+if (currentIndex !== -1) {
+  if (currentIndex > 0) prevLesson = allLessons[currentIndex - 1];
+  if (currentIndex < allLessons.length - 1) nextLesson = allLessons[currentIndex + 1];
+}
+---
+
+<SimpleLessonLayout
+  title={lessonData.title}
+  description={lessonData.description}
+  author={lessonData.author}
+  date={lessonData.publishDate}
+  duration={lessonData.duration}
+  level={lessonData.level}
+  tags={lessonData.tags}
+  prevLesson={prevLesson}
+  nextLesson={nextLesson}
+>
+  <div class="prose prose-lg max-w-none">
+    <h2>Testing Effect và Generation Effect</h2>
+    <p>Sự vượt trội của Active Recall không chỉ là một phỏng đoán; nó được củng cố bởi hàng thập kỷ nghiên cứu trong tâm lý học nhận thức. Hai hiệu ứng chính giải thích cho sức mạnh của nó là "Testing Effect" và "Generation Effect".</p>
+    <ul>
+      <li><strong>Testing Effect (Hiệu ứng Kiểm tra):</strong> Nghiên cứu đã chứng minh một cách nhất quán rằng hành động tự kiểm tra không chỉ là một công cụ để đánh giá kiến thức, mà bản thân nó là một trong những công cụ học tập mạnh mẽ nhất. Mỗi khi bạn nỗ lực truy xuất một thông tin từ bộ nhớ, dù thành công hay không, bạn đang gửi một tín hiệu mạnh mẽ đến não bộ để củng cố kết nối thần kinh liên quan đến thông tin đó. Điều này làm cho ký ức trở nên mạnh mẽ hơn và dễ dàng truy cập hơn trong tương lai.</li>
+      <li><strong>Generation Effect (Hiệu ứng Tạo ra):</strong> Hiệu ứng này chỉ ra rằng việc tự mình *tạo ra* câu trả lời sẽ giúp ghi nhớ tốt hơn nhiều so với việc chỉ đơn giản là đọc hoặc được cung cấp câu trả lời đó. Khi bạn phải tự mình diễn đạt, tổng hợp và cấu trúc lại thông tin để trả lời một câu hỏi, bạn đang xử lý thông tin ở một mức độ sâu hơn nhiều.</li>
+    </ul>
+    <p>Các nghiên cứu khoa học thần kinh hiện đại sử dụng công nghệ fMRI đã xác nhận những phát hiện này ở cấp độ sinh học. Khi một người thực hiện Active Recall, nhiều vùng não quan trọng được kích hoạt đồng thời, bao gồm vỏ não trước trán (chịu trách nhiệm cho tư duy tập trung), hồi hải mã (quan trọng cho việc hình thành ký ức mới), và thùy thái dương (xử lý ngôn ngữ). Hoạt động não bộ phân tán và mạnh mẽ này tạo ra một dấu vết ký ức bền vững và sâu sắc hơn nhiều so với việc đọc thụ động.</p>
+  </div>
+</SimpleLessonLayout>

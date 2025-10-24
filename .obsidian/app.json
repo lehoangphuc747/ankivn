@@ -1,0 +1,13 @@
+{
+  "defaultViewMode": "source",
+  "livePreview": false,
+  "showLineNumber": true,
+  "spellcheck": false,
+  "trashOption": "local",
+  "alwaysUpdateLinks": true,
+  "newFileLocation": "folder",
+  "newFileFolderPath": "src/content/decks",
+  "newLinkFormat": "relative",
+  "useMarkdownLinks": true,
+  "attachmentFolderPath": "public/images/decks"
+}

@@ -1,0 +1,57 @@
+---
+import SimpleLessonLayout from '../../../layouts/SimpleLessonLayout.astro';
+
+const lessonData = {
+  title: "FSRS (Free Spaced Repetition Scheduler) - Một Cuộc Cách Mạng",
+  description: "Giới thiệu FSRS và mô hình ba thành phần.",
+  level: "Cơ bản",
+  duration: "25 phút",
+  author: "AnkiVN Team",
+  publishDate: "2024-01-15",
+  tags: ["anki", "fsrs", "cách mạng"]
+};
+
+const courseStructure = {
+  modules: [
+    {
+      id: 'module-4',
+      title: 'Module 4: FSRS - Bộ Não Thông Minh Đằng Sau Anki',
+      lessons: [
+        { title: 'SM-2: Thuật toán Mặc định "Tốt nhưng Chưa Đủ"', slug: 'Lesson-09-sm-2-thuat-toan-mac-dinh-tot-nhung-chua-du' },
+        { title: 'FSRS (Free Spaced Repetition Scheduler) - Một Cuộc Cách Mạng', slug: 'Lesson-10-fsrs-free-spaced-repetition-scheduler-mot-cuoc-cach-mang' },
+        { title: 'So sánh trực tiếp FSRS vs. SM-2', slug: 'Lesson-11-so-sanh-truc-tiep-fsrs-vs-sm-2' }
+      ]
+    }
+  ]
+};
+
+const allLessons = courseStructure.modules.flatMap(m => m.lessons);
+const currentIndex = allLessons.findIndex(l => l.slug === 'Lesson-10-fsrs-free-spaced-repetition-scheduler-mot-cuoc-cach-mang');
+let prevLesson, nextLesson;
+if (currentIndex !== -1) {
+  if (currentIndex > 0) prevLesson = allLessons[currentIndex - 1];
+  if (currentIndex < allLessons.length - 1) nextLesson = allLessons[currentIndex + 1];
+}
+---
+
+<SimpleLessonLayout
+  title={lessonData.title}
+  description={lessonData.description}
+  author={lessonData.author}
+  date={lessonData.publishDate}
+  duration={lessonData.duration}
+  level={lessonData.level}
+  tags={lessonData.tags}
+  prevLesson={prevLesson}
+  nextLesson={nextLesson}
+>
+  <div class="prose prose-lg max-w-none">
+    <h2>FSRS là gì?</h2>
+    <p>FSRS là một thuật toán thế hệ mới, được phát triển dựa trên các mô hình trí nhớ hiện đại và sử dụng các kỹ thuật học máy (machine learning) để tạo ra một lịch trình ôn tập được cá nhân hóa sâu sắc. Sự vượt trội của FSRS cho thấy tương lai của công nghệ giáo dục không nằm ở việc tạo ra các quy tắc học tập cứng nhắc, mà ở việc xây dựng các mô hình linh hoạt có khả năng *học hỏi từ chính người học*. FSRS không chỉ là một thuật toán tốt hơn; nó là một triết lý tiếp cận hoàn toàn khác biệt.</p>
+    <p>Để hiểu FSRS, chúng ta cần sử dụng Kỹ thuật Feynman để giải mã "Mô hình Ba Thành phần của Trí nhớ" mà nó dựa trên. Hãy tưởng tượng mỗi mẩu kiến thức bạn học là một "ký tự" được khắc vào một "tấm bia đá" trong não bạn:</p>
+    <ul>
+      <li><strong>Difficulty (D - Độ khó):</strong> Đây là *chất liệu* của tấm bia. Một số kiến thức (như một công thức vật lý phức tạp) giống như được khắc trên đá granite—rất cứng và khó để tạo ra một vết khắc sâu. Những kiến thức khác (như một từ vựng đơn giản) lại giống như được khắc trên đá sa thạch—mềm hơn và dễ khắc hơn. Độ khó là một thuộc tính cố hữu của thông tin đó đối với bạn.</li>
+      <li><strong>Stability (S - Độ ổn định):</strong> Đây là *độ sâu* của vết khắc. Mỗi lần bạn ôn tập thành công (tức là "khắc lại" ký tự), vết khắc sẽ trở nên sâu hơn. Vết khắc càng sâu, nó càng mất nhiều thời gian hơn để bị bào mòn bởi thời gian. Độ ổn định chính là thước đo cho sự bền vững này, được định nghĩa là khoảng thời gian (tính bằng ngày) để xác suất gợi nhớ giảm từ 100% xuống 90%.</li>
+      <li><strong>Retrievability (R - Khả năng Gợi nhớ):</strong> Đây là *mức độ rõ ràng* của vết khắc tại một thời điểm nhất định. Ngay sau khi bạn khắc nó, vết khắc rất rõ ràng (R gần 100%). Theo thời gian, do mưa gió (sự lãng quên), nó sẽ mờ dần đi. Khả năng gợi nhớ chính là xác suất bạn có thể đọc được ký tự đó một cách chính xác tại thời điểm được hỏi.</li>
+    </ul>
+    <p>Không giống như SM-2, FSRS không sử dụng một quy tắc chung cho tất cả mọi người. Thay vào đó, nó thực hiện một điều kỳ diệu: nó phân tích *toàn bộ lịch sử ôn tập của bạn*—hàng ngàn, thậm chí hàng chục ngàn lần bạn

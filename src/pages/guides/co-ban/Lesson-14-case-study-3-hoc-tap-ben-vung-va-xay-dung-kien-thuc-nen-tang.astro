@@ -1,0 +1,57 @@
+---
+import SimpleLessonLayout from '../../../layouts/SimpleLessonLayout.astro';
+
+const lessonData = {
+  title: "Case Study 3: Học tập Bền vững và Xây dựng Kiến thức Nền tảng",
+  description: "Lợi ích lâu dài của Anki.",
+  level: "Cơ bản",
+  duration: "30 phút",
+  author: "AnkiVN Team",
+  publishDate: "2024-01-15",
+  tags: ["anki", "case study", "bền vững"]
+};
+
+const courseStructure = {
+  modules: [
+    {
+      id: 'module-5',
+      title: 'Module 5: Minh Chứng Thực Tế',
+      lessons: [
+        { title: 'Case Study 1: Vượt qua các Kỳ thi Cam go (USMLE Step 1/2, Board Exams)', slug: 'Lesson-12-case-study-1-vuot-qua-cac-ky-thi-cam-go-usmle-step-1-2-board-exams' },
+        { title: 'Case Study 2: Cải thiện Điểm số và Hiệu quả Học tập Rõ rệt', slug: 'Lesson-13-case-study-2-cai-thien-diem-so-va-hieu-qua-hoc-tap-ro-ret' },
+        { title: 'Case Study 3: Học tập Bền vững và Xây dựng Kiến thức Nền tảng', slug: 'Lesson-14-case-study-3-hoc-tap-ben-vung-va-xay-dung-kien-thuc-nen-tang' }
+      ]
+    }
+  ]
+};
+
+const allLessons = courseStructure.modules.flatMap(m => m.lessons);
+const currentIndex = allLessons.findIndex(l => l.slug === 'Lesson-14-case-study-3-hoc-tap-ben-vung-va-xay-dung-kien-thuc-nen-tang');
+let prevLesson, nextLesson;
+if (currentIndex !== -1) {
+  if (currentIndex > 0) prevLesson = allLessons[currentIndex - 1];
+  if (currentIndex < allLessons.length - 1) nextLesson = allLessons[currentIndex + 1];
+}
+---
+
+<SimpleLessonLayout
+  title={lessonData.title}
+  description={lessonData.description}
+  author={lessonData.author}
+  date={lessonData.publishDate}
+  duration={lessonData.duration}
+  level={lessonData.level}
+  tags={lessonData.tags}
+  prevLesson={prevLesson}
+  nextLesson={nextLesson}
+>
+  <div class="prose prose-lg max-w-none">
+    <h2>Học tập bền vững</h2>
+    <p>Có lẽ lợi ích sâu sắc nhất của Anki không nằm ở điểm số của một kỳ thi, mà ở việc xây dựng một nền tảng kiến thức vững chắc và bền vững, có giá trị trong nhiều năm sau đó.</p>
+    <ul>
+      <li>Một sinh viên chia sẻ về lợi thế trong môi trường lâm sàng: "Có một sự khác biệt rõ rệt giữa những sinh viên sử dụng nó và không sử dụng. Khi tôi bị hỏi xoáy đáp xoay trong bệnh viện và đó là kiến thức ở cấp độ sinh viên y khoa, tôi vượt qua một cách dễ dàng trong khi một số đồng nghiệp của tôi (thậm chí cả sinh viên năm thứ 4 và bác sĩ nội trú) lại bị mắc kẹt ở những câu hỏi cơ bản".</li>
+      <li>Sự cống hiến cho Anki có thể đạt đến mức độ đáng kinh ngạc, như một người dùng đã chia sẻ số liệu thống kê sau 4 năm học y: trung bình gần 900 thẻ mỗi ngày. Anh mô tả rằng Anki đã giúp anh "thành công vượt xa mọi giấc mơ ngông cuồng nhất".</li>
+    </ul>
+    <p>Những câu chuyện này tiết lộ một lợi ích bậc hai thường bị bỏ qua của Anki: hiệu ứng kép tích lũy. Lợi ích của Anki không chỉ là tuyến tính mà là tích lũy theo cấp số nhân. Khi bạn không còn phải lo lắng về việc quên đi những kiến thức cơ bản (vì SRS đã đảm bảo chúng luôn được củng cố), bộ não của bạn được giải phóng để tập trung vào các nhiệm vụ nhận thức cấp cao hơn, như tư duy phản biện, chẩn đoán phân biệt, và giải quyết các vấn đề phức tạp. Anki không chỉ giúp bạn ghi nhớ các sự thật; nó giải phóng tài nguyên nhận thức của bạn để bạn có thể thực sự *suy nghĩ* và *áp dụng* những sự thật đó.</p>
+  </div>
+</SimpleLessonLayout>

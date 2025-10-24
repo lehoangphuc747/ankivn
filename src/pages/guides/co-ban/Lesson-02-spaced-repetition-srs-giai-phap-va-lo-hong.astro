@@ -1,0 +1,55 @@
+---
+import SimpleLessonLayout from '../../../layouts/SimpleLessonLayout.astro';
+
+const lessonData = {
+  title: "Spaced Repetition (SRS) - Giải pháp 'Vá Lỗ Hổng'",
+  description: "Khám phá Spaced Repetition như giải pháp chống lãng quên.",
+  level: "Cơ bản",
+  duration: "25 phút",
+  author: "AnkiVN Team",
+  publishDate: "2024-01-15",
+  tags: ["anki", "spaced repetition", "srs"]
+};
+
+const courseStructure = {
+  modules: [
+    {
+      id: 'module-1',
+      title: 'Module 1: Nền Tảng Ghi Nhớ Siêu Việt',
+      lessons: [
+        { title: 'Diễn giải Đường cong Lãng quên của Ebbinghaus', slug: 'Lesson-01-dien-giai-duong-cong-lang-quen-ebbinghaus' },
+        { title: 'Spaced Repetition (SRS) - Giải pháp "Vá Lỗ Hổng"', slug: 'Lesson-02-spaced-repetition-srs-giai-phap-va-lo-hong' }
+      ]
+    }
+    // Add other modules
+  ]
+};
+
+const allLessons = courseStructure.modules.flatMap(m => m.lessons);
+const currentIndex = allLessons.findIndex(l => l.slug === 'Lesson-02-spaced-repetition-srs-giai-phap-va-lo-hong');
+let prevLesson, nextLesson;
+if (currentIndex !== -1) {
+  if (currentIndex > 0) prevLesson = allLessons[currentIndex - 1];
+  if (currentIndex < allLessons.length - 1) nextLesson = allLessons[currentIndex + 1];
+}
+---
+
+<SimpleLessonLayout
+  title={lessonData.title}
+  description={lessonData.description}
+  author={lessonData.author}
+  date={lessonData.publishDate}
+  duration={lessonData.duration}
+  level={lessonData.level}
+  tags={lessonData.tags}
+  prevLesson={prevLesson}
+  nextLesson={nextLesson}
+>
+  <div class="prose prose-lg max-w-none">
+    <h2>Giới thiệu Spaced Repetition</h2>
+    <p>Nếu sự lãng quên là một cái xô bị rò rỉ, thì Spaced Repetition System (SRS), hay Hệ thống Lặp lại Ngắt quãng, chính là hành động "vá lại lỗ hổng" một cách chiến lược, ngay trước khi nước sắp cạn. SRS là một kỹ thuật học tập dựa trên bằng chứng khoa học, đối lập hoàn toàn với phương pháp học nhồi nhét (cramming).</p>
+    <p>Cơ chế hoạt động của SRS rất đơn giản nhưng vô cùng hiệu quả: thay vì ôn tập một cách ngẫu nhiên hoặc dồn dập, chúng ta ôn lại thông tin tại các khoảng thời gian ngày càng tăng dần. Ví dụ, sau khi học một khái niệm mới, lịch trình ôn tập có thể là: sau 1 ngày, sau 3 ngày, sau 7 ngày, sau 16 ngày, và cứ thế tiếp tục. Mỗi lần ôn tập thành công, dấu vết ký ức trong não bộ được củng cố, làm cho nó trở nên bền vững hơn. Kết quả là, khoảng thời gian tối ưu cho lần ôn tập tiếp theo sẽ được kéo dài ra. Quá trình này giúp "làm phẳng" Đường cong Lãng quên, cho phép chúng ta duy trì một tỷ lệ ghi nhớ cao trong dài hạn.</p>
+    <p>Việc hiểu rõ về Đường cong Lãng quên và SRS thay đổi hoàn toàn định nghĩa về "học". Học không phải là một sự kiện diễn ra một lần (như đọc một chương sách), mà là một *quá trình* liên tục bao gồm việc mã hóa kiến thức ban đầu và sau đó là củng cố nó một cách có chủ đích. Bất kỳ phương pháp học tập nào không tích hợp một cơ chế hệ thống để chống lại sự lãng quên đều mặc định là không hiệu quả.</p>
+    <p>Khi so sánh với việc học nhồi nhét (massed practice), sự vượt trội của SRS trở nên rõ ràng. Học nhồi nhét chỉ đưa thông tin vào trí nhớ ngắn hạn, có thể giúp bạn vượt qua kỳ thi vào ngày mai, nhưng gần như vô dụng cho việc lưu giữ kiến thức lâu dài. Nó tạo ra một ảo giác về sự thành thạo, trong khi kiến thức thực sự đang bốc hơi nhanh chóng. Các nghiên cứu đã chỉ ra rằng SRS có thể hiệu quả hơn tới 89% so với học nhồi nhét và có thể cải thiện khả năng ghi nhớ dài hạn lên tới 200%.</p>
+  </div>
+</SimpleLessonLayout>

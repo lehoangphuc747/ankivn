@@ -1,0 +1,58 @@
+---
+import SimpleLessonLayout from '../../../layouts/SimpleLessonLayout.astro';
+
+const lessonData = {
+  title: "Case Study 2: Cải thiện Điểm số và Hiệu quả Học tập Rõ rệt",
+  description: "Ví dụ cải thiện điểm số với Anki.",
+  level: "Cơ bản",
+  duration: "25 phút",
+  author: "AnkiVN Team",
+  publishDate: "2024-01-15",
+  tags: ["anki", "case study", "điểm số"]
+};
+
+const courseStructure = {
+  modules: [
+    {
+      id: 'module-5',
+      title: 'Module 5: Minh Chứng Thực Tế',
+      lessons: [
+        { title: 'Case Study 1: Vượt qua các Kỳ thi Cam go (USMLE Step 1/2, Board Exams)', slug: 'Lesson-12-case-study-1-vuot-qua-cac-ky-thi-cam-go-usmle-step-1-2-board-exams' },
+        { title: 'Case Study 2: Cải thiện Điểm số và Hiệu quả Học tập Rõ rệt', slug: 'Lesson-13-case-study-2-cai-thien-diem-so-va-hieu-qua-hoc-tap-ro-ret' },
+        { title: 'Case Study 3: Học tập Bền vững và Xây dựng Kiến thức Nền tảng', slug: 'Lesson-14-case-study-3-hoc-tap-ben-vung-va-xay-dung-kien-thuc-nen-tang' }
+      ]
+    }
+  ]
+};
+
+const allLessons = courseStructure.modules.flatMap(m => m.lessons);
+const currentIndex = allLessons.findIndex(l => l.slug === 'Lesson-13-case-study-2-cai-thien-diem-so-va-hieu-qua-hoc-tap-ro-ret');
+let prevLesson, nextLesson;
+if (currentIndex !== -1) {
+  if (currentIndex > 0) prevLesson = allLessons[currentIndex - 1];
+  if (currentIndex < allLessons.length - 1) nextLesson = allLessons[currentIndex + 1];
+}
+---
+
+<SimpleLessonLayout
+  title={lessonData.title}
+  description={lessonData.description}
+  author={lessonData.author}
+  date={lessonData.publishDate}
+  duration={lessonData.duration}
+  level={lessonData.level}
+  tags={lessonData.tags}
+  prevLesson={prevLesson}
+  nextLesson={nextLesson}
+>
+  <div class="prose prose-lg max-w-none">
+    <h2>Cải thiện điểm số</h2>
+    <p>Không chỉ trong các kỳ thi lớn, Anki còn tạo ra sự khác biệt rõ rệt trong kết quả học tập hàng ngày, thường đi kèm với việc giảm thời gian và nỗ lực học tập.</p>
+    <ul>
+      <li>Một sinh viên y khoa báo cáo về sự cải thiện của cả bản thân và bạn học: "Trước Anki... điểm của tôi từ 85% lên 93% với ít nỗ lực hơn. Bạn gái tôi cũng học Y... điểm của cô ấy từ khoảng 70 thấp lên 85".</li>
+      <li>Một câu chuyện khác về sự chuyển đổi từ thất bại sang thành công: "Trong năm đầu tiên của trường y, tôi không dùng anki và tôi đã trượt một nửa số kỳ thi. Năm thứ hai, tôi bắt đầu dùng nó, và tôi chưa trượt một kỳ thi nào kể từ đó (tôi hiện đang ở năm thứ sáu và cuối cùng)".</li>
+      <li>Hiệu quả đáng kinh ngạc của Anki được thể hiện qua một ví dụ cụ thể: "Học kỳ này tôi đã thử Anki trong tháng đầu tiên và có bài kiểm tra hóa sinh đầu tiên ngày hôm qua, tôi đạt 105/100 mà không cần học nhiều so với các bạn cùng lớp, cao nhất lớp. Kết quả thậm chí còn gây sốc cho tôi, tôi cảm thấy mình thực sự biết mọi thứ bây giờ, Anki thật tuyệt vời".</li>
+    </ul>
+    <p>Những ví dụ này cho thấy Anki có khả năng hoạt động như một "bộ cân bằng" vĩ đại trong học thuật. Nó không phải là công cụ chỉ dành cho những sinh viên tài năng nhất; nó là một hệ thống có cấu trúc cho phép sự nỗ lực nhất quán và phương pháp đúng đắn chiến thắng tài năng thiên bẩm. Nó thay thế các chiến lược học tập lộn xộn, không hiệu quả bằng một quy trình kỷ luật, dựa trên khoa học và đảm bảo mang lại kết quả nếu người học tuân thủ.</p>
+  </div>
+</SimpleLessonLayout>

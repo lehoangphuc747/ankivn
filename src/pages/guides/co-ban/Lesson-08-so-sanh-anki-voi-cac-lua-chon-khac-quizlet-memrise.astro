@@ -1,0 +1,108 @@
+---
+import SimpleLessonLayout from '../../../layouts/SimpleLessonLayout.astro';
+
+const lessonData = {
+  title: "So sánh Anki với các lựa chọn khác (Quizlet, Memrise)",
+  description: "So sánh Anki với Quizlet và Memrise.",
+  level: "Cơ bản",
+  duration: "30 phút",
+  author: "AnkiVN Team",
+  publishDate: "2024-01-15",
+  tags: ["anki", "so sánh", "quizlet", "memrise"]
+};
+
+const courseStructure = {
+  modules: [
+    {
+      id: 'module-3',
+      title: 'Module 3: Anki - Phòng Tập Gym Tối Ưu cho Trí Nhớ',
+      lessons: [
+        { title: 'Anki là gì? Triết lý cốt lõi', slug: 'Lesson-06-anki-la-gi-triet-ly-cot-loi' },
+        { title: 'Tại sao Anki là lựa chọn cho người học chuyên sâu?', slug: 'Lesson-07-tai-sao-anki-la-lua-chon-cho-nguoi-hoc-chuyen-sau' },
+        { title: 'So sánh Anki với các lựa chọn khác (Quizlet, Memrise)', slug: 'Lesson-08-so-sanh-anki-voi-cac-lua-chon-khac-quizlet-memrise' }
+      ]
+    }
+  ]
+};
+
+const allLessons = courseStructure.modules.flatMap(m => m.lessons);
+const currentIndex = allLessons.findIndex(l => l.slug === 'Lesson-08-so-sanh-anki-voi-cac-lua-chon-khac-quizlet-memrise');
+let prevLesson, nextLesson;
+if (currentIndex !== -1) {
+  if (currentIndex > 0) prevLesson = allLessons[currentIndex - 1];
+  if (currentIndex < allLessons.length - 1) nextLesson = allLessons[currentIndex + 1];
+}
+---
+
+<SimpleLessonLayout
+  title={lessonData.title}
+  description={lessonData.description}
+  author={lessonData.author}
+  date={lessonData.publishDate}
+  duration={lessonData.duration}
+  level={lessonData.level}
+  tags={lessonData.tags}
+  prevLesson={prevLesson}
+  nextLesson={nextLesson}
+>
+  <div class="prose prose-lg max-w-none">
+    <h2>So sánh Anki</h2>
+    <p>Sự khác biệt giữa Anki và các ứng dụng phổ biến khác như Quizlet và Memrise không chỉ nằm ở tính năng, mà ở triết lý thiết kế cơ bản. Quizlet và Memrise được thiết kế như những *sản phẩm tiêu dùng*—chúng ưu tiên sự dễ sử dụng, giao diện hấp dẫn và các yếu tố tương tác xã hội. Anki, ngược lại, được thiết kế như một *công cụ chuyên nghiệp*—nó ưu tiên hiệu quả, sức mạnh, khả năng tùy chỉnh và sự kiểm soát của người dùng. Sự tương phản này giống như sự khác biệt giữa Microsoft Paint và Adobe Photoshop. Paint rất dễ sử dụng ngay lập tức nhưng khả năng của nó rất hạn chế. Photoshop có một đường cong học tập dốc đứng, nhưng đối với người biết cách sử dụng, sức mạnh của nó là vô hạn.</p>
+    <ul>
+      <li><strong>Quizlet:</strong> Điểm mạnh lớn nhất của Quizlet là giao diện thân thiện, các chế độ học tập mang tính trò chơi và các tính năng hợp tác mạnh mẽ, rất phù hợp cho môi trường lớp học hoặc học nhóm. Tuy nhiên, hệ thống SRS của nó (chế độ "Learn") rất cơ bản, không thể tùy chỉnh sâu, và phiên bản miễn phí thiếu các tính năng SRS thực sự. Do đó, Quizlet phù hợp hơn cho việc học ngắn hạn hoặc ôn tập cho một bài kiểm tra cụ thể hơn là xây dựng một nền tảng kiến thức vững chắc, lâu dài.</li>
+      <li><strong>Memrise:</strong> Memrise tỏa sáng trong lĩnh vực học ngôn ngữ cho người mới bắt đầu, với các khóa học được xây dựng sẵn, tích hợp video của người bản xứ và một giao diện hấp dẫn. Tuy nhiên, điểm mạnh này cũng chính là điểm yếu của nó: nó thiếu sự linh hoạt. Việc thêm nội dung của riêng bạn một cách hiệu quả là rất khó, và chất lượng của các khóa học do cộng đồng tạo ra có thể không đồng đều. Về cơ bản, bạn bị giới hạn trong hệ sinh thái nội dung của họ.</li>
+    </ul>
+    <p>Một khía cạnh thường bị xem là nhược điểm của Anki—việc "phải tự tạo thẻ"—thực chất lại là một trong những ưu điểm lớn nhất của nó từ góc độ khoa học học tập. Quá trình tự mình đọc hiểu tài liệu, xác định thông tin quan trọng nhất, và sau đó diễn đạt nó dưới dạng một câu hỏi (đặc biệt là với thẻ Cloze hoặc Image Occlusion) chính nó đã là một hình thức Active Recall cực kỳ mạnh mẽ. Nó buộc bạn phải xử lý thông tin ở một mức độ sâu sắc. Các ứng dụng cung cấp sẵn nội dung, mặc dù tiện lợi, lại vô tình tước đi của người học một bước học tập quan trọng này.</p>
+    <p>Để cung cấp một cái nhìn tổng quan và so sánh trực tiếp, bảng dưới đây sẽ tóm tắt các khía cạnh quan trọng nhất của ba ứng dụng này, giúp người học nhanh chóng nhận ra vị thế độc tôn của Anki dành cho người học chuyên sâu.</p>
+    <h3>Bảng 2: Lựa Chọn Công Cụ SRS: Anki vs. Quizlet vs. Memrise</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Tính năng</th>
+          <th>Anki</th>
+          <th>Quizlet</th>
+          <th>Memrise</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Thuật toán SRS</td>
+          <td>Rất mạnh, hoàn toàn tùy chỉnh (FSRS)</td>
+          <td>Cơ bản, ít tùy chỉnh (chế độ Learn)</td>
+          <td>SRS tích hợp, không tùy chỉnh</td>
+        </tr>
+        <tr>
+          <td>Khả năng Tùy biến</td>
+          <td>Cực kỳ cao (HTML/CSS, Add-ons)</td>
+          <td>Thấp</td>
+          <td>Rất thấp</td>
+        </tr>
+        <tr>
+          <td>Loại thẻ nâng cao (Cloze, IO)</td>
+          <td>Có (tích hợp sẵn & add-on)</td>
+          <td>Không</td>
+          <td>Không</td>
+        </tr>
+        <tr>
+          <td>Chi phí (Cốt lõi)</td>
+          <td>Miễn phí (Desktop, Android), trả phí 1 lần (iOS)</td>
+          <td>Freemium (tính năng tốt nhất yêu cầu trả phí)</td>
+          <td>Freemium</td>
+        </tr>
+        <tr>
+          <td>Đối tượng phù hợp</td>
+          <td>Người học chuyên sâu, dài hạn</td>
+          <td>Học sinh, học nhóm, ngắn hạn</td>
+          <td>Người mới bắt đầu học ngôn ngữ</td>
+        </tr>
+        <tr>
+          <td>Triết lý</td>
+          <td>Công cụ chuyên nghiệp, hiệu quả tối đa</td>
+          <td>Sản phẩm tiêu dùng, dễ sử dụng</td>
+          <td>Nền tảng nội dung, hấp dẫn</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Bảng so sánh này làm rõ rằng, mặc dù Quizlet và Memrise có vị trí của riêng mình trong hệ sinh thái học tập, nhưng đối với người học nghiêm túc, người tìm kiếm một hệ thống bền vững, hiệu quả và có thể tùy chỉnh để làm chủ các lĩnh vực phức tạp, Anki là một lựa chọn không có đối thủ.</p>
+  </div>
+</SimpleLessonLayout>

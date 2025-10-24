@@ -1,0 +1,58 @@
+---
+import SimpleLessonLayout from '../../../layouts/SimpleLessonLayout.astro';
+
+const lessonData = {
+  title: "So sánh trực tiếp FSRS vs. SM-2",
+  description: "So sánh lợi ích của FSRS so với SM-2.",
+  level: "Cơ bản",
+  duration: "30 phút",
+  author: "AnkiVN Team",
+  publishDate: "2024-01-15",
+  tags: ["anki", "fsrs", "sm-2"]
+};
+
+const courseStructure = {
+  modules: [
+    {
+      id: 'module-4',
+      title: 'Module 4: FSRS - Bộ Não Thông Minh Đằng Sau Anki',
+      lessons: [
+        { title: 'SM-2: Thuật toán Mặc định "Tốt nhưng Chưa Đủ"', slug: 'Lesson-09-sm-2-thuat-toan-mac-dinh-tot-nhung-chua-du' },
+        { title: 'FSRS (Free Spaced Repetition Scheduler) - Một Cuộc Cách Mạng', slug: 'Lesson-10-fsrs-free-spaced-repetition-scheduler-mot-cuoc-cach-mang' },
+        { title: 'So sánh trực tiếp FSRS vs. SM-2', slug: 'Lesson-11-so-sanh-truc-tiep-fsrs-vs-sm-2' }
+      ]
+    }
+  ]
+};
+
+const allLessons = courseStructure.modules.flatMap(m => m.lessons);
+const currentIndex = allLessons.findIndex(l => l.slug === 'Lesson-11-so-sanh-truc-tiep-fsrs-vs-sm-2');
+let prevLesson, nextLesson;
+if (currentIndex !== -1) {
+  if (currentIndex > 0) prevLesson = allLessons[currentIndex - 1];
+  if (currentIndex < allLessons.length - 1) nextLesson = allLessons[currentIndex + 1];
+}
+---
+
+<SimpleLessonLayout
+  title={lessonData.title}
+  description={lessonData.description}
+  author={lessonData.author}
+  date={lessonData.publishDate}
+  duration={lessonData.duration}
+  level={lessonData.level}
+  tags={lessonData.tags}
+  prevLesson={prevLesson}
+  nextLesson={nextLesson}
+>
+  <div class="prose prose-lg max-w-none">
+    <h2>Lợi ích của FSRS</h2>
+    <ol>
+      <li><strong>Cá nhân hóa:</strong> SM-2 là một bộ quần áo "một kích cỡ cho tất cả". FSRS là một bộ vest được "may đo" riêng cho bạn. Nó thích ứng với tốc độ học và quên của cá nhân bạn, cũng như với độ khó của từng loại tài liệu bạn học.</li>
+      <li><strong>Hiệu quả:</strong> Các mô phỏng và dữ liệu thực tế từ người dùng cho thấy FSRS giúp giảm từ 20-30% tổng số lần ôn tập cần thiết để đạt được cùng một mức độ ghi nhớ so với SM-2. Về lâu dài, điều này có thể tiết kiệm hàng trăm giờ học quý báu.</li>
+      <li><strong>Linh hoạt và Kiểm soát chiến lược:</strong> FSRS giới thiệu một khái niệm mang tính cách mạng: "Desired Retention" (Tỷ lệ duy trì mong muốn). Người dùng có thể nói với thuật toán: "Tôi muốn duy trì tỷ lệ nhớ chính xác là 90% cho bộ thẻ này". Nếu bạn sắp có một kỳ thi quan trọng, bạn có thể tăng lên 95% (và chấp nhận ôn tập thường xuyên hơn). Nếu bạn đang học một chủ đề phụ, bạn có thể đặt ở mức 85% để tiết kiệm thời gian. Lần đầu tiên, người học có thể đưa ra một quyết định có ý thức và được định lượng về sự đánh đổi giữa thời gian đầu tư và mức độ thành thạo. SM-2 không cung cấp mức độ kiểm soát chiến lược này.</li>
+      <li><strong>Độ chính xác đã được chứng minh:</strong> Các phân tích so sánh độc lập đã cho thấy thuật toán FSRS có độ chính xác trong việc dự đoán sự lãng quên tương đương với các thuật toán độc quyền, mới nhất của SuperMemo (như SM-17), vốn được coi là tiêu chuẩn vàng trong lĩnh vực này trong nhiều năm.</li>
+    </ol>
+    <p>Tóm lại, FSRS không chỉ là một bản nâng cấp; nó là một sự thay đổi mô hình. Nó biến Anki từ một công cụ mạnh mẽ dựa trên các quy tắc heuristic thành một hệ thống học tập thông minh, thích ứng, dựa trên dữ liệu, và được cá nhân hóa sâu sắc. Đối với người học chuyên tâm, sự kết hợp giữa nền tảng tùy biến của Anki và bộ não thông minh của FSRS tạo nên một hệ thống học tập gần như hoàn hảo.</p>
+  </div>
+</SimpleLessonLayout>

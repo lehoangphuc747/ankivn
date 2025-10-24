@@ -1,0 +1,61 @@
+---
+import SimpleLessonLayout from '../../../layouts/SimpleLessonLayout.astro';
+
+const lessonData = {
+  title: "Case Study 1: Vượt qua các Kỳ thi Cam go (USMLE Step 1/2, Board Exams)",
+  description: "Câu chuyện thành công với Anki trong kỳ thi y khoa.",
+  level: "Cơ bản",
+  duration: "20 phút",
+  author: "AnkiVN Team",
+  publishDate: "2024-01-15",
+  tags: ["anki", "case study", "y khoa"]
+};
+
+const courseStructure = {
+  modules: [
+    {
+      id: 'module-5',
+      title: 'Module 5: Minh Chứng Thực Tế',
+      lessons: [
+        { title: 'Case Study 1: Vượt qua các Kỳ thi Cam go (USMLE Step 1/2, Board Exams)', slug: 'Lesson-12-case-study-1-vuot-qua-cac-ky-thi-cam-go-usmle-step-1-2-board-exams' },
+        { title: 'Case Study 2: Cải thiện Điểm số và Hiệu quả Học tập Rõ rệt', slug: 'Lesson-13-case-study-2-cai-thien-diem-so-va-hieu-qua-hoc-tap-ro-ret' },
+        { title: 'Case Study 3: Học tập Bền vững và Xây dựng Kiến thức Nền tảng', slug: 'Lesson-14-case-study-3-hoc-tap-ben-vung-va-xay-dung-kien-thuc-nen-tang' }
+      ]
+    }
+  ]
+};
+
+const allLessons = courseStructure.modules.flatMap(m => m.lessons);
+const currentIndex = allLessons.findIndex(l => l.slug === 'Lesson-12-case-study-1-vuot-qua-cac-ky-thi-cam-go-usmle-step-1-2-board-exams');
+let prevLesson, nextLesson;
+if (currentIndex !== -1) {
+  if (currentIndex > 0) prevLesson = allLessons[currentIndex - 1];
+  if (currentIndex < allLessons.length - 1) nextLesson = allLessons[currentIndex + 1];
+}
+---
+
+<SimpleLessonLayout
+  title={lessonData.title}
+  description={lessonData.description}
+  author={lessonData.author}
+  date={lessonData.publishDate}
+  duration={lessonData.duration}
+  level={lessonData.level}
+  tags={lessonData.tags}
+  prevLesson={prevLesson}
+  nextLesson={nextLesson}
+>
+  <div class="prose prose-lg max-w-none">
+    <h2>Câu chuyện thành công</h2>
+    <p>Lý thuyết về khoa học nhận thức và các thuật toán phức tạp sẽ trở nên vô nghĩa nếu chúng không tạo ra kết quả thực tế. Sức mạnh thực sự của hệ thống Anki-FSRS được minh chứng rõ ràng nhất qua vô số câu chuyện thành công từ những người học ở các lĩnh vực đòi hỏi khắt khe nhất. Trong đó, cộng đồng sinh viên y khoa—những người phải đối mặt với một khối lượng kiến thức khổng lồ và các kỳ thi có tính quyết định cao—đã trở thành những người tiên phong và là bằng chứng sống động nhất cho hiệu quả của Anki.</p>
+    <p>Những câu chuyện này cho thấy Anki không chỉ là một công cụ hỗ trợ; nó là một yếu tố thay đổi cuộc chơi, có khả năng biến đổi hoàn toàn quỹ đạo học tập và sự nghiệp của một người.</p>
+    <h3>Case Study 1: Vượt qua các Kỳ thi Cam go (USMLE Step 1/2, Board Exams)</h3>
+    <p>Đối với sinh viên y khoa, các kỳ thi chứng chỉ quốc gia như USMLE (Step 1, Step 2) và các kỳ thi nội trú (Board Exams) là những cột mốc quyết định sự nghiệp. Anki đã chứng tỏ là một vũ khí tối thượng trong cuộc chiến này, giúp nhiều sinh viên từ vị thế trung bình vươn lên đạt được những kết quả xuất sắc.</p>
+    <ul>
+      <li>Một người dùng chia sẻ một câu chuyện đầy cảm hứng: "Tôi là một sinh viên trung bình trong suốt thời gian học y, bắt đầu sử dụng anki, đạt được percentile thứ 99 trong kỳ thi board và bây giờ tôi có thể chọn bất kỳ chuyên ngành nào tôi muốn 🙏🏼".</li>
+      <li>Một trường hợp khác cho thấy sức mạnh của Anki trong việc vượt qua thất bại: "Tôi đã trượt step 1 và... hoàn thành 75% bộ Anking. Tôi đã làm rất nhiều thẻ trong 6 tháng, cuối cùng đã đỗ step 1 và có nhiều kiến thức đến mức tôi cũng đỗ step 2 CK ngay lần đầu tiên".</li>
+      <li>Sự tác động lên kết quả cuối cùng được khẳng định một cách mạnh mẽ: "Anki đã thay đổi cuộc đời tôi một cách trung thực, tôi tốt nghiệp trường y với GPA 4.0 và 260 điểm step 2, tôi không thể làm được điều đó nếu không có anki".</li>
+    </ul>
+    <p>Những câu chuyện này cho thấy Anki không chỉ giúp người học "qua môn". Nó cung cấp một hệ thống cho phép họ làm chủ hoàn toàn tài liệu, đạt đến mức độ thành thạo cần thiết để tỏa sáng trong các kỳ thi cạnh tranh nhất.</p>
+  </div>
+</SimpleLessonLayout>

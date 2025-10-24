@@ -1,0 +1,54 @@
+---
+import SimpleLessonLayout from '../../../layouts/SimpleLessonLayout.astro';
+
+const lessonData = {
+  title: "Diễn giải Đường cong Lãng quên của Ebbinghaus",
+  description: "Hiểu về quy luật lãng quên tự nhiên của bộ não con người",
+  level: "Cơ bản",
+  duration: "15 phút",
+  author: "AnkiVN Team",
+  publishDate: "2024-01-15",
+  tags: ["anki", "spaced-repetition", "forgetting-curve"]
+};
+
+// Import course data for navigation
+import { basicCourse } from '../../../lib/course-data/course-data';
+
+// Navigation logic
+const allLessons = basicCourse.modules.flatMap(m => m.lessons);
+const currentIndex = allLessons.findIndex(l => l.slug === 'Lesson-01-duong-cong-lang-quen-ebbinghaus');
+let prevLesson, nextLesson;
+if (currentIndex !== -1) {
+  if (currentIndex > 0) prevLesson = allLessons[currentIndex - 1];
+  if (currentIndex < allLessons.length - 1) nextLesson = allLessons[currentIndex + 1];
+}
+---
+
+<SimpleLessonLayout
+  title={lessonData.title}
+  description={lessonData.description}
+  author={lessonData.author}
+  date={lessonData.publishDate}
+  duration={lessonData.duration}
+  level={lessonData.level}
+  tags={lessonData.tags}
+  prevLesson={prevLesson}
+  nextLesson={nextLesson}
+>
+  <div class="prose prose-lg max-w-none">
+    <h2>Giới thiệu về Đường cong Lãng quên</h2>
+    <p>Vào cuối thế kỷ 19, nhà tâm lý học người Đức Hermann Ebbinghaus đã thực hiện một loạt thí nghiệm tiên phong để định lượng hóa trí nhớ con người. Bằng cách tự mình ghi nhớ hàng ngàn âm tiết vô nghĩa (như "WID" hay "ZOF") và đo lường tốc độ ông quên chúng, Ebbinghaus đã vẽ nên một biểu đồ mang tính cách mạng, ngày nay được biết đến với tên gọi <strong>"Đường cong Lãng quên"</strong>.<sup>1</sup></p>
+    <p>Để hiểu một cách đơn giản, hãy hình dung trí nhớ của chúng ta giống như một <strong>"xô nước bị rò rỉ"</strong>. Ngay khi chúng ta đổ đầy nước vào xô (tức là học một kiến thức mới), nó bắt đầu rò rỉ ngay lập tức và với tốc độ đáng báo động. Đồ thị của đường cong cho thấy sự sụt giảm mạnh nhất xảy ra ngay sau khi học, sau đó tốc độ quên sẽ chậm dần lại.<sup>2</sup> Điều này giải thích tại sao cảm giác "quen thuộc" ngay sau khi đọc một chương sách thường là một ảo ảnh nguy hiểm.</p>
+
+    <h2>Các con số đáng kinh ngạc về sự lãng quên</h2>
+    <p>Các nghiên cứu đã định lượng hóa sự rò rỉ này với những con số đáng kinh ngạc:</p>
+    <ul>
+      <li>Con người có thể quên tới 50% thông tin mới chỉ trong vòng một giờ.<sup>1</sup></li>
+      <li>Khoảng 70% kiến thức mới có thể biến mất trong vòng 24 giờ.<sup>1</sup></li>
+      <li>Và sau một tuần, nếu không có bất kỳ nỗ lực củng cố nào, chúng ta có thể quên tới 90% những gì đã học.<sup>2</sup></li>
+    </ul>
+
+    <h2>Não bộ: Cơ chế tối ưu hóa, không phải lỗi</h2>
+    <p>Điều này không phải là một thất bại của não bộ, mà là một cơ chế tối ưu hóa. Não bộ liên tục bị tấn công bởi một lượng dữ liệu khổng lồ mỗi giây. Để tránh quá tải, nó phải có một bộ lọc hiệu quả để loại bỏ những thông tin được cho là không quan trọng hoặc không còn phù hợp. Tín hiệu chính mà não bộ sử dụng để xác định tầm quan trọng của một thông tin chính là <strong>tần suất nó được truy xuất</strong>. Nếu một ký ức không được "ping" lại, hệ thống sẽ mặc định rằng nó không còn cần thiết và đánh dấu để loại bỏ. Đây là một tính năng, không phải một lỗi. Hiểu được điều này, chúng ta có thể <strong>"hack" lại hệ thống</strong>.</p>
+  </div>
+</SimpleLessonLayout>
